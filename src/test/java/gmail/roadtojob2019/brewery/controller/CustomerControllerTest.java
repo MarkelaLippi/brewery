@@ -57,7 +57,7 @@ class CustomerControllerTest {
                         "    \"id\" : 1, \n" +
                         "    \"name\" : \"BudBeer\",\n" +
                         "    \"description\" : \"Dark, 4,6%...\",\n" +
-                        "    \"price\" : \"2.0\" \n" +
+                        "    \"price\" : 2.0 \n" +
                         "  }\n" +
                         "]"));
     }
@@ -69,8 +69,8 @@ class CustomerControllerTest {
                 .content("{\n" +
                         "  \"date\" : \"05.02.2020\",\n" +
                         "  \"name_beer\" : \"BudBeer\",\n" +
-                        "  \"amount\" : \"200\",\n" +
-                        "  \"customer_id\" : \"1\" \n" +
+                        "  \"amount\" : 200,\n" +
+                        "  \"customer_id\" : 1 \n" +
                         "}"))
                 .andExpect(status().isCreated())
                 .andExpect(content().json("{\n" +

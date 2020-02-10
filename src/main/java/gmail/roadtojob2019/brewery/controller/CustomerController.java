@@ -1,8 +1,6 @@
 package gmail.roadtojob2019.brewery.controller;
 
-import gmail.roadtojob2019.brewery.dto.CustomerSignInRequestDto;
-import gmail.roadtojob2019.brewery.dto.CustomerSignUpRequestDto;
-import gmail.roadtojob2019.brewery.dto.ProductDto;
+import gmail.roadtojob2019.brewery.dto.*;
 import gmail.roadtojob2019.brewery.service.CustomerService;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,28 +34,18 @@ public class CustomerController {
     @ResponseStatus(HttpStatus.OK)
     public List<ProductDto> getAllProducts() {
         return service.getAllProducts();
-/*
-                "[\n" +
-                "  {\n" +
-                "    \"id\" : 1, \n" +
-                "    \"name\" : \"BudBeer\",\n" +
-                "    \"description\" : \"Темное, 4,6%...\",\n" +
-                "    \"price\" : \"2\" \n" +
-                "  }\n" +
-                "]";
-*/
     }
 
     @PostMapping(value = "/order", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public String makeOrder(@RequestBody String request) {
-        return "{\"id\":1}";
+    public String makeOrder(@RequestBody OrderDto request) {
+        return service.makeOrder(request);
     }
 
     @PostMapping(value = "/review", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public String makeReview(@RequestBody String request) {
-        return "{\"id\":1}";
+    public String makeReview(@RequestBody ReviewDto request) {
+        return service.makeReview(request);
     }
 }
 

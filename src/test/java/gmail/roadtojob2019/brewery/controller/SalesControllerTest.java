@@ -42,8 +42,8 @@ class SalesControllerTest {
                         "    \"id\" : 1, \n" +
                         "    \"date\" : \"05.02.2020\",\n" +
                         "    \"name_beer\" : \"BudBeer\",\n" +
-                        "    \"amount\" : \"200\",\n" +
-                        "    \"customer_id\" : \"1\" \n" +
+                        "    \"amount\" : 200,\n" +
+                        "    \"customer_id\" : 1 \n" +
                         "  }\n" +
                         "]"));
     }
