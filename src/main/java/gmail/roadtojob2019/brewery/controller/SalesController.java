@@ -1,6 +1,8 @@
 package gmail.roadtojob2019.brewery.controller;
 
+import gmail.roadtojob2019.brewery.dto.BeerDto;
 import gmail.roadtojob2019.brewery.dto.OrderDto;
+import gmail.roadtojob2019.brewery.dto.ProduceRequestDto;
 import gmail.roadtojob2019.brewery.dto.SalesSignInRequestDto;
 import gmail.roadtojob2019.brewery.service.SalesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,37 +28,17 @@ public class SalesController {
     @ResponseStatus(HttpStatus.OK)
     public List<OrderDto> getAllOrders() {
         return service.getAllOrders();
-        /*
-        return "[\n" +
-                "  {\n" +
-                "    \"id\" : 1, \n" +
-                "    \"date\" : \"05.02.2020\",\n" +
-                "    \"name_beer\" : \"BudBeer\",\n" +
-                "    \"amount\" : \"200\",\n" +
-                "    \"customer_id\" : \"1\" \n" +
-                "  }\n" +
-                "]";
-*/
     }
 
     @GetMapping("/beers")
     @ResponseStatus(HttpStatus.OK)
-    public String getAllBeers() {
-        return "[\n" +
-                "  {\n" +
-                "    \"id\" : 1, \n" +
-                "    \"name\" : \"CoolBeer\",\n" +
-                "    \"type\" : \"Светлое\",\n" +
-                "    \"alcohol\" : \"4,8%\",\n" +
-                "    \"amount\" : \"2540\",\n" +
-                "    \"recipe\" : \"water, spirit…\" \n" +
-                "  }\n" +
-                "]";
+    public List<BeerDto> getAllBeers() {
+        return service.getAllBeers();
     }
 
     @PostMapping(value = "/request", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public String makeRequest(@RequestBody String request) {
-        return "{\"id\":1}";
+    public String makeRequest(@RequestBody ProduceRequestDto request) {
+        return service.makeRequest(request);
     }
 }

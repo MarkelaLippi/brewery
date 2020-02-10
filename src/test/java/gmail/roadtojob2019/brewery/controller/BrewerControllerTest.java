@@ -40,9 +40,9 @@ class BrewerControllerTest {
                         "  {\n" +
                         "  \"date\" : \"05.02.2020\",\n" +
                         "  \"name_beer\" : \"BudBeer\",\n" +
-                        "  \"amount\" : \"200\",\n" +
+                        "  \"amount\" : 200,\n" +
                         "  \"term\" : \"10.02.2020\",\n" +
-                        "  \"status\" : \"new\"\n" +
+                        "  \"status\" : \"New\"\n" +
                         "  }\n" +
                         "]"));
     }
@@ -51,30 +51,29 @@ class BrewerControllerTest {
     public void testChangeProduceRequestStatusIsOk() throws Exception {
         mockMvc.perform(put("/brewery/brewer/requests/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\n" +
-                        "\"status\" : \"in process\"\n" +
-                        "}"))
+                .content("  {\n" +
+                        "  \"date\" : \"2020-02-05\",\n" +
+                        "  \"name_beer\" : \"BudBeer\",\n" +
+                        "  \"amount\" : 200,\n" +
+                        "  \"term\" : \"2020-02-10\",\n" +
+                        "  \"status\" : \"In process\"\n" +
+                        "  }\n"))
                 .andExpect(status().isOk())
                 .andExpect(content().json("{\n" +
                         "  \"id\" : 1\n" +
                         "}"));
     }
 
-
     @Test
     void testGetRecipeIsOk() throws Exception {
         mockMvc.perform(get("/brewery/brewer/recipes/1"))
                 .andExpect(status().isOk())
-                .andExpect(content().json("[\n" +
-                        "  {\n" +
-                        "  \"water\" : \"300\",\n" +
-                        "  \"alcohol\" : \"15\",\n" +
-                        "  \"malt\" : \"10\"\n" +
-                        "  },\n" +
-                        "  {\n" +
-                        "  \"beer_id\" : \"1\"\n" +
-                        "  }\n" +
-                        "]"));
+                .andExpect(content().json(" {" +
+                        "\"id\" : 1," +
+                        "\"beer_id\" : 1," +
+                        "\"components\" : {\"Water\" : 2.5," +
+                        "                  \"Alcohol\" : 0.5 }\n" +
+                        "  }\n"));
     }
 
     @Test
@@ -83,19 +82,28 @@ class BrewerControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json(
                         "  {\n" +
-                                "  \"name\" : \"malt\",\n" +
-                                "  \"amount\" : \"80\"\n" +
-                                "  }\n"
-                ));
+                                "  \"id\" : 1," +
+                                "  \"name\" : \"Malt\",\n" +
+                                "  \"amount\" : 20.5\n" +
+                                "  }\n"));
     }
 
     @Test
     public void testChangeBeerAmountIsOk() throws Exception {
         mockMvc.perform(put("/brewery/brewer/beers/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\n" +
-                        "\"amount\" : \"500\"\n" +
-                        "}"))
+                .content(" {\n" +
+                        "    \"id\" : 1, \n" +
+                        "    \"name\" : \"CoolBeer\",\n" +
+                        "    \"type\" : \"Светлое\",\n" +
+                        "    \"alcohol\" : \"4,8%\",\n" +
+                        "    \"amount\" : 2740,\n" +
+                        "    \"recipe\" : {\"id\" : 1," +
+                        "                  \"beer_id\" : 1," +
+                        "                  \"components\" : {\"Water\" : 2.5," +
+                        "                                    \"Alcohol\" : 0.5 }\n" +
+                        "  }\n" +
+                        "  }\n"))
                 .andExpect(status().isOk())
                 .andExpect(content().json("{\n" +
                         "  \"id\" : 1\n" +

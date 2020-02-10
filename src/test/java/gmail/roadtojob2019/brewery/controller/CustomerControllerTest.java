@@ -67,7 +67,7 @@ class CustomerControllerTest {
         mockMvc.perform(post("/brewery/customer/order")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
-                        "  \"date\" : \"05.02.2020\",\n" +
+                        "  \"date\" : \"2020-02-05\",\n" +
                         "  \"name_beer\" : \"BudBeer\",\n" +
                         "  \"amount\" : 200,\n" +
                         "  \"customer_id\" : 1 \n" +
@@ -83,7 +83,7 @@ class CustomerControllerTest {
         mockMvc.perform(post("/brewery/customer/review")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
-                        "  \"date\" : \"06.02.2020\",\n" +
+                        "  \"date\" : \"2020-02-06\",\n" +
                         "  \"content\" : \"Хочу поблагодарить специалиста по продажам ...\",\n" +
                         "  \"customer_id\" : \"1\",\n" +
                         "  \"order_id\" : \"1\"\n" +

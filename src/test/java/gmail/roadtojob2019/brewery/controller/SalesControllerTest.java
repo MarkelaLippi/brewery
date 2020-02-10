@@ -58,8 +58,12 @@ class SalesControllerTest {
                         "    \"name\" : \"CoolBeer\",\n" +
                         "    \"type\" : \"Светлое\",\n" +
                         "    \"alcohol\" : \"4,8%\",\n" +
-                        "    \"amount\" : \"2540\",\n" +
-                        "    \"recipe\" : \"water, spirit…\" \n" +
+                        "    \"amount\" : 2540,\n" +
+                        "    \"recipe\" : {\"id\" : 1," +
+                        "                  \"beer_id\" : 1," +
+                        "                  \"components\" : {\"Water\" : 2.5," +
+                        "                                    \"Alcohol\" : 0.5 }\n" +
+                        "  }\n" +
                         "  }\n" +
                         "]"));
     }
@@ -69,11 +73,11 @@ class SalesControllerTest {
         mockMvc.perform(post("/brewery/sales/request")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
-                        "  \"date\" : \"05.02.2020\",\n" +
+                        "  \"date\" : \"2020-02-05\",\n" +
                         "  \"name_beer\" : \"BudBeer\",\n" +
                         "  \"amount\" : \"200\",\n" +
-                        "  \"term\" : \"10.02.2020\",\n" +
-                        "  \"status\" : \"new\"\n" +
+                        "  \"term\" : \"2020-02-10\",\n" +
+                        "  \"status\" : \"New\"\n" +
                         "}"))
                 .andExpect(status().isCreated())
                 .andExpect(content().json("{\n" +
