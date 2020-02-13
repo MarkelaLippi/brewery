@@ -1,12 +1,13 @@
 package gmail.roadtojob2019.brewery.service;
 
 import gmail.roadtojob2019.brewery.dto.*;
+import gmail.roadtojob2019.brewery.exception.SuchCustomerAlreadyExistException;
 
 import java.util.List;
 
 public interface CustomerService {
 
-    String signUp(CustomerSignUpRequestDto request);
+    void signUp(CustomerSignUpRequestDto request) throws SuchCustomerAlreadyExistException;
 
     String signIn(CustomerSignInRequestDto request);
 
