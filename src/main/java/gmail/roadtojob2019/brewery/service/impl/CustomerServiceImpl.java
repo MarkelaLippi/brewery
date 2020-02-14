@@ -5,7 +5,9 @@ import gmail.roadtojob2019.brewery.entity.AuthInfoEntity;
 import gmail.roadtojob2019.brewery.entity.UserEntity;
 import gmail.roadtojob2019.brewery.exception.SuchCustomerAlreadyExistException;
 import gmail.roadtojob2019.brewery.mapper.CustomerSignUpRequestMapper;
+import gmail.roadtojob2019.brewery.mapper.ProductMapper;
 import gmail.roadtojob2019.brewery.repository.AuthInfoRepository;
+import gmail.roadtojob2019.brewery.repository.ProductRepository;
 import gmail.roadtojob2019.brewery.repository.UserRepository;
 import gmail.roadtojob2019.brewery.security.UserRole;
 import gmail.roadtojob2019.brewery.service.CustomerService;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -23,10 +26,13 @@ public class CustomerServiceImpl implements CustomerService {
 
     private final AuthInfoRepository authInfoRepository;
     private final UserRepository userRepository;
+    private final ProductRepository productRepository;
 
     private final PasswordEncoder passwordEncoder;
 
-    private CustomerSignUpRequestMapper customerSignUpRequestMapper;
+    private final CustomerSignUpRequestMapper customerSignUpRequestMapper;
+    private final ProductMapper productMapper;
+
 
 
     @Override
@@ -59,13 +65,13 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    @Transactional
     public List<ProductDto> getAllProducts() {
-        return List.of(ProductDto.builder()
-                .id(1L)
-                .name("BudBeer")
-                .description("Dark, 4,6%...")
-                .price(2.0)
-                .build());
+        return productRepository
+                .findAll()
+                .stream()
+                .map(productMapper::destinationToSource)
+                .collect(Collectors.toList());
     }
 
     @Override

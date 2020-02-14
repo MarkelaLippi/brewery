@@ -4,7 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import gmail.roadtojob2019.brewery.dto.ProductDto;
 import gmail.roadtojob2019.brewery.dto.UserSignInResponseDto;
 import gmail.roadtojob2019.brewery.entity.AuthInfoEntity;
+import gmail.roadtojob2019.brewery.entity.Product;
 import gmail.roadtojob2019.brewery.entity.UserEntity;
+import gmail.roadtojob2019.brewery.repository.ProductRepository;
 import gmail.roadtojob2019.brewery.security.UserRole;
 import gmail.roadtojob2019.brewery.service.AuthInfoService;
 import gmail.roadtojob2019.brewery.service.CustomerService;
@@ -16,6 +18,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
@@ -29,6 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
+@TestPropertySource("classpath:application-test.properties")
 class CustomerControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -41,6 +45,8 @@ class CustomerControllerTest {
     private AuthInfoService authInfoService;
     @SpyBean
     private CustomerService customerService;
+@Autowired
+    private ProductRepository productRepository;
 
     @Test
     public void testCustomerSignUpIsCreated() throws Exception {
@@ -64,7 +70,6 @@ class CustomerControllerTest {
     @Test
     public void testCustomerSignUpWhenUserAlreadyExisted() throws Exception {
         // given
-        signInAsCustomer();
         // when
         mockMvc.perform(post("/brewery/customer/sign-up")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -81,7 +86,6 @@ class CustomerControllerTest {
     @Test
     public void testCustomerSignInIsOk() throws Exception {
         // given
-        signInAsCustomer();
         // when
         mockMvc.perform(post("/brewery/customer/sign-in")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -125,17 +129,13 @@ class CustomerControllerTest {
     @Test
     void testGetAllProductsIsOk() throws Exception {
         // given
-        final List<ProductDto> products = List.of(ProductDto.builder()
+        productRepository.save(Product.builder()
                 .id(1L)
                 .name("BudBeer")
                 .description("Dark, 4,6%...")
                 .price(2.0)
                 .build());
 
-        willReturn(products).given(customerService)
-                .getAllProducts();
-
-        // when
         mockMvc.perform(get("/brewery/customer/products"))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[\n" +
