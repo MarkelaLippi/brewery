@@ -1,19 +1,22 @@
 package gmail.roadtojob2019.brewery.service;
 
 import gmail.roadtojob2019.brewery.dto.*;
+import gmail.roadtojob2019.brewery.entity.ProduceRequest;
 
 import java.util.List;
 
 public interface BrewerService {
     String signIn(BrewerSignInRequestDto request);
 
-    List<ProduceRequestDto> getAllProduceRequests();
+    List<ProduceRequestDto> getProduceRequestsByStatus(String status);
 
-    String changeProduceRequestStatus(Long id, ProduceRequestDto request);
+    Long changeProduceRequestStatus(Long id, ProduceRequestDto request);
 
-    void getRecipe(Long id);
+    RecipeDto getRecipe(Long id);
 
     IngredientDto getIngredient(Long id);
 
-    String changeBeerAmount(Long id, BeerDto beer);
+    Long changeBeerAmount(Long id, BeerDto beer);
+
+    ProduceRequestDto getProduceRequest(Long id);
 }

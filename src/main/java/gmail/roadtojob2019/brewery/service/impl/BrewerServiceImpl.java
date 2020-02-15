@@ -1,62 +1,75 @@
 package gmail.roadtojob2019.brewery.service.impl;
 
 import gmail.roadtojob2019.brewery.dto.*;
+import gmail.roadtojob2019.brewery.entity.Beer;
+import gmail.roadtojob2019.brewery.entity.Ingredient;
+import gmail.roadtojob2019.brewery.entity.ProduceRequest;
+import gmail.roadtojob2019.brewery.mapper.ProduceRequestMapper;
+import gmail.roadtojob2019.brewery.mapper.RecipeMapper;
+import gmail.roadtojob2019.brewery.repository.*;
 import gmail.roadtojob2019.brewery.service.BrewerService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class BrewerServiceImpl implements BrewerService {
+
+    private final ProduceRequestRepository produceRequestRepository;
+    private final RecipeRepository recipeRepository;
+    private final IngredientRepository ingredientRepository;
+    private final BeerRepository beerRepository;
+
+    private final ProduceRequestMapper produceRequestMapper;
+    private final RecipeMapper recipeMapper;
+    private final IngredientMapper ingredientMapper;
+
     @Override
     public String signIn(BrewerSignInRequestDto request) {
         return "{\"id\":1}";
     }
 
     @Override
-    public List<ProduceRequestDto> getAllProduceRequests() {
-        return List.of(ProduceRequestDto.builder()
-                .id(1L)
-                .date(LocalDate.of(2020, 2, 5))
-                .name_beer("BudBeer")
-                .amount(200)
-                .term(LocalDate.of(2020, 2, 10))
-                .status("New")
-                .build());
+    public List<ProduceRequestDto> getProduceRequestsByStatus(String status) {
+        return produceRequestRepository
+                .findByStatusIgnoreCase(status)
+                .stream()
+                .map(produceRequestMapper::destinationToSource)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public String changeProduceRequestStatus(Long id, ProduceRequestDto request) {
-        ProduceRequestDto requestDto = ProduceRequestDto.builder()
-                .id(1L)
-                .date(LocalDate.of(2020, 2, 5))
-                .name_beer("BudBeer")
-                .amount(200)
-                .term(LocalDate.of(2020, 2, 10))
-                .status("New")
-                .build();
-        requestDto.setStatus("In process");
-        return "{\"id\":1}";
+    public ProduceRequestDto getProduceRequest(Long id) {
+        return produceRequestMapper.destinationToSource(produceRequestRepository.findById(id).get());
     }
 
     @Override
-    public void getRecipe(Long id) {
+    public Long changeProduceRequestStatus(Long id, ProduceRequestDto produceRequestDto) {
+        ProduceRequest produceRequest = produceRequestRepository.findById(id).get();
+        produceRequest.setStatus(produceRequestDto.getStatus());
+        return produceRequest.getId();
+    }
+
+    @Override
+    public RecipeDto getRecipe(Long id) {
+        return recipeMapper.destinationToSource(recipeRepository.getOne(id));
 
     }
 
     @Override
     public IngredientDto getIngredient(Long id) {
-        return IngredientDto.builder()
-                .id(1L)
-                .name("Malt")
-                .amount(20.5)
-                .build();
+        return ingredientMapper.destinationToSource(ingredientRepository.getOne(id));
     }
 
     @Override
-    public String changeBeerAmount(Long id, BeerDto beer) {
-
-        return "{\"id\":1}";
+    public Long changeBeerAmount(Long id, BeerDto beer) {
+        Beer modifiedBeer = beerRepository.getOne(id);
+        modifiedBeer.setAmount(beer.getAmount());
+        Beer savedBeer = beerRepository.save(modifiedBeer);
+        return savedBeer.getId();
     }
 }

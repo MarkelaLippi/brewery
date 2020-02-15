@@ -1,11 +1,21 @@
 package gmail.roadtojob2019.brewery.controller;
 
+import gmail.roadtojob2019.brewery.entity.Beer;
+import gmail.roadtojob2019.brewery.entity.Ingredient;
+import gmail.roadtojob2019.brewery.entity.ProduceRequest;
+import gmail.roadtojob2019.brewery.entity.Recipe;
+import gmail.roadtojob2019.brewery.repository.BeerRepository;
+import gmail.roadtojob2019.brewery.repository.IngredientRepository;
+import gmail.roadtojob2019.brewery.repository.ProduceRequestRepository;
+import gmail.roadtojob2019.brewery.repository.RecipeRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.time.LocalDate;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -17,6 +27,15 @@ class BrewerControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private ProduceRequestRepository produceRequestRepository;
+    @Autowired
+    private RecipeRepository recipeRepository;
+    @Autowired
+    private IngredientRepository ingredientRepository;
+    @Autowired
+    private BeerRepository beerRepository;
 
     @Test
     public void testBrewerSignInIsOk() throws Exception {
@@ -33,8 +52,15 @@ class BrewerControllerTest {
     }
 
     @Test
-    void testGetAllProduceRequestIsOk() throws Exception {
-        mockMvc.perform(get("/brewery/brewer/requests"))
+    void testGetProduceRequestsByStatusIsOk() throws Exception {
+        produceRequestRepository.save(ProduceRequest.builder()
+                .date(LocalDate.of(2020, 2, 5))
+                .name_beer("BudBeer")
+                .amount(200)
+                .term(LocalDate.of(2020, 2, 10))
+                .status("New")
+                .build());
+        mockMvc.perform(get("/brewery/brewer/requests/new"))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[\n" +
                         "  {\n" +
@@ -48,41 +74,62 @@ class BrewerControllerTest {
     }
 
     @Test
-    public void testChangeProduceRequestStatusIsOk() throws Exception {
-        mockMvc.perform(put("/brewery/brewer/requests/1")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("  {\n" +
-                        "  \"date\" : \"2020-02-05\",\n" +
+    void testGetProduceRequestIsOk() throws Exception {
+        produceRequestRepository.save(ProduceRequest.builder()
+                .date(LocalDate.of(2020, 2, 5))
+                .name_beer("BudBeer")
+                .amount(200)
+                .term(LocalDate.of(2020, 2, 10))
+                .status("New")
+                .build());
+        mockMvc.perform(get("/brewery/brewer/requests/1"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("{\n" +
+                        "  \"date\" : \"05.02.2020\",\n" +
                         "  \"name_beer\" : \"BudBeer\",\n" +
                         "  \"amount\" : 200,\n" +
-                        "  \"term\" : \"2020-02-10\",\n" +
+                        "  \"term\" : \"10.02.2020\",\n" +
+                        "  \"status\" : \"New\"\n" +
+                        "  }\n"));
+    }
+
+    @Test
+    public void testChangeProduceRequestStatusIsOk() throws Exception {
+        mockMvc.perform(patch("/brewery/brewer/requests/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("  {\n" +
                         "  \"status\" : \"In process\"\n" +
                         "  }\n"))
                 .andExpect(status().isOk())
-                .andExpect(content().json("{\n" +
-                        "  \"id\" : 1\n" +
-                        "}"));
+                .andExpect(content().json("1"));
     }
 
     @Test
     void testGetRecipeIsOk() throws Exception {
-        mockMvc.perform(get("/brewery/brewer/recipes/1"))
+        recipeRepository.save(Recipe.builder()
+                .beer_id(1L)
+                .components("Water, Alcohol")
+                .build());
+        mockMvc.perform(get("/brewery/brewer/recipes/4"))
                 .andExpect(status().isOk())
-                .andExpect(content().json(" {" +
-                        "\"id\" : 1," +
+                .andExpect(content().json(" {\n" +
+                        "\"id\" : 4," +
                         "\"beer_id\" : 1," +
-                        "\"components\" : {\"Water\" : 2.5," +
-                        "                  \"Alcohol\" : 0.5 }\n" +
+                        "\"components\" : \"Water, Alcohol\" \n" +
                         "  }\n"));
     }
 
     @Test
     void testGetIngredientIsOk() throws Exception {
-        mockMvc.perform(get("/brewery/brewer/ingredients/1"))
+        ingredientRepository.save(Ingredient.builder()
+                .name("Malt")
+                .amount(20.5)
+                .build());
+        mockMvc.perform(get("/brewery/brewer/ingredients/5"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(
                         "  {\n" +
-                                "  \"id\" : 1," +
+                                "  \"id\" : 5," +
                                 "  \"name\" : \"Malt\",\n" +
                                 "  \"amount\" : 20.5\n" +
                                 "  }\n"));
@@ -90,23 +137,20 @@ class BrewerControllerTest {
 
     @Test
     public void testChangeBeerAmountIsOk() throws Exception {
-        mockMvc.perform(put("/brewery/brewer/beers/1")
+        beerRepository.save(Beer
+                .builder()
+                .name("CoolBeer")
+                .type("Светлое")
+                .alcohol("4,8%")
+                .amount(2540)
+                .recipe("Good recipe")
+                .build());
+        mockMvc.perform(patch("/brewery/brewer/beers/2")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(" {\n" +
-                        "    \"id\" : 1, \n" +
-                        "    \"name\" : \"CoolBeer\",\n" +
-                        "    \"type\" : \"Светлое\",\n" +
-                        "    \"alcohol\" : \"4,8%\",\n" +
-                        "    \"amount\" : 2740,\n" +
-                        "    \"recipe\" : {\"id\" : 1," +
-                        "                  \"beer_id\" : 1," +
-                        "                  \"components\" : {\"Water\" : 2.5," +
-                        "                                    \"Alcohol\" : 0.5 }\n" +
-                        "  }\n" +
+                        "    \"amount\" : 2740\n" +
                         "  }\n"))
                 .andExpect(status().isOk())
-                .andExpect(content().json("{\n" +
-                        "  \"id\" : 1\n" +
-                        "}"));
+                .andExpect(content().json("2"));
     }
 }

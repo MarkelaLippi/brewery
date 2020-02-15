@@ -14,40 +14,47 @@ import java.util.List;
 public class BrewerController {
 
     @Autowired
-    private BrewerService service;
+    private BrewerService brewerService;
 
     @PostMapping(value = "/sign-in", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public String signIn(@RequestBody BrewerSignInRequestDto request) {
-        return service.signIn(request);
+        return brewerService.signIn(request);
     }
 
-    @GetMapping("/requests")
+    @GetMapping("/requests/{status}")
     @ResponseStatus(HttpStatus.OK)
-    public List<ProduceRequestDto> getAllRequests() {
-        return service.getAllProduceRequests();
+    public List<ProduceRequestDto> getProduceRequestsByStatus(@PathVariable String status) {
+        return brewerService.getProduceRequestsByStatus(status);
     }
 
-    @PutMapping(value = "/requests/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/requests/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public String changeRequestStatus(@PathVariable Long id, @RequestBody ProduceRequestDto request) {
-        return service.changeProduceRequestStatus(id, request);
+    public ProduceRequestDto getProduceRequest(@PathVariable Long id) {
+        return brewerService.getProduceRequest(id);
+    }
+
+    @PatchMapping(value = "/requests/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public Long changeRequestStatus(@PathVariable Long id, @RequestBody ProduceRequestDto request) {
+        return brewerService.changeProduceRequestStatus(id, request);
     }
 
     @GetMapping("/recipes/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void getRecipe(@PathVariable Long id) {
+    public RecipeDto getRecipe(@PathVariable Long id) {
+        return brewerService.getRecipe(id);
     }
 
     @GetMapping("/ingredients/{id}")
     @ResponseStatus(HttpStatus.OK)
     public IngredientDto getIngredient(@PathVariable Long id) {
-        return service.getIngredient(id);
+        return brewerService.getIngredient(id);
     }
 
-    @PutMapping(value = "/beers/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PatchMapping(value = "/beers/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public String changeBeerAmount(@PathVariable Long id, @RequestBody BeerDto beer) {
-        return service.changeBeerAmount(id, beer);
+    public Long changeBeerAmount(@PathVariable Long id, @RequestBody BeerDto beer) {
+        return brewerService.changeBeerAmount(id, beer);
     }
 }
