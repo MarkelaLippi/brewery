@@ -36,8 +36,7 @@ public class BrewerController {
 
     @GetMapping("/recipes/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public RecipeDto getRecipe(@PathVariable Long id) {
-        return service.getRecipe(id);
+    public void getRecipe(@PathVariable Long id) {
     }
 
     @GetMapping("/ingredients/{id}")

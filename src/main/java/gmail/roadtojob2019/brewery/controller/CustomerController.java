@@ -5,8 +5,6 @@ import gmail.roadtojob2019.brewery.exception.SuchCustomerAlreadyExistException;
 import gmail.roadtojob2019.brewery.security.JwtUtil;
 import gmail.roadtojob2019.brewery.service.CustomerService;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -55,14 +53,14 @@ public class CustomerController {
 
     @PostMapping(value = "/orders", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public String makeOrder(@RequestBody OrderDto request) {
-        return service.makeOrder(request);
+    public Long createOrder(@RequestBody OrderDto orderDto) {
+        return service.createOrder(orderDto);
     }
 
-    @PostMapping(value = "/review", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/reviews", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public String makeReview(@RequestBody ReviewDto request) {
-        return service.makeReview(request);
+    public Long createReview(@RequestBody ReviewDto reviewDto) {
+        return service.createReview(reviewDto);
     }
 }
 

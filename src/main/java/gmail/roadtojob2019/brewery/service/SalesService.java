@@ -14,5 +14,5 @@ public interface SalesService {
 
     List<BeerDto> getAllBeers();
 
-    String makeRequest(ProduceRequestDto request);
+    Long createProduceRequest(ProduceRequestDto request);
 }

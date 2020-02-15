@@ -11,7 +11,7 @@ public interface BrewerService {
 
     String changeProduceRequestStatus(Long id, ProduceRequestDto request);
 
-    RecipeDto getRecipe(Long id);
+    void getRecipe(Long id);
 
     IngredientDto getIngredient(Long id);
 

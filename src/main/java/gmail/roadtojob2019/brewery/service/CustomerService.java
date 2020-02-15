@@ -13,8 +13,8 @@ public interface CustomerService {
 
     List<ProductDto> getAllProducts();
 
-    String makeOrder(OrderDto orderDto);
+    Long createOrder(OrderDto orderDto);
 
-    String makeReview(ReviewDto reviewDto);
+    Long createReview(ReviewDto reviewDto);
 }
 

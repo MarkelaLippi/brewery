@@ -1,7 +1,6 @@
 package gmail.roadtojob2019.brewery.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import gmail.roadtojob2019.brewery.dto.ProductDto;
 import gmail.roadtojob2019.brewery.dto.UserSignInResponseDto;
 import gmail.roadtojob2019.brewery.entity.AuthInfoEntity;
 import gmail.roadtojob2019.brewery.entity.Product;
@@ -21,7 +20,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.Matchers.hasLength;
@@ -45,7 +43,7 @@ class CustomerControllerTest {
     private AuthInfoService authInfoService;
     @SpyBean
     private CustomerService customerService;
-@Autowired
+    @Autowired
     private ProductRepository productRepository;
 
     @Test
@@ -129,18 +127,19 @@ class CustomerControllerTest {
     @Test
     void testGetAllProductsIsOk() throws Exception {
         // given
+        //signInAsCustomer();
         productRepository.save(Product.builder()
                 .id(1L)
                 .name("BudBeer")
                 .description("Dark, 4,6%...")
                 .price(2.0)
                 .build());
-
+        // when
         mockMvc.perform(get("/brewery/customer/products"))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[\n" +
                         "  {\n" +
-                        "    \"id\" : 1, \n" +
+                        "    \"id\" : 2, \n" +
                         "    \"name\" : \"BudBeer\",\n" +
                         "    \"description\" : \"Dark, 4,6%...\",\n" +
                         "    \"price\" : 2.0 \n" +
@@ -148,12 +147,11 @@ class CustomerControllerTest {
                         "]"));
     }
 
-
-
-
     @Test
     public void testCustomerOrderIsCreated() throws Exception {
-
+        // given
+        //signInAsCustomer();
+        // when
         mockMvc.perform(post("/brewery/customer/orders")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
@@ -162,26 +160,26 @@ class CustomerControllerTest {
                         "  \"amount\" : 200,\n" +
                         "  \"customer_id\" : 1 \n" +
                         "}"))
+                // then
                 .andExpect(status().isCreated())
-                .andExpect(content().json("{\n" +
-                        "  \"id\" : 1\n" +
-                        "}"));
+                .andExpect(content().json("1"));
     }
 
     @Test
     public void testCustomerReviewIsCreated() throws Exception {
-        mockMvc.perform(post("/brewery/customer/review")
+        // given
+        //signInAsCustomer();
+        // when
+        mockMvc.perform(post("/brewery/customer/reviews")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
                         "  \"date\" : \"2020-02-06\",\n" +
                         "  \"content\" : \"Хочу поблагодарить специалиста по продажам ...\",\n" +
-                        "  \"customer_id\" : \"1\",\n" +
-                        "  \"order_id\" : \"1\"\n" +
+                        "  \"customer_id\" : 1,\n" +
+                        "  \"order_id\" : 1\n" +
                         "}"))
                 .andExpect(status().isCreated())
-                .andExpect(content().json("{\n" +
-                        "  \"id\" : 1\n" +
-                        "}"));
+                .andExpect(content().json("3"));
     }
 
     private String signInAsCustomer() throws Exception {

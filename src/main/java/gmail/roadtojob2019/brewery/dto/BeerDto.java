@@ -11,5 +11,5 @@ public class BeerDto {
     private String type;
     private String alcohol;
     private Integer amount;
-    private RecipeDto recipe;
+    private String recipe;
 }

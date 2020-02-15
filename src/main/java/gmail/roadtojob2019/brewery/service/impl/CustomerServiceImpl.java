@@ -5,10 +5,9 @@ import gmail.roadtojob2019.brewery.entity.AuthInfoEntity;
 import gmail.roadtojob2019.brewery.entity.UserEntity;
 import gmail.roadtojob2019.brewery.exception.SuchCustomerAlreadyExistException;
 import gmail.roadtojob2019.brewery.mapper.CustomerSignUpRequestMapper;
+import gmail.roadtojob2019.brewery.mapper.OrderMapper;
 import gmail.roadtojob2019.brewery.mapper.ProductMapper;
-import gmail.roadtojob2019.brewery.repository.AuthInfoRepository;
-import gmail.roadtojob2019.brewery.repository.ProductRepository;
-import gmail.roadtojob2019.brewery.repository.UserRepository;
+import gmail.roadtojob2019.brewery.repository.*;
 import gmail.roadtojob2019.brewery.security.UserRole;
 import gmail.roadtojob2019.brewery.service.CustomerService;
 import lombok.AllArgsConstructor;
@@ -27,13 +26,15 @@ public class CustomerServiceImpl implements CustomerService {
     private final AuthInfoRepository authInfoRepository;
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
+    private final OrderRepository orderRepository;
+    private final ReviewRepository reviewRepository;
 
     private final PasswordEncoder passwordEncoder;
 
     private final CustomerSignUpRequestMapper customerSignUpRequestMapper;
     private final ProductMapper productMapper;
-
-
+    private final OrderMapper orderMapper;
+    private final ReviewMapper reviewMapper;
 
     @Override
     @Transactional
@@ -75,26 +76,17 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public String makeOrder(OrderDto orderDto) {
-        OrderDto.builder()
-                .id(1L)
-                .date(LocalDate.of(2020, 2, 5))
-                .name_beer("BudBeer")
-                .amount(200)
-                .customer_id(1L)
-                .build();
-        return "{\"id\":1}";
+    public Long createOrder(OrderDto orderDto) {
+        return orderRepository.save(orderMapper.sourceToDestination(orderDto)).getId();
     }
 
     @Override
-    public String makeReview(ReviewDto reviewDto) {
-        ReviewDto.builder()
-                .id(1L)
-                .date(LocalDate.of(2020, 2, 6))
-                .content("Хочу поблагодарить специалиста по продажам ...")
-                .customer_id(1L)
-                .order_id(1L)
-                .build();
-        return "{\"id\":1}";
+    public Long createReview(ReviewDto reviewDto) {
+        Long id = reviewRepository
+                .save(reviewMapper.sourceToDestination(reviewDto))
+                .getId();
+        System.out.println(id);
+        return id;
+
     }
 }

@@ -16,29 +16,31 @@ import java.util.List;
 @RequestMapping(value = "/brewery/sales")
 public class SalesController {
     @Autowired
-    private SalesService service;
+    private SalesService salesService;
 
     @PostMapping(value = "/sign-in", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public String signIn(@RequestBody SalesSignInRequestDto request) {
-        return service.signIn(request);
+        return salesService.signIn(request);
     }
+
+
 
     @GetMapping("/orders")
     @ResponseStatus(HttpStatus.OK)
     public List<OrderDto> getAllOrders() {
-        return service.getAllOrders();
+        return salesService.getAllOrders();
     }
 
     @GetMapping("/beers")
     @ResponseStatus(HttpStatus.OK)
     public List<BeerDto> getAllBeers() {
-        return service.getAllBeers();
+        return salesService.getAllBeers();
     }
 
-    @PostMapping(value = "/request", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/requests", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public String makeRequest(@RequestBody ProduceRequestDto request) {
-        return service.makeRequest(request);
+    public Long createProduceRequest(@RequestBody ProduceRequestDto request) {
+        return salesService.createProduceRequest(request);
     }
 }

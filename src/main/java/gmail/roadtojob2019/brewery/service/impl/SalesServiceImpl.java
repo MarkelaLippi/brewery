@@ -1,16 +1,32 @@
 package gmail.roadtojob2019.brewery.service.impl;
 
 import gmail.roadtojob2019.brewery.dto.*;
+import gmail.roadtojob2019.brewery.mapper.OrderMapper;
+import gmail.roadtojob2019.brewery.mapper.BeerMapper;
+import gmail.roadtojob2019.brewery.mapper.ProduceRequestMapper;
+import gmail.roadtojob2019.brewery.repository.BeerRepository;
+import gmail.roadtojob2019.brewery.repository.OrderRepository;
+import gmail.roadtojob2019.brewery.repository.ProduceRequestRepository;
 import gmail.roadtojob2019.brewery.service.SalesService;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class SalesServiceImpl implements SalesService {
+
+    private final OrderRepository orderRepository;
+    private final BeerRepository beerRepository;
+    private final ProduceRequestRepository produceRequestRepository;
+
+    private final OrderMapper orderMapper;
+    private final BeerMapper beerMapper;
+    private final ProduceRequestMapper produceRequestMapper;
+
     @Override
     public String signIn(SalesSignInRequestDto request) {
         return "{\"id\":1}";
@@ -18,44 +34,29 @@ public class SalesServiceImpl implements SalesService {
 
     @Override
     public List<OrderDto> getAllOrders() {
-        return List.of(OrderDto.builder()
-                .id(1L)
-                .date(LocalDate.of(2020, 2, 5))
-                .name_beer("BudBeer")
-                .amount(200)
-                .customer_id(1L)
-                .build());
+        return orderRepository
+                .findAll()
+                .stream()
+                .map(orderMapper::destinationToSource)
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<BeerDto> getAllBeers() {
-        Map<String, Double> components = new HashMap<String, Double>();
-        components.put("Water", 2.5);
-        components.put("Alcohol", 0.5);
-
-        RecipeDto recipe = new RecipeDto(1L, 1L, components);
-
-        return List.of(BeerDto.builder()
-                .id(1L)
-                .name("CoolBeer")
-                .type("Светлое")
-                .alcohol("4,8%")
-                .amount(2540)
-                .recipe(recipe)
-                .build());
+        List<BeerDto> collect = beerRepository
+                .findAll()
+                .stream()
+                .map(beerMapper::destinationToSource)
+                .collect(Collectors.toList());
+        System.out.println(collect);
+        return collect;
     }
 
     @Override
-    public String makeRequest(ProduceRequestDto request) {
-        ProduceRequestDto requestDto = ProduceRequestDto.builder()
-                .id(1L)
-                .date(LocalDate.of(2020, 2, 5))
-                .name_beer("BudBeer")
-                .amount(200)
-                .term(LocalDate.of(2020, 2, 10))
-                .status("New")
-                .build();
-        return "{\"id\":1}";
+    public Long createProduceRequest(ProduceRequestDto request) {
+        return produceRequestRepository
+                .save(produceRequestMapper.sourceToDestination(request))
+                .getId();
     }
 }
 
