@@ -1,4 +1,4 @@
-package gmail.roadtojob2019.brewery.repository;
+package gmail.roadtojob2019.brewery.mapper;
 
 import gmail.roadtojob2019.brewery.dto.IngredientDto;
 import gmail.roadtojob2019.brewery.entity.Ingredient;

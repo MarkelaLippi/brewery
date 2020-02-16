@@ -7,6 +7,8 @@ import lombok.Data;
 @Builder
 public class ComponentDto {
     private Long id;
-    private Long recipe_id;
+    private Long ingredientId;
+    private String ingredientName;
     private Double amount;
+    private String unit;
 }

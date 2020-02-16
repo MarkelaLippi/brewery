@@ -124,6 +124,7 @@ class BrewerControllerTest {
         ingredientRepository.save(Ingredient.builder()
                 .name("Malt")
                 .amount(20.5)
+                .unit("kilo")
                 .build());
         mockMvc.perform(get("/brewery/brewer/ingredients/5"))
                 .andExpect(status().isOk())
@@ -131,7 +132,8 @@ class BrewerControllerTest {
                         "  {\n" +
                                 "  \"id\" : 5," +
                                 "  \"name\" : \"Malt\",\n" +
-                                "  \"amount\" : 20.5\n" +
+                                "  \"amount\" : 20.5, \n" +
+                                "  \"unit\" : \"kilo\" \n" +
                                 "  }\n"));
     }
 

@@ -2,8 +2,8 @@ package gmail.roadtojob2019.brewery.service.impl;
 
 import gmail.roadtojob2019.brewery.dto.*;
 import gmail.roadtojob2019.brewery.entity.Beer;
-import gmail.roadtojob2019.brewery.entity.Ingredient;
 import gmail.roadtojob2019.brewery.entity.ProduceRequest;
+import gmail.roadtojob2019.brewery.mapper.IngredientMapper;
 import gmail.roadtojob2019.brewery.mapper.ProduceRequestMapper;
 import gmail.roadtojob2019.brewery.mapper.RecipeMapper;
 import gmail.roadtojob2019.brewery.repository.*;
@@ -11,7 +11,6 @@ import gmail.roadtojob2019.brewery.service.BrewerService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 

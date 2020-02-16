@@ -5,20 +5,23 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity(name = "components")
+@Entity
+@Table(name = "components")
 public class Component {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private Long id;
-    private Long recipe_id;
+    @Column(name = "amount")
     private Double amount;
+
+    @OneToOne
+    @JoinColumn(name = "ingredient_id", referencedColumnName = "id")
+    private Ingredient ingredient;
 }
