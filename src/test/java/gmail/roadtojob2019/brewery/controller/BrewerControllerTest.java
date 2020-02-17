@@ -1,9 +1,6 @@
 package gmail.roadtojob2019.brewery.controller;
 
-import gmail.roadtojob2019.brewery.entity.Beer;
-import gmail.roadtojob2019.brewery.entity.Ingredient;
-import gmail.roadtojob2019.brewery.entity.ProduceRequest;
-import gmail.roadtojob2019.brewery.entity.Recipe;
+import gmail.roadtojob2019.brewery.entity.*;
 import gmail.roadtojob2019.brewery.repository.BeerRepository;
 import gmail.roadtojob2019.brewery.repository.IngredientRepository;
 import gmail.roadtojob2019.brewery.repository.ProduceRequestRepository;
@@ -16,6 +13,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -106,9 +105,10 @@ class BrewerControllerTest {
 
     @Test
     void testGetRecipeIsOk() throws Exception {
+        Set<Component> componentSet=new HashSet<>();
         recipeRepository.save(Recipe.builder()
                 .beer_id(1L)
-                .components("Water, Alcohol")
+                .components(componentSet)
                 .build());
         mockMvc.perform(get("/brewery/brewer/recipes/4"))
                 .andExpect(status().isOk())

@@ -24,4 +24,7 @@ public class Component {
     @OneToOne
     @JoinColumn(name = "ingredient_id", referencedColumnName = "id")
     private Ingredient ingredient;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Recipe recipe;
 }

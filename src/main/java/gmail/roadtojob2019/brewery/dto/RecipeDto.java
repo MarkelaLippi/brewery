@@ -2,9 +2,12 @@ package gmail.roadtojob2019.brewery.dto;
 
 import lombok.Data;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Data
 public class RecipeDto {
     private Long id;
     private Long beer_id;
-    private String components;
+    private Set<ComponentDto> components=new HashSet<>();
 }
