@@ -57,7 +57,7 @@ public class SalesServiceImpl implements SalesService {
     @Override
     public Long createProduceRequest(ProduceRequestDto request) {
         return produceRequestRepository
-                .save(produceRequestMapper.sourceToDestination(request))
+                .save(produceRequestMapper.produceRequestDtoToProduceRequest(request))
                 .getId();
     }
 }

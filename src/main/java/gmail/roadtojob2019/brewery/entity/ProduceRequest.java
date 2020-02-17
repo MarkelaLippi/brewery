@@ -1,29 +1,33 @@
 package gmail.roadtojob2019.brewery.entity;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity(name = "produce_requests")
+@Entity
+@Table(name = "produce_requests")
 public class ProduceRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private Long id;
+    @Column(name = "date")
     private LocalDate date;
-    private String name_beer;
+    @Column(name = "beer_id")
+    private Long beerId;
+    @Column(name = "amount")
     private Integer amount;
+    @Column(name = "expiration_date")
     private LocalDate term;
+    @Column(name = "status")
     private String status;
-
 }

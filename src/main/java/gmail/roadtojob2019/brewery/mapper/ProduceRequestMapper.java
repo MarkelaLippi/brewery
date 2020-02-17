@@ -6,7 +6,7 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface ProduceRequestMapper {
-    ProduceRequest sourceToDestination(ProduceRequestDto source);
+    ProduceRequest produceRequestDtoToProduceRequest(ProduceRequestDto dto);
 
-    ProduceRequestDto destinationToSource(ProduceRequest destination);
+    ProduceRequestDto produceRequestToProduceRequestDto(ProduceRequest produceRequest);
 }

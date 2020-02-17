@@ -12,6 +12,5 @@ public class BeerDto {
     private String price;
     private Integer amount;
     private String unit;
-
     private RecipeDto recipe;
 }

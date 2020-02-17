@@ -37,13 +37,13 @@ public class BrewerServiceImpl implements BrewerService {
         return produceRequestRepository
                 .findByStatusIgnoreCase(status)
                 .stream()
-                .map(produceRequestMapper::destinationToSource)
+                .map(produceRequestMapper::produceRequestToProduceRequestDto)
                 .collect(Collectors.toList());
     }
 
     @Override
     public ProduceRequestDto getProduceRequest(Long id) {
-        return produceRequestMapper.destinationToSource(produceRequestRepository.findById(id).get());
+        return produceRequestMapper.produceRequestToProduceRequestDto(produceRequestRepository.findById(id).get());
     }
 
     @Override

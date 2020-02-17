@@ -11,7 +11,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity(name = "beers")
+@Entity
+@Table(name = "beers")
 public class Beer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,5 +31,4 @@ public class Beer {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "recipe_id", referencedColumnName = "id")
     private Recipe recipe;
-
 }

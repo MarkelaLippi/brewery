@@ -54,7 +54,7 @@ class BrewerControllerTest {
     void testGetProduceRequestsByStatusIsOk() throws Exception {
         produceRequestRepository.save(ProduceRequest.builder()
                 .date(LocalDate.of(2020, 2, 5))
-                .name_beer("BudBeer")
+                .beerId(1L)
                 .amount(200)
                 .term(LocalDate.of(2020, 2, 10))
                 .status("New")
@@ -64,7 +64,7 @@ class BrewerControllerTest {
                 .andExpect(content().json("[\n" +
                         "  {\n" +
                         "  \"date\" : \"05.02.2020\",\n" +
-                        "  \"name_beer\" : \"BudBeer\",\n" +
+                        "  \"beerId\" : 1,\n" +
                         "  \"amount\" : 200,\n" +
                         "  \"term\" : \"10.02.2020\",\n" +
                         "  \"status\" : \"New\"\n" +
@@ -76,7 +76,6 @@ class BrewerControllerTest {
     void testGetProduceRequestIsOk() throws Exception {
         produceRequestRepository.save(ProduceRequest.builder()
                 .date(LocalDate.of(2020, 2, 5))
-                .name_beer("BudBeer")
                 .amount(200)
                 .term(LocalDate.of(2020, 2, 10))
                 .status("New")
