@@ -5,23 +5,34 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity(name = "orders")
+@Entity
+@Table(name = "orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private Long id;
+    @Column(name = "date")
     private LocalDate date;
-    private String name_beer;
-    private Integer amount;
-    private Long customer_id;
+    @Column(name = "amount")
+    private Double amount;
+    @Column(name = "unit_measure")
+    private String unit;
+
+    @OneToOne
+    @JoinColumn(name = "beer_id", referencedColumnName = "id")
+    private Beer beer;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Customer customer;
+
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+    private Review review;
 }

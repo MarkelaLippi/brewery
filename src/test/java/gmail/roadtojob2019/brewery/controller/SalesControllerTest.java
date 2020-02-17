@@ -46,12 +46,14 @@ class SalesControllerTest {
 
     @Test
     void testGetAllOrdersIsOk() throws Exception {
+/*
         orderRepository.save(Order.builder()
                 .date(LocalDate.of(2020, 2, 5))
                 .name_beer("BudBeer")
                 .amount(200)
                 .customer_id(1L)
                 .build());
+*/
         mockMvc.perform(get("/brewery/sales/orders"))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[\n" +
