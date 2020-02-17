@@ -107,7 +107,6 @@ class BrewerControllerTest {
     void testGetRecipeIsOk() throws Exception {
         Set<Component> componentSet=new HashSet<>();
         recipeRepository.save(Recipe.builder()
-                .beer_id(1L)
                 .components(componentSet)
                 .build());
         mockMvc.perform(get("/brewery/brewer/recipes/4"))
@@ -142,10 +141,10 @@ class BrewerControllerTest {
         beerRepository.save(Beer
                 .builder()
                 .name("CoolBeer")
-                .type("Светлое")
-                .alcohol("4,8%")
+                .description("Светлое")
+                .price(2.5)
                 .amount(2540)
-                .recipe("Good recipe")
+                .unit("litre")
                 .build());
         mockMvc.perform(patch("/brewery/brewer/beers/2")
                 .contentType(MediaType.APPLICATION_JSON)

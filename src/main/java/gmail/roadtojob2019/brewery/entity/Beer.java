@@ -5,10 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
 @NoArgsConstructor
@@ -19,9 +16,19 @@ public class Beer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(name = "name")
     private String name;
-    private String type;
-    private String alcohol;
+    @Column(name = "description")
+    private String description;
+    @Column(name = "price")
+    private Double price;
+    @Column(name = "amount")
     private Integer amount;
-    private String recipe;
+    @Column(name = "unit")
+    private String unit;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "recipe_id", referencedColumnName = "id")
+    private Recipe recipe;
+
 }

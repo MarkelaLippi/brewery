@@ -8,8 +8,10 @@ import lombok.Data;
 public class BeerDto {
     private Long id;
     private String name;
-    private String type;
-    private String alcohol;
+    private String description;
+    private String price;
     private Integer amount;
-    private String recipe;
+    private String unit;
+
+    private RecipeDto recipe;
 }

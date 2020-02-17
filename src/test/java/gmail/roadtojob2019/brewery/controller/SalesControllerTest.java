@@ -70,10 +70,10 @@ class SalesControllerTest {
         beerRepository.save(Beer
                 .builder()
                 .name("CoolBeer")
-                .type("Светлое")
-                .alcohol("4,8%")
+                .description("Светлое")
+                .price(2.5)
                 .amount(2540)
-                .recipe("Good recipe")
+                .unit("litre")
                 .build());
         mockMvc.perform(get("/brewery/sales/beers"))
                 .andExpect(status().isOk())

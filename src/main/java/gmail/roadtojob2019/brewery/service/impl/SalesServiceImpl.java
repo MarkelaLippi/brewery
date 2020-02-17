@@ -48,7 +48,7 @@ public class SalesServiceImpl implements SalesService {
         List<BeerDto> collect = beerRepository
                 .findAll()
                 .stream()
-                .map(beerMapper::destinationToSource)
+                .map(beerMapper::beerToBeerDto)
                 .collect(Collectors.toList());
         System.out.println(collect);
         return collect;
