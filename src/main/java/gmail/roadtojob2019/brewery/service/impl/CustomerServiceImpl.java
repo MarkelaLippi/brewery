@@ -82,11 +82,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Long createReview(ReviewDto reviewDto) {
-        Long id = reviewRepository
+        return reviewRepository
                 .save(reviewMapper.sourceToDestination(reviewDto))
                 .getId();
-        System.out.println(id);
-        return id;
-
     }
 }

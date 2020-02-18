@@ -57,13 +57,13 @@ public class CustomerController {
     public Long createOrder(@RequestBody OrderDto orderDto) {
         return service.createOrder(orderDto);
     }
-*/
 
     @PostMapping(value = "/reviews", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public Long createReview(@RequestBody ReviewDto reviewDto) {
         return service.createReview(reviewDto);
     }
+*/
 }
 
 

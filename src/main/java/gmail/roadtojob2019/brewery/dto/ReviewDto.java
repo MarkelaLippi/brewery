@@ -13,6 +13,6 @@ public class ReviewDto {
     @JsonFormat(pattern = "dd.MM.yyyy")
     private LocalDate date;
     private String content;
-    private Long customer_id;
-    private Long order_id;
+    private Long customerId;
+    private Long orderId;
 }

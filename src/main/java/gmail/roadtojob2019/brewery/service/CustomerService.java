@@ -16,8 +16,5 @@ public interface CustomerService {
     Long createOrder(OrderDto orderDto);
 
     Long createReview(ReviewDto reviewDto);
-
-    interface BeerService {
-    }
 }
 

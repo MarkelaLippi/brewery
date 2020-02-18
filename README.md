@@ -221,10 +221,11 @@ POST /brewery/customer/orders
 ```
 ```json
 {
-       "date" : "05.02.2020",
-       "name_beer" : "BudBeer",
-       "amount" : 200,
-	   "customer_id" : 1 
+        "date" : "2020-02-05",
+        "beerId" : 1,
+        "amount" : 200,
+        "unit" : "Litre",
+        "customerId" : 3
 }
 ```
 Response: ```201 Created```
@@ -240,14 +241,14 @@ Response: ```201 Created```
 Request:
 
 ```
-POST /brewery/customer/review
+POST /brewery/customer/reviews
 ```
 ```json
 {
        "date" : "2020-02-06",
-       "content" : "Хочу поблагодарить специалиста по продажам ...",
-       "customer_id" : 1,
-       "order_id" : 1
+       "content" : "I want to thank...",
+       "customerId" : 5,
+       "orderId" : 4
 }
 ```
 Response: ```201 Created```
