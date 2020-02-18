@@ -45,6 +45,7 @@ public class CustomerController {
                                 List.of(new SimpleGrantedAuthority("CUSTOMER")))));
     }
 
+/*
     @GetMapping("/products")
     @ResponseStatus(HttpStatus.OK)
     public List<ProductDto> getAllProducts() {
@@ -56,6 +57,7 @@ public class CustomerController {
     public Long createOrder(@RequestBody OrderDto orderDto) {
         return service.createOrder(orderDto);
     }
+*/
 
     @PostMapping(value = "/reviews", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)

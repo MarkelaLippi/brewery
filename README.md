@@ -217,7 +217,7 @@ Response: ```200 OK```
 Request:
 
 ```
-POST /brewery/customer/order
+POST /brewery/customer/orders
 ```
 ```json
 {

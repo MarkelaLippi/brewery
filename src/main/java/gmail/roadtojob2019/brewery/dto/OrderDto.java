@@ -12,7 +12,8 @@ public class OrderDto {
     private Long id;
     @JsonFormat(pattern = "dd.MM.yyyy")
     private LocalDate date;
-    private String name_beer;
-    private Integer amount;
-    private Long customer_id;
+    private Long beerId;
+    private Double amount;
+    private String unit;
+    private Long customerId;
 }

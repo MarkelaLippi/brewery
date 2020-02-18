@@ -77,7 +77,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Long createOrder(OrderDto orderDto) {
-        return orderRepository.save(orderMapper.sourceToDestination(orderDto)).getId();
+        return orderRepository.save(orderMapper.orderDtoToOrder(orderDto)).getId();
     }
 
     @Override

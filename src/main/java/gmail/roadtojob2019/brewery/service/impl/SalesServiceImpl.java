@@ -39,7 +39,7 @@ public class SalesServiceImpl implements SalesService {
         return orderRepository
                 .findAll()
                 .stream()
-                .map(orderMapper::destinationToSource)
+                .map(orderMapper::orderToOrderDto)
                 .collect(Collectors.toList());
     }
 
