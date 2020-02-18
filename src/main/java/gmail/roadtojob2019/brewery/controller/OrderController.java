@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @AllArgsConstructor
 @RequestMapping("/brewery")
@@ -18,5 +20,11 @@ public class OrderController {
     @ResponseStatus(HttpStatus.CREATED)
     public Long createOrder(@RequestBody OrderDto orderDto) {
         return orderService.createOrder(orderDto);
+    }
+
+    @GetMapping("sales/orders")
+    @ResponseStatus(HttpStatus.OK)
+    public List<OrderDto> getAllOrders() {
+        return orderService.getAllOrders();
     }
 }

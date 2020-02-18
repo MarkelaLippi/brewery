@@ -4,6 +4,7 @@ import gmail.roadtojob2019.brewery.dto.OrderDto;
 import gmail.roadtojob2019.brewery.entity.Beer;
 import gmail.roadtojob2019.brewery.entity.Customer;
 import gmail.roadtojob2019.brewery.entity.Order;
+import gmail.roadtojob2019.brewery.mapper.OrderMapper;
 import gmail.roadtojob2019.brewery.repository.BeerRepository;
 import gmail.roadtojob2019.brewery.repository.CustomerRepository;
 import gmail.roadtojob2019.brewery.repository.OrderRepository;
@@ -12,6 +13,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -20,8 +23,11 @@ public class OrderServiceImpl implements OrderService {
     private final BeerRepository beerRepository;
     private final CustomerRepository customerRepository;
 
+    private final OrderMapper orderMapper;
+
     @PostConstruct
     public void init() {
+/*
         beerRepository.save(Beer
                 .builder()
                 .name("CoolBeer")
@@ -30,6 +36,7 @@ public class OrderServiceImpl implements OrderService {
                 .amount(2540)
                 .unit("litre")
                 .build());
+*/
 
         customerRepository.save(Customer.builder()
                 .fullName("Ivanov Ivan")
@@ -48,5 +55,14 @@ public class OrderServiceImpl implements OrderService {
                 .customer(customerRepository.getOne(orderDto.getCustomerId()))
                 .build();
         return orderRepository.save(newOrder).getId();
+    }
+
+    @Override
+    public List<OrderDto> getAllOrders() {
+        return orderRepository
+                .findAll()
+                .stream()
+                .map(orderMapper::orderToOrderDto)
+                .collect(Collectors.toList());
     }
 }

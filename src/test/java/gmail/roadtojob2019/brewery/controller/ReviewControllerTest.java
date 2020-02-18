@@ -29,10 +29,10 @@ class ReviewControllerTest {
                 .content("{\n" +
                         "  \"date\" : \"2020-02-06\",\n" +
                         "  \"content\" : \"I want to thank...\",\n" +
-                        "  \"customerId\" : 5,\n" +
-                        "  \"orderId\" : 4\n" +
+                        "  \"customerId\" : 1,\n" +
+                        "  \"orderId\" : 1\n" +
                         "}"))
                 .andExpect(status().isCreated())
-                .andExpect(content().json("4"));
+                .andExpect(content().json("1"));
     }
 }

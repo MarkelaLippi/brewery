@@ -1,5 +1,6 @@
 package gmail.roadtojob2019.brewery.service.impl;
 
+import gmail.roadtojob2019.brewery.dto.BeerDto;
 import gmail.roadtojob2019.brewery.dto.PricelistUnitDto;
 import gmail.roadtojob2019.brewery.entity.Beer;
 import gmail.roadtojob2019.brewery.mapper.PricelistMapper;
@@ -38,5 +39,10 @@ public class BeerServiceImpl implements BeerService {
                 .stream()
                 .map(pricelistMapper::beerToPriceListUnitDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<BeerDto> getAllBeers() {
+        return null;
     }
 }

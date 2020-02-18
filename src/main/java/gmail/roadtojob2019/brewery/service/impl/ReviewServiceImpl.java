@@ -26,11 +26,13 @@ public class ReviewServiceImpl implements ReviewService {
     public void init() {
         orderRepository.save(Order.builder().build());
 
+/*
         customerRepository.save(Customer.builder()
                 .fullName("Ivanov Ivan")
                 .email("Ivanov@gmail.com")
                 .phone("+375297772255")
                 .build());
+*/
     }
 
     @Override

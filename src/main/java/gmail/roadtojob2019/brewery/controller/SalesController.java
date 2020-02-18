@@ -26,11 +26,13 @@ public class SalesController {
 
 
 
+/*
     @GetMapping("/orders")
     @ResponseStatus(HttpStatus.OK)
     public List<OrderDto> getAllOrders() {
         return salesService.getAllOrders();
     }
+*/
 
     @GetMapping("/beers")
     @ResponseStatus(HttpStatus.OK)

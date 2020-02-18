@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -21,9 +22,6 @@ class OrderControllerTest {
 
     @Test
     public void testCustomerOrderIsCreated() throws Exception {
-        // given
-        //signInAsCustomer();
-        // when
         mockMvc.perform(post("/brewery/customer/orders")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
@@ -31,10 +29,26 @@ class OrderControllerTest {
                         "  \"beerId\" : 1,\n" +
                         "  \"amount\" : 200,\n" +
                         "  \"unit\" : \"Litre\",\n" +
-                        "  \"customerId\" : 3\n" +
+                        "  \"customerId\" : 1\n" +
                         "}"))
                 // then
                 .andExpect(status().isCreated())
-                .andExpect(content().json("4"));
+                .andExpect(content().json("2"));
+    }
+
+    @Test
+    void testGetAllOrdersIsOk() throws Exception {
+        mockMvc.perform(get("/brewery/sales/orders"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[\n" +
+                        "  {\n" +
+                        "   \"id\" : 1, \n" +
+                        "   \"date\" : \"2020-02-05\",\n" +
+                        "   \"beerId\" : 1,\n" +
+                        "   \"amount\" : 200,\n" +
+                        "   \"unit\" : \"Litre\",\n" +
+                        "   \"customerId\" : 1\n" +
+                        "  }\n" +
+                        "]"));
     }
 }
