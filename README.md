@@ -225,7 +225,7 @@ POST /brewery/customer/orders
         "beerId" : 1,
         "amount" : 200,
         "unit" : "Litre",
-        "customerId" : 3
+        "customerId" : 1
 }
 ```
 Response: ```201 Created```
@@ -247,8 +247,8 @@ POST /brewery/customer/reviews
 {
        "date" : "2020-02-06",
        "content" : "I want to thank...",
-       "customerId" : 5,
-       "orderId" : 4
+       "customerId" : 1,
+       "orderId" : 1
 }
 ```
 Response: ```201 Created```
@@ -266,7 +266,7 @@ Response: ```201 Created```
 Request:
 
 ```
-POST /brewery/sales/sign-in
+POST /brewery/sign-in
 ```
 ```json
 {
@@ -294,10 +294,11 @@ Response: ```200 OK```
 [
   {
        "id" : 1, 
-       "date" : "05.02.2020",
-       "name_beer" : "BudBeer",
+       "date" : "2020-02-05",
+       "beerId" : 1,
        "amount" : 200,
-	   "customer_id" : 1
+       "unit" : "Litre",
+       "customerId" : 1
   }
 ]
 ```
@@ -314,16 +315,12 @@ Response: ```200 OK```
 ```json
 [
   {
-       "id" : 1, 
+       "id" : 1,
        "name" : "CoolBeer",
-       "type" : "Светлое",
-	   "alcohol" : "4,8%",
+       "description" : "Light, 4.8% alcohol...",
+       "price" : "2.5",
        "amount" : 2540,
-       "recipe" : {"id" : 1,
-                   "beer_id" : 1, 
-                   "components" : {"Water" : 2.5,
-                                   "Alcohol" : 0.5 }
-                  }
+       "unit" : "Litre" 
   }
 ]
 ```
@@ -334,7 +331,7 @@ Response: ```200 OK```
 Request:
 
 ```
-POST /brewery/sales/request
+POST /brewery/sales/requests
 ```
 ```json
 {

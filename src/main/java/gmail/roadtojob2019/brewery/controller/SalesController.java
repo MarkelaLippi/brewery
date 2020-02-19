@@ -34,11 +34,13 @@ public class SalesController {
     }
 */
 
+/*
     @GetMapping("/beers")
     @ResponseStatus(HttpStatus.OK)
     public List<BeerDto> getAllBeers() {
         return salesService.getAllBeers();
     }
+*/
 
     @PostMapping(value = "/requests", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)

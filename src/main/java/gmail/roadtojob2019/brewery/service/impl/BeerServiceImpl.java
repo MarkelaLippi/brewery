@@ -3,6 +3,7 @@ package gmail.roadtojob2019.brewery.service.impl;
 import gmail.roadtojob2019.brewery.dto.BeerDto;
 import gmail.roadtojob2019.brewery.dto.PricelistUnitDto;
 import gmail.roadtojob2019.brewery.entity.Beer;
+import gmail.roadtojob2019.brewery.mapper.BeerMapper;
 import gmail.roadtojob2019.brewery.mapper.PricelistMapper;
 import gmail.roadtojob2019.brewery.repository.BeerRepository;
 import gmail.roadtojob2019.brewery.service.BeerService;
@@ -19,6 +20,7 @@ public class BeerServiceImpl implements BeerService {
 
     private final BeerRepository beerRepository;
     private final PricelistMapper pricelistMapper;
+    private final BeerMapper beerMapper;
 
     @PostConstruct
     public void init() {
@@ -28,7 +30,7 @@ public class BeerServiceImpl implements BeerService {
                 .description("Light, 4.8% alcohol...")
                 .price(2.5)
                 .amount(2540)
-                .unit("litre")
+                .unit("Litre")
                 .build());
     }
 
@@ -43,6 +45,10 @@ public class BeerServiceImpl implements BeerService {
 
     @Override
     public List<BeerDto> getAllBeers() {
-        return null;
+        return beerRepository
+                .findAll()
+                .stream()
+                .map(beerMapper::beerToBeerDto)
+                .collect(Collectors.toList());
     }
 }

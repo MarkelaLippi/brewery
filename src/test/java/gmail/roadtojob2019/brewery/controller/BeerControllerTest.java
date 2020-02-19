@@ -1,5 +1,6 @@
 package gmail.roadtojob2019.brewery.controller;
 
+import gmail.roadtojob2019.brewery.entity.Beer;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -34,4 +35,21 @@ class BeerControllerTest {
                         "  }\n" +
                         "]"));
     }
+
+    @Test
+    void testGetAllBeersIsOk() throws Exception {
+        mockMvc.perform(get("/brewery/sales/beers"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[\n" +
+                        "  {\n" +
+                        "    \"id\" : 1, \n" +
+                        "    \"name\" : \"CoolBeer\",\n" +
+                        "    \"description\" : \"Light, 4.8% alcohol...\",\n" +
+                        "    \"price\" : \"2.5\",\n" +
+                        "    \"amount\" : 2540,\n" +
+                        "    \"unit\" : \"Litre\" \n" +
+                        "  }\n" +
+                        "]"));
+    }
+
 }
