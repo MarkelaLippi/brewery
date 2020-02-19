@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @TestPropertySource("classpath:application-test.properties")
-class CustomerControllerTest {
+class AuthControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @Autowired
@@ -41,10 +41,6 @@ class CustomerControllerTest {
 
     @MockBean
     private AuthInfoService authInfoService;
-    @SpyBean
-    private CustomerService customerService;
-    @Autowired
-    private ProductRepository productRepository;
 
     @Test
     public void testCustomerSignUpIsCreated() throws Exception {
@@ -122,64 +118,6 @@ class CustomerControllerTest {
                         "}"))
                 // then
                 .andExpect(status().isForbidden());
-    }
-
-    @Test
-    void testGetAllProductsIsOk() throws Exception {
-        // given
-        //signInAsCustomer();
-        productRepository.save(Product.builder()
-                .id(1L)
-                .name("BudBeer")
-                .description("Dark, 4,6%...")
-                .price(2.0)
-                .build());
-        // when
-        mockMvc.perform(get("/brewery/customer/products"))
-                .andExpect(status().isOk())
-                .andExpect(content().json("[\n" +
-                        "  {\n" +
-                        "    \"id\" : 2, \n" +
-                        "    \"name\" : \"BudBeer\",\n" +
-                        "    \"description\" : \"Dark, 4,6%...\",\n" +
-                        "    \"price\" : 2.0 \n" +
-                        "  }\n" +
-                        "]"));
-    }
-
-    @Test
-    public void testCustomerOrderIsCreated() throws Exception {
-        // given
-        //signInAsCustomer();
-        // when
-        mockMvc.perform(post("/brewery/customer/orders")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\n" +
-                        "  \"date\" : \"2020-02-05\",\n" +
-                        "  \"name_beer\" : \"BudBeer\",\n" +
-                        "  \"amount\" : 200,\n" +
-                        "  \"customer_id\" : 1 \n" +
-                        "}"))
-                // then
-                .andExpect(status().isCreated())
-                .andExpect(content().json("1"));
-    }
-
-    @Test
-    public void testCustomerReviewIsCreated() throws Exception {
-        // given
-        //signInAsCustomer();
-        // when
-        mockMvc.perform(post("/brewery/customer/reviews")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\n" +
-                        "  \"date\" : \"2020-02-06\",\n" +
-                        "  \"content\" : \"Хочу поблагодарить специалиста по продажам ...\",\n" +
-                        "  \"customer_id\" : 1,\n" +
-                        "  \"order_id\" : 1\n" +
-                        "}"))
-                .andExpect(status().isCreated())
-                .andExpect(content().json("3"));
     }
 
     private String signInAsCustomer() throws Exception {

@@ -1,6 +1,8 @@
 package gmail.roadtojob2019.brewery.controller;
 
-import gmail.roadtojob2019.brewery.dto.*;
+import gmail.roadtojob2019.brewery.dto.CustomerSignInRequestDto;
+import gmail.roadtojob2019.brewery.dto.CustomerSignUpRequestDto;
+import gmail.roadtojob2019.brewery.dto.UserSignInResponseDto;
 import gmail.roadtojob2019.brewery.exception.SuchCustomerAlreadyExistException;
 import gmail.roadtojob2019.brewery.security.JwtUtil;
 import gmail.roadtojob2019.brewery.service.CustomerService;
@@ -17,9 +19,8 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/brewery/customer")
-public class CustomerController {
-
+@RequestMapping("/brewery")
+public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
 
@@ -44,26 +45,6 @@ public class CustomerController {
                         new User(request.getEmail(), request.getPassword(),
                                 List.of(new SimpleGrantedAuthority("CUSTOMER")))));
     }
-
-/*
-    @GetMapping("/products")
-    @ResponseStatus(HttpStatus.OK)
-    public List<ProductDto> getAllProducts() {
-        return service.getAllProducts();
-    }
-
-    @PostMapping(value = "/orders", consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
-    public Long createOrder(@RequestBody OrderDto orderDto) {
-        return service.createOrder(orderDto);
-    }
-
-    @PostMapping(value = "/reviews", consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
-    public Long createReview(@RequestBody ReviewDto reviewDto) {
-        return service.createReview(reviewDto);
-    }
-*/
 }
 
 
