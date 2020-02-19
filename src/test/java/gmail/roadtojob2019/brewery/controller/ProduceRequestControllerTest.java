@@ -8,7 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -31,6 +31,46 @@ class ProduceRequestControllerTest {
                         "  \"status\" : \"New\"\n" +
                         "}"))
                 .andExpect(status().isCreated())
+                .andExpect(content().json("2"));
+    }
+
+    @Test
+    void testGetProduceRequestsByStatusIsOk() throws Exception {
+        mockMvc.perform(get("/brewery/brewer/requests/?status=new"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[\n" +
+                        "  {\n" +
+                        "  \"date\" : \"05.02.2020\",\n" +
+                        "  \"beerId\" : 1,\n" +
+                        "  \"amount\" : 200,\n" +
+                        "  \"term\" : \"10.02.2020\",\n" +
+                        "  \"status\" : \"New\"\n" +
+                        "  }\n" +
+                        "]"));
+    }
+
+    @Test
+    void testGetProduceRequestIsOk() throws Exception {
+        mockMvc.perform(get("/brewery/brewer/requests/1"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("{\n" +
+                        "  \"date\" : \"05.02.2020\",\n" +
+                        "  \"beerId\" : 1,\n" +
+                        "  \"amount\" : 200,\n" +
+                        "  \"term\" : \"10.02.2020\",\n" +
+                        "  \"status\" : \"New\"\n" +
+                        "  }\n"));
+    }
+
+    @Test
+    public void testChangeProduceRequestStatusIsOk() throws Exception {
+        mockMvc.perform(patch("/brewery/brewer/requests/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("  {\n" +
+                        "  \"status\" : \"In process\"\n" +
+                        "  }\n"))
+                .andExpect(status().isOk())
                 .andExpect(content().json("1"));
     }
+
 }

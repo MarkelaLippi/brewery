@@ -22,23 +22,29 @@ public class BrewerController {
         return brewerService.signIn(request);
     }
 
+/*
     @GetMapping("/requests/{status}")
     @ResponseStatus(HttpStatus.OK)
     public List<ProduceRequestDto> getProduceRequestsByStatus(@PathVariable String status) {
         return brewerService.getProduceRequestsByStatus(status);
     }
+*/
 
+/*
     @GetMapping(value = "/requests/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ProduceRequestDto getProduceRequest(@PathVariable Long id) {
         return brewerService.getProduceRequest(id);
     }
+*/
 
+/*
     @PatchMapping(value = "/requests/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public Long changeRequestStatus(@PathVariable Long id, @RequestBody ProduceRequestDto request) {
         return brewerService.changeProduceRequestStatus(id, request);
     }
+*/
 
     @GetMapping("/recipes/{id}")
     @ResponseStatus(HttpStatus.OK)

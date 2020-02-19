@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @AllArgsConstructor
 @RequestMapping("/brewery")
@@ -19,4 +21,23 @@ public class ProduceRequestController {
     public Long createProduceRequest(@RequestBody ProduceRequestDto request) {
         return produceRequestService.createProduceRequest(request);
     }
+
+    @GetMapping(value = "brewer/requests")
+    @ResponseStatus(HttpStatus.OK)
+    public List<ProduceRequestDto> getProduceRequestsByStatus(@RequestParam(value="status") String status) {
+        return produceRequestService.getProduceRequestsByStatus(status);
+    }
+
+    @GetMapping(value = "brewer/requests/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ProduceRequestDto getProduceRequest(@PathVariable Long id) {
+        return produceRequestService.getProduceRequest(id);
+    }
+
+    @PatchMapping(value = "brewer/requests/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public Long changeProduceRequestStatus(@PathVariable Long id, @RequestBody ProduceRequestDto request) {
+        return produceRequestService.changeProduceRequestStatus(id, request);
+    }
+
 }
