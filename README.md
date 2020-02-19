@@ -335,10 +335,10 @@ POST /brewery/sales/requests
 ```
 ```json
 {
-       "date" : "05.02.2020",
-       "name_beer" : "BudBeer",
+       "date" : "2020-02-05",
+       "beerId" : 1,
        "amount" : 200,
-       "term" : "10.02.2020",
+       "term" : "2020-02-10",
        "status" : "New"
 }
 ```

@@ -1,6 +1,5 @@
 package gmail.roadtojob2019.brewery.controller;
 
-import gmail.roadtojob2019.brewery.entity.Beer;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -51,5 +50,4 @@ class BeerControllerTest {
                         "  }\n" +
                         "]"));
     }
-
 }

@@ -42,9 +42,11 @@ public class SalesController {
     }
 */
 
+/*
     @PostMapping(value = "/requests", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public Long createProduceRequest(@RequestBody ProduceRequestDto request) {
         return salesService.createProduceRequest(request);
     }
+*/
 }
