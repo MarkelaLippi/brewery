@@ -61,7 +61,7 @@ public class BrewerServiceImpl implements BrewerService {
 
     @Override
     public IngredientDto getIngredient(Long id) {
-        return ingredientMapper.destinationToSource(ingredientRepository.getOne(id));
+        return ingredientMapper.ingredientToIngredientDto(ingredientRepository.getOne(id));
     }
 
     @Override

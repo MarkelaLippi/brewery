@@ -6,7 +6,7 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface IngredientMapper {
-    Ingredient sourceToDestination(IngredientDto source);
+    Ingredient ingredientDtoToIngredient(IngredientDto dto);
 
-    IngredientDto destinationToSource(Ingredient destination);
+    IngredientDto ingredientToIngredientDto(Ingredient ingredient);
 }
