@@ -408,7 +408,7 @@ Response: ```200 OK```
        "status" : "New"
 }
 ```
-##BREWER -STEP-4 Как работник цеха пивоварения, изучив новое требование от отдела продаж, я принимаю его в производство. Для этого я меняю его статус.
+##BREWER -STEP-4 Как работник цеха пивоварения, изучив новое требование от отдела продаж, я принимаю его в производство. Для этого я меняю его статус на "In process".
 
 Request:
 
@@ -467,20 +467,11 @@ Response: ```200 OK```
 Request:
 
 ```
-PUT /brewery/brewer/beers/1
+PATCH /brewery/brewer/beers/1
 ```
 ```json
 {
-       "id" : 1, 
-       "name" : "CoolBeer",
-       "type" : "Светлое",
-	   "alcohol" : "4,8%",
-       "amount" : 2740,
-       "recipe" : {"id" : 1,
-                   "beer_id" : 1, 
-                   "components" : {"Water" : 2.5,
-                                   "Alcohol" : 0.5 }
-                  }
+       "amount" : 2740
 }
 ```
 Response: ```200 OK```
@@ -491,19 +482,15 @@ Response: ```200 OK```
 }
 ```
 
-##BREWER -STEP-8 Как работник цеха пивоварения, я уведомляю отдел продаж о том, что их требование выполнено. Для этого я меняю его статус на «Сompleted».
+##BREWER -STEP-8 Как работник цеха пивоварения, я уведомляю отдел продаж о том, что их требование выполнено. Для этого я меняю его статус на «Completed».
 
 Request:
 
 ```
-PUT /brewery/brewer/requests/1
+PATCH /brewery/brewer/requests/1
 ```
 ```json
 {
-       "date" : "2020-02-05",
-       "name_beer" : "BudBeer",
-       "amount" : 200,
-	   "term" : "2020-02-10",
        "status" : "Completed"
 }
 ```

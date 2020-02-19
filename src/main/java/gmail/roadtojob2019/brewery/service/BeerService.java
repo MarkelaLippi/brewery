@@ -9,4 +9,6 @@ public interface BeerService {
     List<PricelistUnitDto> getPricelist();
 
     List<BeerDto> getAllBeers();
+
+    Long changeBeerAmount(Long id, BeerDto beer);
 }

@@ -4,10 +4,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -49,5 +51,16 @@ class BeerControllerTest {
                         "    \"unit\" : \"Litre\" \n" +
                         "  }\n" +
                         "]"));
+    }
+
+    @Test
+    public void testChangeBeerAmountIsOk() throws Exception {
+        mockMvc.perform(patch("/brewery/brewer/beers/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(" {\n" +
+                        "    \"amount\" : 2740\n" +
+                        "  }\n"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("1"));
     }
 }

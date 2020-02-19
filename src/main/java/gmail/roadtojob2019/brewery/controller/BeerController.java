@@ -5,10 +5,8 @@ import gmail.roadtojob2019.brewery.dto.PricelistUnitDto;
 import gmail.roadtojob2019.brewery.service.BeerService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,6 +27,12 @@ public class BeerController {
     @ResponseStatus(HttpStatus.OK)
     public List<BeerDto> getAllBeers() {
         return beerService.getAllBeers();
+    }
+
+    @PatchMapping(value = "brewer/beers/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public Long changeBeerAmount(@PathVariable Long id, @RequestBody BeerDto beer) {
+        return beerService.changeBeerAmount(id, beer);
     }
 
 }

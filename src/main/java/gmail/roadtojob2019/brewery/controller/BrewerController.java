@@ -62,9 +62,11 @@ public class BrewerController {
     }
 */
 
+/*
     @PatchMapping(value = "/beers/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public Long changeBeerAmount(@PathVariable Long id, @RequestBody BeerDto beer) {
         return brewerService.changeBeerAmount(id, beer);
     }
+*/
 }

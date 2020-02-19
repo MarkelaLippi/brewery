@@ -51,4 +51,12 @@ public class BeerServiceImpl implements BeerService {
                 .map(beerMapper::beerToBeerDto)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public Long changeBeerAmount(Long id, BeerDto beerDto) {
+        Beer beerBefore = beerRepository.getOne(id);
+        beerBefore.setAmount(beerDto.getAmount());
+        Beer beerAfter = beerRepository.save(beerBefore);
+        return beerAfter.getId();
+    }
 }
