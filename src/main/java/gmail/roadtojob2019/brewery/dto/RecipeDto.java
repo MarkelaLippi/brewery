@@ -8,6 +8,6 @@ import java.util.Set;
 @Data
 public class RecipeDto {
     private Long id;
+    private Long beerId;
     private Set<ComponentDto> components = new HashSet<>();
-    private BeerDto beer;
 }

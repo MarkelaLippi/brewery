@@ -7,13 +7,19 @@ import gmail.roadtojob2019.brewery.entity.Beer;
 import gmail.roadtojob2019.brewery.entity.Component;
 import gmail.roadtojob2019.brewery.entity.Recipe;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 
 import java.util.Set;
 
 @Mapper(componentModel = "spring")
 public interface RecipeMapper {
+
     Recipe recipeDtoToRecipe(RecipeDto recipeDto);
 
+    @Mappings({
+            @Mapping(target = "beerId", source = "beer.id")
+    })
     RecipeDto recipeToRecipeDto(Recipe recipe);
 
     Set<Component> convertComponentDTOSetToComponentSet(Set<ComponentDto> set);

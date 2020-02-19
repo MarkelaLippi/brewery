@@ -46,11 +46,13 @@ public class BrewerController {
     }
 */
 
+/*
     @GetMapping("/recipes/{id}")
     @ResponseStatus(HttpStatus.OK)
     public RecipeDto getRecipe(@PathVariable Long id) {
         return brewerService.getRecipe(id);
     }
+*/
 
     @GetMapping("/ingredients/{id}")
     @ResponseStatus(HttpStatus.OK)
