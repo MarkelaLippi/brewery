@@ -23,6 +23,7 @@ public class ProduceRequestServiceImpl implements ProduceRequestService {
 
     @PostConstruct
     public void init() {
+/*
         produceRequestRepository.save(ProduceRequest.builder()
                 .date(LocalDate.of(2020, 2, 5))
                 .beerId(1L)
@@ -30,6 +31,7 @@ public class ProduceRequestServiceImpl implements ProduceRequestService {
                 .term(LocalDate.of(2020, 2, 10))
                 .status("New")
                 .build());
+*/
     }
 
     @Override

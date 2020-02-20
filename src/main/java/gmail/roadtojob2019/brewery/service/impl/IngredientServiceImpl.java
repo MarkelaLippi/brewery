@@ -20,11 +20,13 @@ public class IngredientServiceImpl implements IngredientService {
 
     @PostConstruct
     public void init() {
+/*
         ingredientRepository.save(Ingredient.builder()
                 .name("Water")
                 .amount(100.0)
                 .unit("Litre")
                 .build());
+*/
     }
 
     @Override

@@ -22,6 +22,6 @@ public class Ingredient {
     private String name;
     @Column(name = "amount")
     private Double amount;
-    @Column(name = "unit_measure")
+    @Column(name = "unit")
     private String unit;
 }

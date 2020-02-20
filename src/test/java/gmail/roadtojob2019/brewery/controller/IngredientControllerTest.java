@@ -13,7 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-@TestPropertySource("classpath:application-test.properties")
+//@TestPropertySource("classpath:application-test.properties")
 class IngredientControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -26,7 +26,7 @@ class IngredientControllerTest {
                         "  {\n" +
                                 "  \"id\" : 1," +
                                 "  \"name\" : \"Water\",\n" +
-                                "  \"amount\" : 100.0, \n" +
+                                "  \"amount\" : 300.0, \n" +
                                 "  \"unit\" : \"Litre\" \n" +
                                 "  }\n"));
     }

@@ -1,0 +1,21 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="RoadToJob2019@gmail.com" id="CREATE_RECIPES_TABLE">
+        <createTable tableName="recipes">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="beer_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="RoadToJob2019@gmail.com" id="ADD_RECIPES_TABLE_1">
+        <insert tableName="recipes">
+            <column name="beer_id" value="1"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

@@ -24,6 +24,6 @@ public class Recipe {
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Component> components=new HashSet<>();
 
-    @OneToOne(mappedBy = "recipe")
+    @OneToOne(mappedBy = "recipe", fetch = FetchType.LAZY)
     private Beer beer;
 }

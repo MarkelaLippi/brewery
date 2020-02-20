@@ -25,6 +25,7 @@ public class Review {
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
     @OneToOne(fetch = FetchType.LAZY)

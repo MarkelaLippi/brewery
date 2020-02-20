@@ -42,7 +42,7 @@ class ProduceRequestControllerTest {
                         "  {\n" +
                         "  \"date\" : \"05.02.2020\",\n" +
                         "  \"beerId\" : 1,\n" +
-                        "  \"amount\" : 200,\n" +
+                    //    "  \"amount\" : 200,\n" +
                         "  \"term\" : \"10.02.2020\",\n" +
                         "  \"status\" : \"New\"\n" +
                         "  }\n" +
@@ -56,7 +56,7 @@ class ProduceRequestControllerTest {
                 .andExpect(content().json("{\n" +
                         "  \"date\" : \"05.02.2020\",\n" +
                         "  \"beerId\" : 1,\n" +
-                        "  \"amount\" : 200,\n" +
+                        "  \"amount\" : 20,\n" +
                         "  \"term\" : \"10.02.2020\",\n" +
                         "  \"status\" : \"New\"\n" +
                         "  }\n"));

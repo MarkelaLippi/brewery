@@ -24,6 +24,7 @@ public class BeerServiceImpl implements BeerService {
 
     @PostConstruct
     public void init() {
+/*
         beerRepository.save(Beer
                 .builder()
                 .name("CoolBeer")
@@ -32,6 +33,7 @@ public class BeerServiceImpl implements BeerService {
                 .amount(2540)
                 .unit("Litre")
                 .build());
+*/
     }
 
     @Override

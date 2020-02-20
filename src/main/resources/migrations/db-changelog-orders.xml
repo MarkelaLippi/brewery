@@ -1,0 +1,43 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="RoadToJob2019@gmail.com" id="CREATE_ORDERS_TABLE">
+        <createTable tableName="orders">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="date" type="TIMESTAMP"/>
+            <column name="amount" type="BIGINT"/>
+            <column name="unit" type="VARCHAR(255)"/>
+            <column name="beer_id" type="BIGINT"/>
+            <column name="customer_id" type="BIGINT"/>
+            <column name="review_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+
+<!--
+    <changeSet author="RoadToJob2019@gmail.com" id="FK_ORDERS_TABLE">
+        <addForeignKeyConstraint baseTableName="orders"
+                                 baseColumnNames="customer_id"
+                                 referencedTableName="customers"
+                                 referencedColumnNames="id"
+                                 constraintName="FK_orders_customers"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"/>
+    </changeSet>
+-->
+
+    <changeSet author="RoadToJob2019@gmail.com" id="ADD_ORDERS_TABLE_1">
+        <insert tableName="orders">
+            <column name="date" value="2020-02-05"/>
+            <column name="amount" value="200"/>
+            <column name="unit" value="Litre"/>
+            <column name="beer_id" value="1"/>
+            <column name="customer_id" value="1"/>
+            <column name="review_id" value="1"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

@@ -1,8 +1,6 @@
 package gmail.roadtojob2019.brewery.service.impl;
 
 import gmail.roadtojob2019.brewery.dto.ReviewDto;
-import gmail.roadtojob2019.brewery.entity.Beer;
-import gmail.roadtojob2019.brewery.entity.Customer;
 import gmail.roadtojob2019.brewery.entity.Order;
 import gmail.roadtojob2019.brewery.entity.Review;
 import gmail.roadtojob2019.brewery.repository.CustomerRepository;
@@ -24,7 +22,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @PostConstruct
     public void init() {
-        orderRepository.save(Order.builder().build());
+//        orderRepository.save(Order.builder().build());
 
 /*
         customerRepository.save(Customer.builder()

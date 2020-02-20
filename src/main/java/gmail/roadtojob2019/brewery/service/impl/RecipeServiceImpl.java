@@ -24,10 +24,12 @@ public class RecipeServiceImpl implements RecipeService {
 
     @PostConstruct
     public void init() {
+/*
         Set<Component> components = new HashSet<>();
         recipeRepository.save(Recipe.builder()
                 .components(components)
                 .build());
+*/
     }
 
     @Override

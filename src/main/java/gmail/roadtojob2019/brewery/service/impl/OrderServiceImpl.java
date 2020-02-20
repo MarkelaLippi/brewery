@@ -1,7 +1,6 @@
 package gmail.roadtojob2019.brewery.service.impl;
 
 import gmail.roadtojob2019.brewery.dto.OrderDto;
-import gmail.roadtojob2019.brewery.entity.Beer;
 import gmail.roadtojob2019.brewery.entity.Customer;
 import gmail.roadtojob2019.brewery.entity.Order;
 import gmail.roadtojob2019.brewery.mapper.OrderMapper;
@@ -28,21 +27,12 @@ public class OrderServiceImpl implements OrderService {
     @PostConstruct
     public void init() {
 /*
-        beerRepository.save(Beer
-                .builder()
-                .name("CoolBeer")
-                .description("Light, 4.8% alcohol...")
-                .price(2.5)
-                .amount(2540)
-                .unit("litre")
-                .build());
-*/
-
         customerRepository.save(Customer.builder()
                 .fullName("Ivanov Ivan")
                 .email("Ivanov@gmail.com")
                 .phone("+375297772255")
                 .build());
+*/
     }
 
     @Override

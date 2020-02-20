@@ -23,7 +23,7 @@ public class Order {
     private LocalDate date;
     @Column(name = "amount")
     private Double amount;
-    @Column(name = "unit_measure")
+    @Column(name = "unit")
     private String unit;
 
     @OneToOne
@@ -31,6 +31,7 @@ public class Order {
     private Beer beer;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)

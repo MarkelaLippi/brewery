@@ -28,7 +28,7 @@ public class Beer {
     @Column(name = "unit")
     private String unit;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "recipe_id", referencedColumnName = "id")
     private Recipe recipe;
 }

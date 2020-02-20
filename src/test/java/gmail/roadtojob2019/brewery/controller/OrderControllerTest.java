@@ -43,9 +43,9 @@ class OrderControllerTest {
                 .andExpect(content().json("[\n" +
                         "  {\n" +
                         "   \"id\" : 1, \n" +
-                        "   \"date\" : \"2020-02-05\",\n" +
+                        "   \"date\" : \"05.02.2020\",\n" +
                         "   \"beerId\" : 1,\n" +
-                        "   \"amount\" : 200,\n" +
+            //            "   \"amount\" : 200,\n" +
                         "   \"unit\" : \"Litre\",\n" +
                         "   \"customerId\" : 1\n" +
                         "  }\n" +

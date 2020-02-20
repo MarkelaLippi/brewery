@@ -1,0 +1,45 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="RoadToJob2019@gmail.com" id="CREATE_COMPONENTS_TABLE">
+        <createTable tableName="components">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="amount" type="DOUBLE"/>
+            <column name="ingredient_id" type="BIGINT"/>
+            <column name="recipe_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+
+<!--
+    <changeSet author="RoadToJob2019@gmail.com" id="FK_COMPONENTS_TABLE">
+        <addForeignKeyConstraint baseTableName="components"
+                                 baseColumnNames="recipe_id"
+                                 referencedTableName="recipes"
+                                 referencedColumnNames="id"
+                                 constraintName="FK_components_recipes"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"/>
+    </changeSet>
+-->
+
+    <changeSet author="RoadToJob2019@gmail.com" id="ADD_COMPONENTS_TABLE_1">
+        <insert tableName="components">
+            <column name="amount" value="2.5"/>
+            <column name="ingredient_id" value="1"/>
+            <column name="recipe_id" value="1"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="RoadToJob2019@gmail.com" id="ADD_COMPONENTS_TABLE_2">
+        <insert tableName="components">
+            <column name="amount" value="0.5"/>
+            <column name="ingredient_id" value="2"/>
+            <column name="recipe_id" value="1"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

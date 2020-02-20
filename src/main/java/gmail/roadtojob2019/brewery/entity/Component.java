@@ -26,5 +26,6 @@ public class Component {
     private Ingredient ingredient;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "recipe_id", nullable = false)
     private Recipe recipe;
 }
