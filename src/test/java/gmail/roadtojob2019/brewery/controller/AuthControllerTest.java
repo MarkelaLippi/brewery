@@ -3,18 +3,14 @@ package gmail.roadtojob2019.brewery.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gmail.roadtojob2019.brewery.dto.UserSignInResponseDto;
 import gmail.roadtojob2019.brewery.entity.AuthInfoEntity;
-import gmail.roadtojob2019.brewery.entity.Product;
 import gmail.roadtojob2019.brewery.entity.UserEntity;
-import gmail.roadtojob2019.brewery.repository.ProductRepository;
 import gmail.roadtojob2019.brewery.security.UserRole;
 import gmail.roadtojob2019.brewery.service.AuthInfoService;
-import gmail.roadtojob2019.brewery.service.CustomerService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.TestPropertySource;
@@ -24,9 +20,9 @@ import java.util.Optional;
 
 import static org.hamcrest.Matchers.hasLength;
 import static org.mockito.BDDMockito.willReturn;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc

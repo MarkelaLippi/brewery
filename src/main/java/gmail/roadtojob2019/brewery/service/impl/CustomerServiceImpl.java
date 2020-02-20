@@ -1,6 +1,6 @@
 package gmail.roadtojob2019.brewery.service.impl;
 
-import gmail.roadtojob2019.brewery.dto.*;
+import gmail.roadtojob2019.brewery.dto.CustomerSignUpRequestDto;
 import gmail.roadtojob2019.brewery.entity.AuthInfoEntity;
 import gmail.roadtojob2019.brewery.entity.UserEntity;
 import gmail.roadtojob2019.brewery.exception.SuchCustomerAlreadyExistException;
@@ -8,7 +8,10 @@ import gmail.roadtojob2019.brewery.mapper.CustomerSignUpRequestMapper;
 import gmail.roadtojob2019.brewery.mapper.OrderMapper;
 import gmail.roadtojob2019.brewery.mapper.ProductMapper;
 import gmail.roadtojob2019.brewery.mapper.ReviewMapper;
-import gmail.roadtojob2019.brewery.repository.*;
+import gmail.roadtojob2019.brewery.repository.AuthInfoRepository;
+import gmail.roadtojob2019.brewery.repository.OrderRepository;
+import gmail.roadtojob2019.brewery.repository.ReviewRepository;
+import gmail.roadtojob2019.brewery.repository.UserRepository;
 import gmail.roadtojob2019.brewery.security.UserRole;
 import gmail.roadtojob2019.brewery.service.CustomerService;
 import lombok.AllArgsConstructor;
@@ -16,8 +19,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -25,7 +26,6 @@ public class CustomerServiceImpl implements CustomerService {
 
     private final AuthInfoRepository authInfoRepository;
     private final UserRepository userRepository;
-    private final ProductRepository productRepository;
     private final OrderRepository orderRepository;
     private final ReviewRepository reviewRepository;
 
@@ -58,32 +58,5 @@ public class CustomerServiceImpl implements CustomerService {
         authInfoEntity.setPassword(passwordEncoder.encode(request.getPassword()));
         authInfoEntity.setUser(savedUser);
         authInfoRepository.save(authInfoEntity);
-    }
-
-    @Override
-    public String signIn(CustomerSignInRequestDto request) {
-        return "{\"id\":1}";
-    }
-
-    @Override
-    @Transactional
-    public List<ProductDto> getAllProducts() {
-        return productRepository
-                .findAll()
-                .stream()
-                .map(productMapper::destinationToSource)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public Long createOrder(OrderDto orderDto) {
-        return orderRepository.save(orderMapper.orderDtoToOrder(orderDto)).getId();
-    }
-
-    @Override
-    public Long createReview(ReviewDto reviewDto) {
-        return reviewRepository
-                .save(reviewMapper.sourceToDestination(reviewDto))
-                .getId();
     }
 }

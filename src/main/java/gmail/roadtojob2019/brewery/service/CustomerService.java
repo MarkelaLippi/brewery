@@ -9,12 +9,5 @@ public interface CustomerService {
 
     void signUp(CustomerSignUpRequestDto request) throws SuchCustomerAlreadyExistException;
 
-    String signIn(CustomerSignInRequestDto request);
-
-    List<ProductDto> getAllProducts();
-
-    Long createOrder(OrderDto orderDto);
-
-    Long createReview(ReviewDto reviewDto);
 }
 
