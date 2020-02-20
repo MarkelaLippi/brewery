@@ -21,8 +21,9 @@ public class Recipe {
     @Column(name = "id")
     private Long id;
 
-    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Component> components=new HashSet<>();
+    @OneToMany
+    @JoinColumn(name = "recipe_id", referencedColumnName = "id")
+    private Set<Component> components = new HashSet<>();
 
     @OneToOne(mappedBy = "recipe", fetch = FetchType.LAZY)
     private Beer beer;

@@ -47,7 +47,7 @@ class BeerControllerTest {
                         "    \"name\" : \"CoolBeer\",\n" +
                         "    \"description\" : \"Light, 4.8% alcohol...\",\n" +
                         "    \"price\" : \"2.5\",\n" +
-                        "    \"amount\" : 2540,\n" +
+                        "    \"amount\" : 2740,\n" +
                         "    \"unit\" : \"Litre\" \n" +
                         "  }\n" +
                         "]"));

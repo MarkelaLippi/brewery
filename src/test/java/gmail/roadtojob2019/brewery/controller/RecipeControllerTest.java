@@ -24,7 +24,7 @@ class RecipeControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json(" {\n" +
                         "\"id\" : 1," +
-                        "\"beerId\" : null," +
+                        "\"beerId\" : 1," +
                         "\"components\" : {\"Water\" : 2.5,\n" +
                         "                  \"Alcohol\" : 0.5 }\n" +
                         "  }\n"));
