@@ -22,16 +22,6 @@ public class RecipeServiceImpl implements RecipeService {
 
     private final RecipeMapper recipeMapper;
 
-    @PostConstruct
-    public void init() {
-/*
-        Set<Component> components = new HashSet<>();
-        recipeRepository.save(Recipe.builder()
-                .components(components)
-                .build());
-*/
-    }
-
     @Override
     public RecipeDto getRecipe(Long id) {
         return recipeMapper

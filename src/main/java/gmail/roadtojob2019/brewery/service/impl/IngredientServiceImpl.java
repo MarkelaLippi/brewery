@@ -18,17 +18,6 @@ public class IngredientServiceImpl implements IngredientService {
 
     private final IngredientMapper ingredientMapper;
 
-    @PostConstruct
-    public void init() {
-/*
-        ingredientRepository.save(Ingredient.builder()
-                .name("Water")
-                .amount(100.0)
-                .unit("Litre")
-                .build());
-*/
-    }
-
     @Override
     public IngredientDto getIngredient(Long id) {
         return ingredientMapper.ingredientToIngredientDto(ingredientRepository.getOne(id));

@@ -24,17 +24,6 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderMapper orderMapper;
 
-    @PostConstruct
-    public void init() {
-/*
-        customerRepository.save(Customer.builder()
-                .fullName("Ivanov Ivan")
-                .email("Ivanov@gmail.com")
-                .phone("+375297772255")
-                .build());
-*/
-    }
-
     @Override
     public Long createOrder(OrderDto orderDto) {
         final Order newOrder = Order.builder()

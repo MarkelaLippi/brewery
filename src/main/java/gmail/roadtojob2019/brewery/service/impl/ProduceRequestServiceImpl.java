@@ -21,19 +21,6 @@ public class ProduceRequestServiceImpl implements ProduceRequestService {
     private final ProduceRequestRepository produceRequestRepository;
     private final ProduceRequestMapper produceRequestMapper;
 
-    @PostConstruct
-    public void init() {
-/*
-        produceRequestRepository.save(ProduceRequest.builder()
-                .date(LocalDate.of(2020, 2, 5))
-                .beerId(1L)
-                .amount(200)
-                .term(LocalDate.of(2020, 2, 10))
-                .status("New")
-                .build());
-*/
-    }
-
     @Override
     public Long createProduceRequest(ProduceRequestDto request) {
         return produceRequestRepository

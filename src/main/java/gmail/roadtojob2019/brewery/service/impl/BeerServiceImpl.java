@@ -22,20 +22,6 @@ public class BeerServiceImpl implements BeerService {
     private final PricelistMapper pricelistMapper;
     private final BeerMapper beerMapper;
 
-    @PostConstruct
-    public void init() {
-/*
-        beerRepository.save(Beer
-                .builder()
-                .name("CoolBeer")
-                .description("Light, 4.8% alcohol...")
-                .price(2.5)
-                .amount(2540)
-                .unit("Litre")
-                .build());
-*/
-    }
-
     @Override
     public List<PricelistUnitDto> getPricelist() {
         return beerRepository

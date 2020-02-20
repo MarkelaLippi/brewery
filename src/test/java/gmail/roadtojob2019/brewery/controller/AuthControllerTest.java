@@ -44,7 +44,7 @@ class AuthControllerTest {
         willReturn(Optional.empty(), Optional.of(createAuthInfo())).given(authInfoService)
                 .findByLogin("Ivanov@gmail.com");
         // when
-        mockMvc.perform(post("/brewery/customer/sign-up")
+        mockMvc.perform(post("/brewery/sign-up")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
                         "  \"email\" : \"Ivanov@gmail.com\",\n" +
@@ -61,7 +61,7 @@ class AuthControllerTest {
     public void testCustomerSignUpWhenUserAlreadyExisted() throws Exception {
         // given
         // when
-        mockMvc.perform(post("/brewery/customer/sign-up")
+        mockMvc.perform(post("/brewery/sign-up")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
                         "  \"email\" : \"Ivanov@gmail.com\",\n" +
@@ -77,7 +77,7 @@ class AuthControllerTest {
     public void testCustomerSignInIsOk() throws Exception {
         // given
         // when
-        mockMvc.perform(post("/brewery/customer/sign-in")
+        mockMvc.perform(post("/brewery/sign-in")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
                         "  \"email\" : \"Ivanov@gmail.com\",\n" +
@@ -92,7 +92,7 @@ class AuthControllerTest {
     public void testCustomerSignInWithWrongPassword() throws Exception {
         // given
         // when
-        mockMvc.perform(post("/brewery/customer/sign-in")
+        mockMvc.perform(post("/brewery/sign-in")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
                         "  \"email\" : \"Ivanov@gmail.com\",\n" +
@@ -106,7 +106,7 @@ class AuthControllerTest {
     public void testCustomerSignInWithWrongEmail() throws Exception {
         // given
         // when
-        mockMvc.perform(post("/brewery/customer/sign-in")
+        mockMvc.perform(post("/brewery/sign-in")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
                         "  \"email\" : \"Wrong email\",\n" +
@@ -120,7 +120,7 @@ class AuthControllerTest {
         final AuthInfoEntity authInfo = createAuthInfo();
         willReturn(Optional.of(authInfo)).given(authInfoService).findByLogin("Ivanov@gmail.com");
 
-        final String response = mockMvc.perform(post("/brewery/customer/sign-in")
+        final String response = mockMvc.perform(post("/brewery/sign-in")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
                         "  \"email\" : \"Ivanov@gmail.com\",\n" +
