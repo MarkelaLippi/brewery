@@ -9,13 +9,13 @@ import org.mapstruct.Mappings;
 @Mapper(componentModel = "spring")
 public interface OrderMapper {
     @Mappings({
-            @Mapping(target = "beer.id", source = "beerId"),
+            //@Mapping(target = "beer.id", source = "beerId"),
             @Mapping(target = "customer.id", source = "customerId")
     })
     Order orderDtoToOrder(OrderDto dto);
 
     @Mappings({
-            @Mapping(target = "beerId", source = "beer.id"),
+            //@Mapping(target = "beerId", source = "beer.id"),
             @Mapping(target = "customerId", source = "customer.id")
     })
     OrderDto orderToOrderDto(Order order);

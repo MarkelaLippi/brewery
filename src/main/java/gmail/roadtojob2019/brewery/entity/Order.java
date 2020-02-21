@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -21,19 +23,31 @@ public class Order {
     private Long id;
     @Column(name = "date")
     private LocalDate date;
-    @Column(name = "amount")
-    private Double amount;
-    @Column(name = "unit")
-    private String unit;
-
-    @OneToOne
-    @JoinColumn(name = "beer_id", referencedColumnName = "id")
-    private Beer beer;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
+    @OneToMany
+    @JoinColumn(name = "order_id", referencedColumnName = "id")
+    Set<OrderItem> orderItems=new HashSet<>();
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Review>reviews=new HashSet<>();
+
+/*
+    @Column(name = "unit")
+    private String unit;
+
+    @Column(name = "amount")
+    private Double amount;
+
+    @OneToOne
+    @JoinColumn(name = "beer_id", referencedColumnName = "id")
+    private Beer beer;
+
+
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
     private Review review;
+*/
 }

@@ -28,9 +28,6 @@ public class OrderServiceImpl implements OrderService {
     public Long createOrder(OrderDto orderDto) {
         final Order newOrder = Order.builder()
                 .date(orderDto.getDate())
-                .amount(orderDto.getAmount())
-                .unit(orderDto.getUnit())
-                .beer(beerRepository.getOne(orderDto.getBeerId()))
                 .customer(customerRepository.getOne(orderDto.getCustomerId()))
                 .build();
         return orderRepository.save(newOrder).getId();

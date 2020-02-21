@@ -13,6 +13,7 @@
     <include file="migrations/db-changelog-produce-requests.xml"/>
     <include file="migrations/db-changelog-recipes.xml"/>
     <include file="migrations/db-changelog-reviews.xml"/>
-    <include file="migrations/db-changelog-authinfoentities.xml"/>
-    <include file="migrations/db-changelog-userentities.xml"/>
+    <include file="migrations/db-changelog-auth-info-entities.xml"/>
+    <include file="migrations/db-changelog-user-entities.xml"/>
+    <include file="migrations/db-changelog-order-items.xml"/>
 </databaseChangeLog>
