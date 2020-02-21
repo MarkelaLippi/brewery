@@ -15,18 +15,6 @@
         </createTable>
     </changeSet>
 
-<!--
-    <changeSet author="RoadToJob2019@gmail.com" id="FK_COMPONENTS_TABLE">
-        <addForeignKeyConstraint baseTableName="components"
-                                 baseColumnNames="recipe_id"
-                                 referencedTableName="recipes"
-                                 referencedColumnNames="id"
-                                 constraintName="FK_components_recipes"
-                                 onDelete="CASCADE"
-                                 onUpdate="RESTRICT"/>
-    </changeSet>
--->
-
     <changeSet author="RoadToJob2019@gmail.com" id="ADD_COMPONENTS_TABLE_1">
         <insert tableName="components">
             <column name="amount" value="2.5"/>

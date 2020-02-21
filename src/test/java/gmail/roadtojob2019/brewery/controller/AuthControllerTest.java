@@ -40,19 +40,14 @@ class AuthControllerTest {
 
     @Test
     public void testCustomerSignUpIsCreated() throws Exception {
-        // given
-        willReturn(Optional.empty(), Optional.of(createAuthInfo())).given(authInfoService)
-                .findByLogin("Ivanov@gmail.com");
-        // when
         mockMvc.perform(post("/brewery/sign-up")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
                         "  \"email\" : \"Ivanov@gmail.com\",\n" +
+                        "  \"password\" : \"12345678\", \n" +
                         "  \"phone\" : \"+375297772255\",\n" +
-                        "  \"login\" : \"Ivanov\",\n" +
-                        "  \"password\" : \"12345678\" \n" +
+                        "  \"fullName\" : \"Ivanov Ivan\" \n" +
                         "}"))
-                // then
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("token", hasLength(145)));
     }
@@ -65,9 +60,9 @@ class AuthControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
                         "  \"email\" : \"Ivanov@gmail.com\",\n" +
+                        "  \"password\" : \"12345678\", \n" +
                         "  \"phone\" : \"+375297772255\",\n" +
-                        "  \"login\" : \"Ivanov\",\n" +
-                        "  \"password\" : \"12345678\" \n" +
+                        "  \"fullName\" : \"Ivanov Ivan\" \n" +
                         "}"))
                 // then
                 .andExpect(status().isBadRequest());

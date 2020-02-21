@@ -1,21 +1,22 @@
 package gmail.roadtojob2019.brewery.entity;
 
+import gmail.roadtojob2019.brewery.converters.RoleConverter;
 import gmail.roadtojob2019.brewery.security.UserRole;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
 @Entity
+@Table(name = "user_entities")
 public class UserEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
+    @Column(name = "email")
     private String email;
-
+    @Column(name = "role")
+    @Convert(converter = RoleConverter.class)
     private UserRole userRole;
 }

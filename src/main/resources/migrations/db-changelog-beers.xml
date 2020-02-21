@@ -18,18 +18,6 @@
         </createTable>
     </changeSet>
 
-<!--
-    <changeSet author="RoadToJob2019@gmail.com" id="FK_BEERS_TABLE">
-        <addForeignKeyConstraint baseTableName="beers"
-                                 baseColumnNames="recipe_id"
-                                 referencedTableName="recipes"
-                                 referencedColumnNames="id"
-                                 constraintName="FK_beers_recipes"
-                                 onDelete="CASCADE"
-                                 onUpdate="RESTRICT"/>
-    </changeSet>
--->
-
     <changeSet author="RoadToJob2019@gmail.com" id="ADD_BEERS_TABLE_1">
         <insert tableName="beers">
             <column name="name" value="CoolBeer"/>
