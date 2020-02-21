@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-@TestPropertySource("classpath:application-test.properties")
+//@TestPropertySource("classpath:application-test.properties")
 class AuthControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -54,8 +54,6 @@ class AuthControllerTest {
 
     @Test
     public void testCustomerSignUpWhenUserAlreadyExisted() throws Exception {
-        // given
-        // when
         mockMvc.perform(post("/brewery/sign-up")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
@@ -64,50 +62,40 @@ class AuthControllerTest {
                         "  \"phone\" : \"+375297772255\",\n" +
                         "  \"fullName\" : \"Ivanov Ivan\" \n" +
                         "}"))
-                // then
                 .andExpect(status().isBadRequest());
     }
 
     @Test
-    public void testCustomerSignInIsOk() throws Exception {
-        // given
-        // when
+    public void testUserSignInIsOk() throws Exception {
         mockMvc.perform(post("/brewery/sign-in")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
-                        "  \"email\" : \"Ivanov@gmail.com\",\n" +
+                        "  \"email\" : \"Petrov@gmail.com\",\n" +
                         "  \"password\" : \"12345678\"\n" +
                         "}"))
-                // then
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("token", hasLength(145)));
     }
 
     @Test
-    public void testCustomerSignInWithWrongPassword() throws Exception {
-        // given
-        // when
+    public void testUserSignInWithWrongPassword() throws Exception {
         mockMvc.perform(post("/brewery/sign-in")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
-                        "  \"email\" : \"Ivanov@gmail.com\",\n" +
+                        "  \"email\" : \"Sydorov@gmail.com\",\n" +
                         "  \"password\" : \"Wrong password\"\n" +
                         "}"))
-                // then
                 .andExpect(status().isForbidden());
     }
 
     @Test
-    public void testCustomerSignInWithWrongEmail() throws Exception {
-        // given
-        // when
+    public void testUserSignInWithWrongEmail() throws Exception {
         mockMvc.perform(post("/brewery/sign-in")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
                         "  \"email\" : \"Wrong email\",\n" +
                         "  \"password\" : \"12345678\"\n" +
                         "}"))
-                // then
                 .andExpect(status().isForbidden());
     }
 
