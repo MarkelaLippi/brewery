@@ -25,11 +25,13 @@ public class BeerController {
     }
 */
 
+/*
     @GetMapping("sales/beers")
     @ResponseStatus(HttpStatus.OK)
     public List<BeerDto> getAllBeers() {
         return beerService.getAllBeers();
     }
+*/
 
     @PatchMapping(value = "brewer/beers/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)

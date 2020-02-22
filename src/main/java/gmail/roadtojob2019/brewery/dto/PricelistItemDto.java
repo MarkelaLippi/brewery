@@ -10,4 +10,5 @@ public class PricelistItemDto {
     private String beerName;
     private String beerDescription;
     private Double price;
+    private String unit;
 }

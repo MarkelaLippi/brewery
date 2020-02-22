@@ -34,4 +34,21 @@ class ProductControllerTest {
                         "  }\n" +
                         "]"));
     }
+
+    @Test
+    void testGetAllBeersIsOk() throws Exception {
+        mockMvc.perform(get("/brewery/sales/products?type=beer"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[\n" +
+                        "  {\n" +
+                        "    \"id\" : 1, \n" +
+                        "    \"name\" : \"CoolBeer\",\n" +
+                        "    \"description\" : \"Light, 4.8% alcohol...\",\n" +
+                        "    \"price\" : 2.5,\n" +
+                        "    \"amount\" : 500.0,\n" +
+                        "    \"unit\" : \"LITRE\" \n" +
+                        "  }\n" +
+                        "]"));
+    }
+
 }
