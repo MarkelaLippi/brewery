@@ -1,0 +1,49 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="RoadToJob2019@gmail.com" id="CREATE_PRODUCTS_TABLE">
+        <createTable tableName="products">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="price" type="DOUBLE"/>
+            <column name="type" type="VARCHAR(255)"/>
+            <column name="unit" type="VARCHAR(255)"/>
+            <column name="recipe_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="RoadToJob2019@gmail.com" id="ADD_PRODUCTS_TABLE_1">
+        <insert tableName="products">
+            <column name="name" value="CoolBeer"/>
+            <column name="description" value="Light, 4.8% alcohol..."/>
+            <column name="price" value="2.5"/>
+            <column name="type" value="Beer"/>
+            <column name="unit" value="Litre"/>
+            <column name="recipe_id" value="1"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="RoadToJob2019@gmail.com" id="ADD_PRODUCTS_TABLE_2">
+        <insert tableName="products">
+            <column name="name" value="Water"/>
+            <column name="description" value="Artesian, ..."/>
+            <column name="type" value="Ingredient"/>
+            <column name="unit" value="Litre"/>
+        </insert>
+    </changeSet>
+
+    <changeSet author="RoadToJob2019@gmail.com" id="ADD_PRODUCTS_TABLE_3">
+        <insert tableName="products">
+            <column name="name" value="Alcohol"/>
+            <column name="description" value="Concentration 90%, ..."/>
+            <column name="type" value="Ingredient"/>
+            <column name="unit" value="Litre"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

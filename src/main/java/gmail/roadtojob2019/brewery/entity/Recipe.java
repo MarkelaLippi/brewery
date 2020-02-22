@@ -27,4 +27,7 @@ public class Recipe {
 
     @OneToOne(mappedBy = "recipe", fetch = FetchType.LAZY)
     private Beer beer;
+
+    @OneToOne(mappedBy = "recipe", fetch = FetchType.LAZY)
+    private Product product;
 }
