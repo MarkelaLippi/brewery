@@ -18,7 +18,7 @@ public interface RecipeMapper {
     Recipe recipeDtoToRecipe(RecipeDto recipeDto);
 
     @Mappings({
-            @Mapping(target = "beerId", source = "beer.id")
+            @Mapping(target = "beerId", source = "productId")
     })
     RecipeDto recipeToRecipeDto(Recipe recipe);
 

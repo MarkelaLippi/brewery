@@ -17,4 +17,5 @@
     <include file="migrations/db-changelog-user-entities.xml"/>
     <include file="migrations/db-changelog-order-items.xml"/>
     <include file="migrations/db-changelog-products.xml"/>
+    <include file="migrations/db-changelog-recipe-items.xml"/>
 </databaseChangeLog>

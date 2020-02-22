@@ -20,14 +20,20 @@ public class Recipe {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+    @Column(name = "product_id")
+    private Long productId;
 
+    @OneToMany
+    @JoinColumn(name = "recipe_id", referencedColumnName = "id")
+    Set<RecipeItem> recipeItems=new HashSet<>();
+
+/*
     @OneToMany
     @JoinColumn(name = "recipe_id", referencedColumnName = "id")
     private Set<Component> components = new HashSet<>();
 
     @OneToOne(mappedBy = "recipe", fetch = FetchType.LAZY)
     private Beer beer;
+*/
 
-    @OneToOne(mappedBy = "recipe", fetch = FetchType.LAZY)
-    private Product product;
 }

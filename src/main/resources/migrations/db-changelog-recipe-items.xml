@@ -4,18 +4,23 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
-    <changeSet author="RoadToJob2019@gmail.com" id="CREATE_RECIPES_TABLE">
-        <createTable tableName="recipes">
+    <changeSet author="RoadToJob2019@gmail.com" id="CREATE_RECIPE-ITEMS_TABLE">
+        <createTable tableName="recipe_items">
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
+            <column name="recipe_id" type="BIGINT"/>
             <column name="product_id" type="BIGINT"/>
+            <column name="amount" type="DOUBLE"/>
         </createTable>
     </changeSet>
 
-    <changeSet author="RoadToJob2019@gmail.com" id="ADD_RECIPES_TABLE_1">
-        <insert tableName="recipes">
-            <column name="product_id" value="1"/>
+    <changeSet author="RoadToJob2019@gmail.com" id="ADD_RECIPE-ITEMS_TABLE_1">
+        <insert tableName="recipe_items">
+            <column name="recipe_id" value="1"/>
+            <column name="product_id" value="2"/>
+            <column name="amount" value="3"/>
         </insert>
     </changeSet>
+
 </databaseChangeLog>
