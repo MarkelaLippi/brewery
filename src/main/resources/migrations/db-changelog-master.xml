@@ -19,4 +19,5 @@
     <include file="migrations/db-changelog-recipe-items.xml"/>
     <include file="migrations/db-changelog-produce-requests.xml"/>
     <include file="migrations/db-changelog-produce-request-items.xml"/>
+    <include file="migrations/db-changelog-storage.xml"/>
 </databaseChangeLog>
