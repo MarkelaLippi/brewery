@@ -17,11 +17,13 @@ public class BeerController {
 
     private final BeerService beerService;
 
+/*
     @GetMapping("customer/pricelist")
     @ResponseStatus(HttpStatus.OK)
     public List<PricelistUnitDto> getPricelist() {
         return beerService.getPricelist();
     }
+*/
 
     @GetMapping("sales/beers")
     @ResponseStatus(HttpStatus.OK)

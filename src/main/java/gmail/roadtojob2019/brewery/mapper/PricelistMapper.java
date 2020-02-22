@@ -1,8 +1,7 @@
 package gmail.roadtojob2019.brewery.mapper;
 
-import gmail.roadtojob2019.brewery.dto.PricelistDto;
-import gmail.roadtojob2019.brewery.dto.PricelistUnitDto;
-import gmail.roadtojob2019.brewery.entity.Beer;
+import gmail.roadtojob2019.brewery.dto.PricelistItemDto;
+import gmail.roadtojob2019.brewery.entity.Product;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -14,5 +13,5 @@ public interface PricelistMapper {
             @Mapping(target = "beerName", source = "name"),
             @Mapping(target = "beerDescription", source = "description")
     })
-    PricelistUnitDto beerToPriceListUnitDto(Beer beer);
+    PricelistItemDto productToPricelistItemDto(Product product);
 }

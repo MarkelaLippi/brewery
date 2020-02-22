@@ -10,7 +10,6 @@ import gmail.roadtojob2019.brewery.service.BeerService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,14 +21,16 @@ public class BeerServiceImpl implements BeerService {
     private final PricelistMapper pricelistMapper;
     private final BeerMapper beerMapper;
 
+/*
     @Override
     public List<PricelistUnitDto> getPricelist() {
         return beerRepository
                 .findAll()
                 .stream()
-                .map(pricelistMapper::beerToPriceListUnitDto)
+                .map(pricelistMapper::productToPricelistItemDto)
                 .collect(Collectors.toList());
     }
+*/
 
     @Override
     public List<BeerDto> getAllBeers() {
