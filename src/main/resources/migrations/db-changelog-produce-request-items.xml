@@ -1,0 +1,25 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="RoadToJob2019@gmail.com" id="CREATE_PRODUCE-REQUEST-ITEMS_TABLE">
+        <createTable tableName="produce_request_items">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="produce_request_id" type="BIGINT"/>
+            <column name="product_id" type="BIGINT"/>
+            <column name="amount" type="DOUBLE"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="RoadToJob2019@gmail.com" id="ADD_PRODUCE-REQUEST-ITEMS_TABLE_1">
+        <insert tableName="produce_request_items">
+            <column name="produce_request_id" value="1"/>
+            <column name="product_id" value="1"/>
+            <column name="amount" value="350"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

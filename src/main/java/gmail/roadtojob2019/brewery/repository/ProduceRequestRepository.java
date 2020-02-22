@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface ProduceRequestRepository extends JpaRepository<ProduceRequest,Long> {
-    List<ProduceRequest> findByStatusIgnoreCase(String status);
+    List<ProduceRequest> findByStatus(String status);
 }

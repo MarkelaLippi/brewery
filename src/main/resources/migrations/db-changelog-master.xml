@@ -10,7 +10,6 @@
     <include file="migrations/db-changelog-customers.xml"/>
     <include file="migrations/db-changelog-ingredients.xml"/>
     <include file="migrations/db-changelog-orders.xml"/>
-    <include file="migrations/db-changelog-produce-requests.xml"/>
     <include file="migrations/db-changelog-recipes.xml"/>
     <include file="migrations/db-changelog-reviews.xml"/>
     <include file="migrations/db-changelog-auth-info-entities.xml"/>
@@ -18,4 +17,6 @@
     <include file="migrations/db-changelog-order-items.xml"/>
     <include file="migrations/db-changelog-products.xml"/>
     <include file="migrations/db-changelog-recipe-items.xml"/>
+    <include file="migrations/db-changelog-produce-requests.xml"/>
+    <include file="migrations/db-changelog-produce-request-items.xml"/>
 </databaseChangeLog>

@@ -3,6 +3,7 @@ package gmail.roadtojob2019.brewery.service.impl;
 import gmail.roadtojob2019.brewery.dto.ProduceRequestDto;
 import gmail.roadtojob2019.brewery.entity.Beer;
 import gmail.roadtojob2019.brewery.entity.ProduceRequest;
+import gmail.roadtojob2019.brewery.entity.Status;
 import gmail.roadtojob2019.brewery.mapper.ProduceRequestMapper;
 import gmail.roadtojob2019.brewery.repository.ProduceRequestRepository;
 import gmail.roadtojob2019.brewery.service.ProduceRequestService;
@@ -31,7 +32,7 @@ public class ProduceRequestServiceImpl implements ProduceRequestService {
     @Override
     public List<ProduceRequestDto> getProduceRequestsByStatus(String status) {
         return produceRequestRepository
-                .findByStatusIgnoreCase(status)
+                .findByStatus(status)
                 .stream()
                 .map(produceRequestMapper::produceRequestToProduceRequestDto)
                 .collect(Collectors.toList());
@@ -45,7 +46,7 @@ public class ProduceRequestServiceImpl implements ProduceRequestService {
     @Override
     public Long changeProduceRequestStatus(Long id, ProduceRequestDto produceRequestDto) {
         ProduceRequest produceRequest = produceRequestRepository.findById(id).get();
-        produceRequest.setStatus(produceRequestDto.getStatus());
+        produceRequest.setStatus(Status.valueOf(produceRequestDto.getStatus()));
         return produceRequest.getId();
     }
 

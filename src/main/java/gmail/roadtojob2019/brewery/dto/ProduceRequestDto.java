@@ -12,8 +12,10 @@ public class ProduceRequestDto {
     private Long id;
     @JsonFormat(pattern = "dd.MM.yyyy")
     private LocalDate date;
+/*
     private Long beerId;
     private Integer amount;
+*/
     @JsonFormat(pattern = "dd.MM.yyyy")
     private LocalDate term;
     private String status;
