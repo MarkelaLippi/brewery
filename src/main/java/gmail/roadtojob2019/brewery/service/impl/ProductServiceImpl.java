@@ -2,6 +2,8 @@ package gmail.roadtojob2019.brewery.service.impl;
 
 import gmail.roadtojob2019.brewery.dto.PricelistItemDto;
 import gmail.roadtojob2019.brewery.dto.ProductDto;
+import gmail.roadtojob2019.brewery.entity.Product;
+import gmail.roadtojob2019.brewery.entity.Storage;
 import gmail.roadtojob2019.brewery.entity.Type;
 import gmail.roadtojob2019.brewery.mapper.PricelistMapper;
 import gmail.roadtojob2019.brewery.mapper.ProductMapper;
@@ -41,5 +43,14 @@ public class ProductServiceImpl implements ProductService {
                 .stream()
                 .map(productMapper::productToProductDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Long changeProductAmount(Long id, ProductDto productDto) {
+        Product productBeforeChangingAmount = productRepository.findById(id).get();
+        Storage storage = productBeforeChangingAmount.getStorage();
+        storage.setAmount(productDto.getAmount());
+        Product productAfterChangingAmount = productRepository.save(productBeforeChangingAmount);
+        return productAfterChangingAmount.getId();
     }
 }

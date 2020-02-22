@@ -9,4 +9,6 @@ public interface ProductService {
     List<PricelistItemDto> getPricelist();
 
     List<ProductDto> getAllProductsByType(String type);
+
+    Long changeProductAmount(Long id, ProductDto amount);
 }

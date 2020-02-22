@@ -33,10 +33,12 @@ public class BeerController {
     }
 */
 
+/*
     @PatchMapping(value = "brewer/beers/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public Long changeBeerAmount(@PathVariable Long id, @RequestBody BeerDto beer) {
         return beerService.changeBeerAmount(id, beer);
     }
+*/
 
 }
