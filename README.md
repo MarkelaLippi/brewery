@@ -284,11 +284,12 @@ Response: ```200 OK```
 [
   {
        "id" : 1, 
-       "date" : "2020-02-05",
-       "beerId" : 1,
-       "amount" : 200,
-       "unit" : "Litre",
-       "customerId" : 1
+       "date" : "05.02.2020",
+       "customerId" : 1,
+       "orderItemDtos" : [
+                           {"productId" : 1,
+                            "amount" : 250.0 }
+                         ]
   }
 ]
 ```
@@ -298,7 +299,7 @@ Response: ```200 OK```
 Request:
 
 ```
-GET /brewery/sales/beers
+GET /brewery/sales/products?type=beer
 ```
 Response: ```200 OK```
 ```json
@@ -307,9 +308,9 @@ Response: ```200 OK```
        "id" : 1,
        "name" : "CoolBeer",
        "description" : "Light, 4.8% alcohol...",
-       "price" : "2.5",
-       "amount" : 2540,
-       "unit" : "Litre" 
+       "price" : 2.5,
+       "amount" : 500.0,
+       "unit" : "LITRE"
   }
 ]
 ```
@@ -324,10 +325,12 @@ POST /brewery/sales/requests
 ```json
 {
        "date" : "2020-02-05",
-       "beerId" : 1,
-       "amount" : 200,
        "term" : "2020-02-10",
-       "status" : "New"
+       "status" : "NEW",
+       "produceRequestItemDtos" : [
+                                    {"productId" : 1,
+                                     "amount" : 150 }
+                                  ]
 }
 ```
 Response: ```201 Created```

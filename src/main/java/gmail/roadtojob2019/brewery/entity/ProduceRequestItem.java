@@ -18,8 +18,6 @@ public class ProduceRequestItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    @Column(name = "produce_request_id")
-    private Long produceRequestId;
     @Column(name = "amount")
     private Double amount;
 
@@ -27,4 +25,7 @@ public class ProduceRequestItem {
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product product;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "produce_request_id", nullable = false)
+    private ProduceRequest produceRequest;
 }

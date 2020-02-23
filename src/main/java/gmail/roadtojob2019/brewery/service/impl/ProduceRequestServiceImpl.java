@@ -1,9 +1,12 @@
 package gmail.roadtojob2019.brewery.service.impl;
 
 import gmail.roadtojob2019.brewery.dto.ProduceRequestDto;
+import gmail.roadtojob2019.brewery.dto.ProduceRequestItemDto;
 import gmail.roadtojob2019.brewery.entity.Beer;
 import gmail.roadtojob2019.brewery.entity.ProduceRequest;
+import gmail.roadtojob2019.brewery.entity.ProduceRequestItem;
 import gmail.roadtojob2019.brewery.entity.Status;
+import gmail.roadtojob2019.brewery.mapper.ProduceRequestItemMapper;
 import gmail.roadtojob2019.brewery.mapper.ProduceRequestMapper;
 import gmail.roadtojob2019.brewery.repository.ProduceRequestRepository;
 import gmail.roadtojob2019.brewery.service.ProduceRequestService;
@@ -21,12 +24,14 @@ public class ProduceRequestServiceImpl implements ProduceRequestService {
 
     private final ProduceRequestRepository produceRequestRepository;
     private final ProduceRequestMapper produceRequestMapper;
+    private final ProduceRequestItemMapper produceRequestItemMapper;
+
 
     @Override
     public Long createProduceRequest(ProduceRequestDto request) {
-        return produceRequestRepository
-                .save(produceRequestMapper.produceRequestDtoToProduceRequest(request))
-                .getId();
+        final ProduceRequest newProduceRequest = produceRequestMapper.produceRequestDtoToProduceRequest(request);
+        final ProduceRequest savedProduceRequest = produceRequestRepository.save(newProduceRequest);
+        return savedProduceRequest.getId();
     }
 
     @Override

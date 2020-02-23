@@ -19,7 +19,7 @@
         <insert tableName="produce_requests">
             <column name="date" value="2020-02-05"/>
             <column name="expiration_date" value="2020-02-10"/>
-            <column name="status" value="New"/>
+            <column name="status" value="NEW"/>
         </insert>
     </changeSet>
 </databaseChangeLog>

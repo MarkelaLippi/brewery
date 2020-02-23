@@ -9,7 +9,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -31,15 +33,6 @@ public class ProduceRequest {
     @Convert(converter = StatusConverter.class)
     private Status status;
 
-    @OneToMany
-    @JoinColumn(name = "produce_request_id", referencedColumnName = "id")
-    Set<ProduceRequestItem> produceRequestItems=new HashSet<>();
-
-
-    /*
-        @Column(name = "beer_id")
-        private Long beerId;
-        @Column(name = "amount")
-        private Integer amount;
-    */
+    @OneToMany(mappedBy = "produceRequest", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<ProduceRequestItem> produceRequestItems = new ArrayList<>();
 }

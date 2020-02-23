@@ -25,10 +25,12 @@ class ProduceRequestControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
                         "  \"date\" : \"2020-02-05\",\n" +
-                        "  \"beerId\" : 1,\n" +
-                        "  \"amount\" : 200,\n" +
                         "  \"term\" : \"2020-02-10\",\n" +
-                        "  \"status\" : \"New\"\n" +
+                        "  \"status\" : \"NEW\",\n" +
+                        "  \"produceRequestItemDtos\" : [\n" +
+                        "                                 {\"productId\" : 1,\n" +
+                        "                                  \"amount\" : 150 }\n" +
+                        "                               ]\n" +
                         "}"))
                 .andExpect(status().isCreated())
                 .andExpect(content().json("2"));
