@@ -33,6 +33,6 @@ class ReviewControllerTest {
                         "  \"orderId\" : 1\n" +
                         "}"))
                 .andExpect(status().isCreated())
-                .andExpect(content().json("1"));
+                .andExpect(content().json("2"));
     }
 }

@@ -1,6 +1,7 @@
 package gmail.roadtojob2019.brewery.service.impl;
 
 import gmail.roadtojob2019.brewery.dto.ReviewDto;
+import gmail.roadtojob2019.brewery.entity.Customer;
 import gmail.roadtojob2019.brewery.entity.Order;
 import gmail.roadtojob2019.brewery.entity.Review;
 import gmail.roadtojob2019.brewery.repository.CustomerRepository;
@@ -10,7 +11,7 @@ import gmail.roadtojob2019.brewery.service.ReviewService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
+import java.time.LocalDate;
 
 @Service
 @AllArgsConstructor
@@ -22,14 +23,17 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public Long createReview(ReviewDto reviewDto) {
+        final LocalDate date = reviewDto.getDate();
+        final String content = reviewDto.getContent();
+        final Customer customer = customerRepository.getOne(reviewDto.getCustomerId());
+        final Order order = orderRepository.findById(reviewDto.getOrderId()).get();
         final Review newReview = Review.builder()
-                .date(reviewDto.getDate())
-                .content(reviewDto.getContent())
-                .customer(customerRepository.getOne(reviewDto.getCustomerId()))
-                .order(orderRepository.getOne(reviewDto.getOrderId()))
+                .date(date)
+                .content(content)
+                .customer(customer)
+                .order(order)
                 .build();
-        return reviewRepository
-                .save(newReview)
-                .getId();
+        Review savedReview = reviewRepository.save(newReview);
+        return savedReview.getId();
     }
 }

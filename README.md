@@ -214,7 +214,7 @@ POST /brewery/customer/orders
         "customerId" : 1,
         "orderItemDtos" : [
                              {"productId" : 1,
-                              "amount" : 10 }
+                              "amount" : 250.0 }
                           ]
 }
 ```
