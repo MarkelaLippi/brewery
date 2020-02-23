@@ -52,9 +52,11 @@ public class ProduceRequestServiceImpl implements ProduceRequestService {
 
     @Override
     public Long changeProduceRequestStatus(Long id, ProduceRequestDto produceRequestDto) {
-        ProduceRequest produceRequest = produceRequestRepository.findById(id).get();
-        produceRequest.setStatus(Status.valueOf(produceRequestDto.getStatus()));
-        return produceRequest.getId();
+        Status requiredStatus = Status.valueOf(produceRequestDto.getStatus().toUpperCase());
+        ProduceRequest produceRequestBeforeChangingStatus = produceRequestRepository.findById(id).get();
+        produceRequestBeforeChangingStatus.setStatus(requiredStatus);
+        ProduceRequest produceRequestAfterChangingStatus = produceRequestRepository.save(produceRequestBeforeChangingStatus);
+        return produceRequestAfterChangingStatus.getId();
     }
 
 }

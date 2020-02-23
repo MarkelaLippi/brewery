@@ -396,11 +396,13 @@ GET /brewery/brewer/requests/1"
 Response: ```200 OK```
 ```json
 {
-       "date" : "05.02.2020",
-       "beerId" : "BudBeer",
-       "amount" : 200,
-       "term" : "10.02.2020",
-       "status" : "New"
+       "date" : "2020-02-05",
+       "term" : "2020-02-10",
+       "status" : "NEW",
+       "produceRequestItemDtos" : [
+                                    {"productId" : 1,
+                                      "amount" : 350.0 }
+                                  ]
 }
 ```
 ##BREWER -STEP-4 Как работник цеха пивоварения, изучив новое требование от отдела продаж, я принимаю его в производство. Для этого я меняю его статус на "In process".
