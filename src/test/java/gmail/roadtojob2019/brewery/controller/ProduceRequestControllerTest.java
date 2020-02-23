@@ -43,10 +43,12 @@ class ProduceRequestControllerTest {
                 .andExpect(content().json("[\n" +
                         "  {\n" +
                         "  \"date\" : \"05.02.2020\",\n" +
-                        "  \"beerId\" : 1,\n" +
-                    //    "  \"amount\" : 200,\n" +
                         "  \"term\" : \"10.02.2020\",\n" +
-                        "  \"status\" : \"New\"\n" +
+                        "  \"status\" : \"NEW\",\n" +
+                        "  \"produceRequestItemDtos\" : [\n" +
+                        "                                 {\"productId\" : 1,\n" +
+                        "                                  \"amount\" : 350.0 }\n" +
+                        "                               ]\n" +
                         "  }\n" +
                         "]"));
     }

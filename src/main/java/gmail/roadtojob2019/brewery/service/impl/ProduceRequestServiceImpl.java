@@ -36,11 +36,13 @@ public class ProduceRequestServiceImpl implements ProduceRequestService {
 
     @Override
     public List<ProduceRequestDto> getProduceRequestsByStatus(String status) {
-        return produceRequestRepository
-                .findByStatus(status)
+        Status requiredStatus = Status.valueOf(status.toUpperCase());
+        List<ProduceRequest> produceRequests = produceRequestRepository.findByStatus(requiredStatus);
+        List<ProduceRequestDto> produceRequestDtos = produceRequests
                 .stream()
                 .map(produceRequestMapper::produceRequestToProduceRequestDto)
                 .collect(Collectors.toList());
+        return produceRequestDtos;
     }
 
     @Override
