@@ -18,8 +18,6 @@ public class RecipeItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    @Column(name = "recipe_id")
-    private Long recipeId;
     @Column(name = "amount")
     private Double amount;
 
@@ -27,4 +25,7 @@ public class RecipeItem {
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product product;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="recipe_id", nullable=false)
+    private Recipe recipe;
 }

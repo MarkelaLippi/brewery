@@ -28,21 +28,25 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<PricelistItemDto> getPricelist() {
-        return productRepository
-                .findByType(BEER)
+        List<Product> products = productRepository
+                .findByType(BEER);
+        List<PricelistItemDto> pricelistItemDtos = products
                 .stream()
                 .map(pricelistMapper::productToPricelistItemDto)
                 .collect(Collectors.toList());
+        return pricelistItemDtos;
     }
 
     @Override
     public List<ProductDto> getAllProductsByType(String type) {
         Type requiredType = Type.valueOf(type.toUpperCase());
-        return productRepository
-                .findByType(requiredType)
+        List<Product> products = productRepository
+                .findByType(requiredType);
+        List<ProductDto> productDtos = products
                 .stream()
                 .map(productMapper::productToProductDto)
                 .collect(Collectors.toList());
+        return productDtos;
     }
 
     @Override

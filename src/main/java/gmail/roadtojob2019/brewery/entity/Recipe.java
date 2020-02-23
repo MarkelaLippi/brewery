@@ -6,7 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -23,7 +25,6 @@ public class Recipe {
     @Column(name = "product_id")
     private Long productId;
 
-    @OneToMany
-    @JoinColumn(name = "recipe_id", referencedColumnName = "id")
-    Set<RecipeItem> recipeItems = new HashSet<>();
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RecipeItem> recipeItems = new ArrayList<>();
 }

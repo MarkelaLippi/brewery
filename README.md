@@ -414,7 +414,7 @@ PATCH /brewery/brewer/requests/1
 ```
 ```json
 {
-       "status" : "In process"
+       "status" : "In_progress"
 }
 ```
 Response: ```200 OK```
@@ -436,9 +436,11 @@ Response: ```200 OK```
 ```json
 {
        "id" : 1,
-       "beerId" : 1, 
-       "components" : {"Water" : 2.5,
-                       "Alcohol" : 0.5 }
+       "productId" : 1,
+       "recipeItemDtos" : [
+                            {"productId" : 2,
+                             "amount" : 3.0 }
+                          ]
 }
 ```
 

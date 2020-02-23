@@ -1,28 +1,13 @@
 package gmail.roadtojob2019.brewery.mapper;
 
-import gmail.roadtojob2019.brewery.dto.RecipeDto;
 import gmail.roadtojob2019.brewery.dto.RecipeItemDto;
-import gmail.roadtojob2019.brewery.entity.Recipe;
 import gmail.roadtojob2019.brewery.entity.RecipeItem;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
-import java.util.List;
-
 @Mapper(componentModel = "spring")
-public interface RecipeMapper {
-
-    @Mappings({
-            @Mapping(target = "recipeItems", source = "recipeItemDtos")
-    })
-    Recipe recipeDtoToRecipe(RecipeDto recipeDto);
-
-    @Mappings({
-            @Mapping(target = "recipeItemDtos", source = "recipeItems")
-    })
-    RecipeDto recipeToRecipeDto(Recipe recipe);
-
+public interface RecipeItemMapper {
     @Mappings({
             @Mapping(target = "product.id", source = "productId"),
             @Mapping(target = "recipe.id", source = "recipeId")
@@ -34,9 +19,4 @@ public interface RecipeMapper {
             @Mapping(target = "recipeId", source = "recipe.id")
     })
     RecipeItemDto recipeItemToRecipeItemDto(RecipeItem recipeItem);
-
-    List<RecipeItem> convertRecipeItemDtoListToRecipeItemList(List<RecipeItemDto> recipeItemDtos);
-
-    List<RecipeItemDto> convertRecipeItemListToRecipeItemDtoList(List<RecipeItem> recipeItems);
-
 }

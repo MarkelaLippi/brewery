@@ -13,7 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-//@TestPropertySource("classpath:application-test.properties")
+@TestPropertySource("classpath:application-test.properties")
 class RecipeControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -24,9 +24,11 @@ class RecipeControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json(" {\n" +
                         "\"id\" : 1," +
-                        "\"beerId\" : 1," +
-                        "\"components\" : {\"Water\" : 2.5,\n" +
-                        "                  \"Alcohol\" : 0.5 }\n" +
+                        "\"productId\" : 1," +
+                        "\"recipeItemDtos\" : [\n" +
+                        "                       {\"productId\" : 2,\n" +
+                        "                        \"amount\" : 3.0 }\n" +
+                        "                               ]\n" +
                         "  }\n"));
     }
 }

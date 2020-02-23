@@ -29,8 +29,8 @@ public class ProduceRequestServiceImpl implements ProduceRequestService {
 
     @Override
     public Long createProduceRequest(ProduceRequestDto request) {
-        final ProduceRequest newProduceRequest = produceRequestMapper.produceRequestDtoToProduceRequest(request);
-        final ProduceRequest savedProduceRequest = produceRequestRepository.save(newProduceRequest);
+        final ProduceRequest createdProduceRequest = produceRequestMapper.produceRequestDtoToProduceRequest(request);
+        final ProduceRequest savedProduceRequest = produceRequestRepository.save(createdProduceRequest);
         return savedProduceRequest.getId();
     }
 
@@ -47,7 +47,9 @@ public class ProduceRequestServiceImpl implements ProduceRequestService {
 
     @Override
     public ProduceRequestDto getProduceRequest(Long id) {
-        return produceRequestMapper.produceRequestToProduceRequestDto(produceRequestRepository.findById(id).get());
+        ProduceRequest produceRequest = produceRequestRepository.findById(id).get();
+        ProduceRequestDto produceRequestDto = produceRequestMapper.produceRequestToProduceRequestDto(produceRequest);
+        return produceRequestDto;
     }
 
     @Override
