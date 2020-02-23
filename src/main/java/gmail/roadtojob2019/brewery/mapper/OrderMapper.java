@@ -14,18 +14,16 @@ import java.util.Set;
 @Mapper(componentModel = "spring")
 public interface OrderMapper {
     @Mappings({
-            @Mapping(target = "customer.id", source = "customerId")
+            @Mapping(target = "customer.id", source = "customerId"),
+            @Mapping(target = "orderItems", source = "orderItemDtos")
     })
     Order orderDtoToOrder(OrderDto dto);
 
     @Mappings({
-            @Mapping(target = "customerId", source = "customer.id")
+            @Mapping(target = "customerId", source = "customer.id"),
+            @Mapping(target = "orderItemDtos", source = "orderItems")
     })
     OrderDto orderToOrderDto(Order order);
-
-    List<OrderItem> convertOrderItemDtoSetToOrderItemSet(List<OrderItemDto> orderItemDtoSet);
-
-    List<OrderItemDto> convertOrderItemSetToOrderItemDtoSet(List<OrderItem> orderItemSet);
 
     @Mappings({
             @Mapping(target = "product.id", source = "productId")
@@ -36,4 +34,8 @@ public interface OrderMapper {
             @Mapping(target = "productId", source = "product.id")
     })
     OrderItemDto orderItemToOrderItemDto(OrderItem orderItem);
+
+    List<OrderItem> convertOrderItemDtoListToOrderItemList(List<OrderItemDto> orderItemDtoList);
+
+    List<OrderItemDto> convertOrderItemListToOrderItemDtoList(List<OrderItem> orderItemList);
 }

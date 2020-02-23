@@ -18,12 +18,21 @@ public class OrderItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+/*
     @Column(name = "order_id")
     private Long orderId;
+*/
     @Column(name = "amount")
     private Double amount;
 
     @OneToOne
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product product;
+
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="order_id", nullable=false)
+    private Order order;
+
 }

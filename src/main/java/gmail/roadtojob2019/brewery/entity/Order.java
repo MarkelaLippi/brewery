@@ -30,12 +30,19 @@ public class Order {
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "order_id", referencedColumnName = "id")
-    List<OrderItem> orderItems=new ArrayList<>();
+    /*
+        @OneToMany(cascade = CascadeType.ALL)
+        @JoinColumn(name = "order_id", referencedColumnName = "id")
+    */
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<OrderItem> orderItems = new ArrayList<>();
+
+
+
+
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Review>reviews=new HashSet<>();
+    private Set<Review> reviews = new HashSet<>();
 
 /*
     @Column(name = "unit")

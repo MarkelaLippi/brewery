@@ -44,10 +44,11 @@ class OrderControllerTest {
                         "  {\n" +
                         "   \"id\" : 1, \n" +
                         "   \"date\" : \"05.02.2020\",\n" +
-                        "   \"beerId\" : 1,\n" +
-                        //            "   \"amount\" : 200,\n" +
-                        "   \"unit\" : \"Litre\",\n" +
-                        "   \"customerId\" : 1\n" +
+                        "   \"customerId\" : 1,\n" +
+                        "   \"orderItemDtos\" : [\n" +
+                        "                          {\"productId\" : 1,\n" +
+                        "                           \"amount\" : 250.0 }\n" +
+                        "                       ]\n" +
                         "  }\n" +
                         "]"));
     }

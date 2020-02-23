@@ -50,10 +50,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderDto> getAllOrders() {
-        return orderRepository
-                .findAll()
+        final List<Order> orders = orderRepository.findAll();
+        final List<OrderDto> orderDtos = orders
                 .stream()
                 .map(orderMapper::orderToOrderDto)
                 .collect(Collectors.toList());
+        return orderDtos;
     }
 }
