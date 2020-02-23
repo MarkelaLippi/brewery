@@ -26,12 +26,12 @@ class OrderControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
                         "  \"date\" : \"2020-02-05\",\n" +
-                        "  \"beerId\" : 1,\n" +
-                        "  \"amount\" : 200,\n" +
-                        "  \"unit\" : \"Litre\",\n" +
-                        "  \"customerId\" : 1\n" +
+                        "  \"customerId\" : 1,\n" +
+                        "  \"orderItemDtos\" : [\n" +
+                        "                          {\"productId\" : 1,\n" +
+                        "                           \"amount\" : 10 }\n" +
+                        "                      ]\n" +
                         "}"))
-                // then
                 .andExpect(status().isCreated())
                 .andExpect(content().json("2"));
     }
@@ -45,7 +45,7 @@ class OrderControllerTest {
                         "   \"id\" : 1, \n" +
                         "   \"date\" : \"05.02.2020\",\n" +
                         "   \"beerId\" : 1,\n" +
-            //            "   \"amount\" : 200,\n" +
+                        //            "   \"amount\" : 200,\n" +
                         "   \"unit\" : \"Litre\",\n" +
                         "   \"customerId\" : 1\n" +
                         "  }\n" +

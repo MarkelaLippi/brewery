@@ -26,7 +26,4 @@ public class OrderItem {
     @OneToOne
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product product;
-
-
-
 }
