@@ -29,15 +29,15 @@ public class ProductController {
         return productService.getAllProductsByType(type);
     }
 
-    @PatchMapping(value = "brewer/products/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    public Long changeProductAmount(@PathVariable Long id, @RequestBody ProductDto amount) {
-        return productService.changeProductAmount(id, amount);
-    }
-
     @GetMapping("brewer/products/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ProductDto getProductById(@PathVariable Long id) {
         return productService.getProductById(id);
+    }
+
+    @PatchMapping(value = "brewer/products/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public Long changeProductAmount(@PathVariable Long id, @RequestBody ProductDto amount) {
+        return productService.changeProductAmount(id, amount);
     }
 }

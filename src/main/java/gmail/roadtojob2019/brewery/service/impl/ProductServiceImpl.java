@@ -53,8 +53,12 @@ public class ProductServiceImpl implements ProductService {
     public Long changeProductAmount(Long id, ProductDto productDto) {
         Product productBeforeChangingAmount = productRepository.findById(id).get();
         Storage storage = productBeforeChangingAmount.getStorage();
-        storage.setAmount(productDto.getAmount());
-        Product productAfterChangingAmount = productRepository.save(productBeforeChangingAmount);
+        final Double amountBeforeChanging = storage.getAmount();
+        final Double createdProductAmount = productDto.getAmount();
+        final Double amountAfterChanging=amountBeforeChanging+createdProductAmount;
+        storage.setAmount(amountAfterChanging);
+        productBeforeChangingAmount.setStorage(storage);
+        final Product productAfterChangingAmount = productRepository.save(productBeforeChangingAmount);
         return productAfterChangingAmount.getId();
     }
 
