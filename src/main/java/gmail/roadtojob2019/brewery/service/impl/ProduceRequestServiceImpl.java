@@ -1,10 +1,7 @@
 package gmail.roadtojob2019.brewery.service.impl;
 
 import gmail.roadtojob2019.brewery.dto.ProduceRequestDto;
-import gmail.roadtojob2019.brewery.dto.ProduceRequestItemDto;
-import gmail.roadtojob2019.brewery.entity.Beer;
 import gmail.roadtojob2019.brewery.entity.ProduceRequest;
-import gmail.roadtojob2019.brewery.entity.ProduceRequestItem;
 import gmail.roadtojob2019.brewery.entity.Status;
 import gmail.roadtojob2019.brewery.mapper.ProduceRequestItemMapper;
 import gmail.roadtojob2019.brewery.mapper.ProduceRequestMapper;
@@ -13,8 +10,6 @@ import gmail.roadtojob2019.brewery.service.ProduceRequestService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,7 +19,6 @@ public class ProduceRequestServiceImpl implements ProduceRequestService {
 
     private final ProduceRequestRepository produceRequestRepository;
     private final ProduceRequestMapper produceRequestMapper;
-    private final ProduceRequestItemMapper produceRequestItemMapper;
 
 
     @Override

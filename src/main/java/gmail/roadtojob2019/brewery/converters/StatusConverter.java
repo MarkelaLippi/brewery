@@ -1,7 +1,6 @@
 package gmail.roadtojob2019.brewery.converters;
 
 import gmail.roadtojob2019.brewery.entity.Status;
-import gmail.roadtojob2019.brewery.entity.Unit;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;

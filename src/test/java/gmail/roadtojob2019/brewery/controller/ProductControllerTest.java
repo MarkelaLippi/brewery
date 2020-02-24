@@ -72,7 +72,7 @@ class ProductControllerTest {
         mockMvc.perform(patch("/brewery/brewer/products/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(" {\n" +
-                        "    \"amount\" : 750\n" +
+                        "    \"amount\" : 250\n" +
                         "  }\n"))
                 .andExpect(status().isOk())
                 .andExpect(content().json("1"));

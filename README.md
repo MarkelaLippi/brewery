@@ -467,11 +467,11 @@ Response: ```200 OK```
 Request:
 
 ```
-PATCH /brewery/brewer/beers/1
+PATCH /brewery/brewer/products/1
 ```
 ```json
 {
-       "amount" : 2740
+       "amount" : 250
 }
 ```
 Response: ```200 OK```
