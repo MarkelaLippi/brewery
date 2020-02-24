@@ -2,6 +2,7 @@ package gmail.roadtojob2019.brewery.controller;
 
 import gmail.roadtojob2019.brewery.dto.ReviewDto;
 import gmail.roadtojob2019.brewery.service.ReviewService;
+import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
+@Api
 @RequestMapping("/brewery")
 public class ReviewController {
     private final ReviewService reviewService;

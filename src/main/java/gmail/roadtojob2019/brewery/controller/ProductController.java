@@ -3,6 +3,7 @@ package gmail.roadtojob2019.brewery.controller;
 import gmail.roadtojob2019.brewery.dto.PricelistItemDto;
 import gmail.roadtojob2019.brewery.dto.ProductDto;
 import gmail.roadtojob2019.brewery.service.ProductService;
+import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
+@Api
 @RequestMapping("/brewery")
 public class ProductController {
 

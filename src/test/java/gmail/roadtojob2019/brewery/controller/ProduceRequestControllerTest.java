@@ -37,7 +37,7 @@ class ProduceRequestControllerTest {
     }
 
     @Test
-    void testGetProduceRequestsByStatusIsOk() throws Exception {
+   public void testGetProduceRequestsByStatusIsOk() throws Exception {
         mockMvc.perform(get("/brewery/brewer/requests/?status=new"))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[\n" +
@@ -54,7 +54,7 @@ class ProduceRequestControllerTest {
     }
 
     @Test
-    void testGetProduceRequestIsOk() throws Exception {
+    public void testGetProduceRequestIsOk() throws Exception {
         mockMvc.perform(get("/brewery/brewer/requests/1"))
                 .andExpect(status().isOk())
                 .andExpect(content().json("{\n" +

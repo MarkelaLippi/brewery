@@ -1,4 +1,4 @@
-package gmail.roadtojob2019.brewery.liquibase;
+package gmail.roadtojob2019.brewery.config;
 
 import liquibase.integration.spring.SpringLiquibase;
 import org.springframework.context.annotation.Bean;

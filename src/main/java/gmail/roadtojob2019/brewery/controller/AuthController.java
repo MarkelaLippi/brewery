@@ -6,6 +6,7 @@ import gmail.roadtojob2019.brewery.dto.UserSignInResponseDto;
 import gmail.roadtojob2019.brewery.exception.SuchCustomerAlreadyExistException;
 import gmail.roadtojob2019.brewery.security.JwtUtil;
 import gmail.roadtojob2019.brewery.service.CustomerService;
+import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,6 +24,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
+@Api
 @RequestMapping("/brewery")
 public class AuthController {
     private final AuthenticationManager authenticationManager;
