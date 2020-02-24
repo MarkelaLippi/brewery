@@ -1,9 +1,7 @@
 package gmail.roadtojob2019.brewery.controller;
 
-import gmail.roadtojob2019.brewery.dto.BeerDto;
 import gmail.roadtojob2019.brewery.dto.PricelistItemDto;
 import gmail.roadtojob2019.brewery.dto.ProductDto;
-import gmail.roadtojob2019.brewery.entity.Product;
 import gmail.roadtojob2019.brewery.service.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -35,5 +33,11 @@ public class ProductController {
     @ResponseStatus(HttpStatus.OK)
     public Long changeProductAmount(@PathVariable Long id, @RequestBody ProductDto amount) {
         return productService.changeProductAmount(id, amount);
+    }
+
+    @GetMapping("brewer/products/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ProductDto getProductById(@PathVariable Long id) {
+        return productService.getProductById(id);
     }
 }

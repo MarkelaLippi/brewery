@@ -449,15 +449,16 @@ Response: ```200 OK```
 Request:
 
 ```
-GET /brewery/brewer/ingredients/1
+GET /brewery/brewer/products/2
 ```
 Response: ```200 OK```
 ```json
 {
-       "id" : 1,
-	   "name" : "Water",
-	   "amount" : 100.0,
-       "unit" : "Litre"
+       "id" : 2, 
+       "name" : "Water",
+       "description" : "Artesian, ...",
+       "amount" : 800.0,
+       "unit" : "LITRE"
 }
 ```
 

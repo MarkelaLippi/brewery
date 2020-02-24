@@ -57,4 +57,11 @@ public class ProductServiceImpl implements ProductService {
         Product productAfterChangingAmount = productRepository.save(productBeforeChangingAmount);
         return productAfterChangingAmount.getId();
     }
+
+    @Override
+    public ProductDto getProductById(Long id) {
+        final Product product = productRepository.findById(id).get();
+        final ProductDto productDto = productMapper.productToProductDto(product);
+        return productDto;
+    }
 }

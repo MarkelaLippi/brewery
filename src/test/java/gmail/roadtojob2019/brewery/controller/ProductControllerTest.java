@@ -54,6 +54,20 @@ class ProductControllerTest {
     }
 
     @Test
+    void testGetProductByIdIsOk() throws Exception {
+        mockMvc.perform(get("/brewery/brewer/products/2"))
+                .andExpect(status().isOk())
+                .andExpect(content().json(
+                        "  {\n" +
+                                "    \"id\" : 2, \n" +
+                                "    \"name\" : \"Water\",\n" +
+                                "    \"description\" : \"Artesian, ...\",\n" +
+                                "    \"amount\" : 800.0,\n" +
+                                "    \"unit\" : \"LITRE\" \n" +
+                                "  }\n"));
+    }
+
+    @Test
     public void testChangeProductAmountIsOk() throws Exception {
         mockMvc.perform(patch("/brewery/brewer/products/1")
                 .contentType(MediaType.APPLICATION_JSON)
