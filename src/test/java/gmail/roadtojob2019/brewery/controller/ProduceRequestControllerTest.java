@@ -60,7 +60,6 @@ class ProduceRequestControllerTest {
                 .andExpect(content().json("{\n" +
                         "  \"date\" : \"05.02.2020\",\n" +
                         "  \"term\" : \"10.02.2020\",\n" +
-                        "  \"status\" : \"NEW\",\n" +
                         "  \"produceRequestItemDtos\" : [\n" +
                         "                                 {\"productId\" : 1,\n" +
                         "                                  \"amount\" : 350.0 }\n" +

@@ -10,6 +10,7 @@ import gmail.roadtojob2019.brewery.service.OrderService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,6 +23,7 @@ public class OrderServiceImpl implements OrderService {
     private final OrderMapper orderMapper;
 
     @Override
+    @Transactional
     public Long createOrder(OrderDto orderDto) {
         final Order newOrder = orderMapper.orderDtoToOrder(orderDto);
         final Customer customer = customerRepository.getOne(orderDto.getCustomerId());
@@ -31,6 +33,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public List<OrderDto> getAllOrders() {
         final List<Order> orders = orderRepository.findAll();
         final List<OrderDto> orderDtos = orders

@@ -12,6 +12,7 @@ import gmail.roadtojob2019.brewery.service.ProductService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,6 +28,7 @@ public class ProductServiceImpl implements ProductService {
     private ProductMapper productMapper;
 
     @Override
+    @Transactional
     public List<PricelistItemDto> getPricelist() {
         List<Product> products = productRepository
                 .findByType(BEER);
@@ -38,6 +40,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public List<ProductDto> getAllProductsByType(String type) {
         Type requiredType = Type.valueOf(type.toUpperCase());
         List<Product> products = productRepository
@@ -50,6 +53,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public Long changeProductAmount(Long id, ProductDto productDto) {
         Product productBeforeChangingAmount = productRepository.findById(id).get();
         Storage storage = productBeforeChangingAmount.getStorage();
@@ -63,6 +67,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public ProductDto getProductById(Long id) {
         final Product product = productRepository.findById(id).get();
         final ProductDto productDto = productMapper.productToProductDto(product);

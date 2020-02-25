@@ -8,6 +8,8 @@ import gmail.roadtojob2019.brewery.service.RecipeService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
 @AllArgsConstructor
 public class RecipeServiceImpl implements RecipeService {
@@ -17,6 +19,7 @@ public class RecipeServiceImpl implements RecipeService {
     private final RecipeMapper recipeMapper;
 
     @Override
+    @Transactional
     public RecipeDto getRecipe(Long id) {
         Recipe recipe = recipeRepository.findById(id).get();
         RecipeDto recipeDto = recipeMapper.recipeToRecipeDto(recipe);

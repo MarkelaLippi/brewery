@@ -10,6 +10,7 @@ import gmail.roadtojob2019.brewery.service.ProduceRequestService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,6 +23,7 @@ public class ProduceRequestServiceImpl implements ProduceRequestService {
 
 
     @Override
+    @Transactional
     public Long createProduceRequest(ProduceRequestDto request) {
         final ProduceRequest createdProduceRequest = produceRequestMapper.produceRequestDtoToProduceRequest(request);
         final ProduceRequest savedProduceRequest = produceRequestRepository.save(createdProduceRequest);
@@ -29,6 +31,7 @@ public class ProduceRequestServiceImpl implements ProduceRequestService {
     }
 
     @Override
+    @Transactional
     public List<ProduceRequestDto> getProduceRequestsByStatus(String status) {
         Status requiredStatus = Status.valueOf(status.toUpperCase());
         List<ProduceRequest> produceRequests = produceRequestRepository.findByStatus(requiredStatus);
@@ -40,6 +43,7 @@ public class ProduceRequestServiceImpl implements ProduceRequestService {
     }
 
     @Override
+    @Transactional
     public ProduceRequestDto getProduceRequest(Long id) {
         ProduceRequest produceRequest = produceRequestRepository.findById(id).get();
         ProduceRequestDto produceRequestDto = produceRequestMapper.produceRequestToProduceRequestDto(produceRequest);
@@ -47,6 +51,7 @@ public class ProduceRequestServiceImpl implements ProduceRequestService {
     }
 
     @Override
+    @Transactional
     public Long changeProduceRequestStatus(Long id, ProduceRequestDto produceRequestDto) {
         Status requiredStatus = Status.valueOf(produceRequestDto.getStatus().toUpperCase());
         ProduceRequest produceRequestBeforeChangingStatus = produceRequestRepository.findById(id).get();

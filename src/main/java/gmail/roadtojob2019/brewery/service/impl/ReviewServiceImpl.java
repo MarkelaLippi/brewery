@@ -11,6 +11,7 @@ import gmail.roadtojob2019.brewery.service.ReviewService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 
 @Service
@@ -22,6 +23,7 @@ public class ReviewServiceImpl implements ReviewService {
     private final OrderRepository orderRepository;
 
     @Override
+    @Transactional
     public Long createReview(ReviewDto reviewDto) {
         final LocalDate date = reviewDto.getDate();
         final String content = reviewDto.getContent();
