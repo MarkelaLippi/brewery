@@ -4,6 +4,7 @@ import gmail.roadtojob2019.brewery.dto.ReviewDto;
 import gmail.roadtojob2019.brewery.entity.Customer;
 import gmail.roadtojob2019.brewery.entity.Order;
 import gmail.roadtojob2019.brewery.entity.Review;
+import gmail.roadtojob2019.brewery.mapper.ReviewMapper;
 import gmail.roadtojob2019.brewery.repository.CustomerRepository;
 import gmail.roadtojob2019.brewery.repository.OrderRepository;
 import gmail.roadtojob2019.brewery.repository.ReviewRepository;
@@ -12,7 +13,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
 
 @Service
 @AllArgsConstructor
@@ -22,19 +22,16 @@ public class ReviewServiceImpl implements ReviewService {
     private final CustomerRepository customerRepository;
     private final OrderRepository orderRepository;
 
+    private final ReviewMapper reviewMapper;
+
     @Override
     @Transactional
     public Long createReview(ReviewDto reviewDto) {
-        final LocalDate date = reviewDto.getDate();
-        final String content = reviewDto.getContent();
-        final Customer customer = customerRepository.getOne(reviewDto.getCustomerId());
+        Review newReview = reviewMapper.reviewDtoToReview(reviewDto);
+        final Customer customer = customerRepository.findById(reviewDto.getCustomerId()).get();
         final Order order = orderRepository.findById(reviewDto.getOrderId()).get();
-        final Review newReview = Review.builder()
-                .date(date)
-                .content(content)
-                .customer(customer)
-                .order(order)
-                .build();
+        newReview.setCustomer(customer);
+        newReview.setOrder(order);
         Review savedReview = reviewRepository.save(newReview);
         return savedReview.getId();
     }
