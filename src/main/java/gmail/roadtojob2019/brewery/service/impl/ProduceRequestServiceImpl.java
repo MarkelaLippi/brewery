@@ -21,7 +21,6 @@ public class ProduceRequestServiceImpl implements ProduceRequestService {
     private final ProduceRequestRepository produceRequestRepository;
     private final ProduceRequestMapper produceRequestMapper;
 
-
     @Override
     @Transactional
     public Long createProduceRequest(ProduceRequestDto request) {
