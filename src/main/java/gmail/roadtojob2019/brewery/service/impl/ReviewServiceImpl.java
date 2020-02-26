@@ -27,12 +27,12 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     @Transactional
     public Long createReview(ReviewDto reviewDto) {
-        Review newReview = reviewMapper.reviewDtoToReview(reviewDto);
+        final Review newReview = reviewMapper.reviewDtoToReview(reviewDto);
         final Customer customer = customerRepository.findById(reviewDto.getCustomerId()).get();
         final Order order = orderRepository.findById(reviewDto.getOrderId()).get();
         newReview.setCustomer(customer);
         newReview.setOrder(order);
-        Review savedReview = reviewRepository.save(newReview);
+        final Review savedReview = reviewRepository.save(newReview);
         return savedReview.getId();
     }
 }

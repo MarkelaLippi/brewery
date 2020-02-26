@@ -33,7 +33,6 @@ class OrderControllerUnitTest {
 
     @MockBean
     private CustomerRepository customerRepository;
-
     @MockBean
     private OrderRepository orderRepository;
 
@@ -45,9 +44,9 @@ class OrderControllerUnitTest {
 
         final Order order = getOrder(customer);
 
-        willReturn(order).given(orderRepository).save(any(Order.class));
-
         willReturn(customer).given(customerRepository).findById(1L);
+
+        willReturn(order).given(orderRepository).save(any(Order.class));
 
         // when
         mockMvc.perform(post("/brewery/customer/orders")
