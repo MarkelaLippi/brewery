@@ -1,6 +1,7 @@
 package gmail.roadtojob2019.brewery.controller;
 
 import gmail.roadtojob2019.brewery.entity.Product;
+import gmail.roadtojob2019.brewery.entity.Storage;
 import gmail.roadtojob2019.brewery.entity.Type;
 import gmail.roadtojob2019.brewery.entity.Unit;
 import gmail.roadtojob2019.brewery.repository.ProductRepository;
@@ -32,7 +33,7 @@ class ProductControllerUnitTest {
     @Test
     void testGetPriselistIsOk() throws Exception {
         // given
-        //signInAsCustomer();
+        // signInAsCustomer();
         final Product product = Product.builder()
                 .id(1L)
                 .name("CoolBeer")
@@ -62,7 +63,32 @@ class ProductControllerUnitTest {
 
     @Test
     void testGetAllProductsByTypeIsOk() throws Exception {
+        // given
+        // signInAsCustomer();
+        final Product product = Product.builder()
+                .id(1L)
+                .name("CoolBeer")
+                .description("Light, 4.8% alcohol...")
+                .price(2.5)
+                .type(Type.BEER)
+                .unit(Unit.LITRE)
+                .build();
+
+        final Storage storage = Storage.builder()
+                .id(1L)
+                .productId(1L)
+                .amount(500.0)
+                .build();
+
+        product.setStorage(storage);
+
+        List<Product> products = List.of(product);
+
+        willReturn(products).given(productRepository)
+                .findByType(Type.BEER);
+        // when
         mockMvc.perform(get("/brewery/sales/products?type=beer"))
+                // then
                 .andExpect(status().isOk())
                 .andExpect(content().json("[\n" +
                         "  {\n" +
