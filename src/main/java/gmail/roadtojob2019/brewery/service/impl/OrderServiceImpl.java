@@ -3,6 +3,7 @@ package gmail.roadtojob2019.brewery.service.impl;
 import gmail.roadtojob2019.brewery.dto.OrderDto;
 import gmail.roadtojob2019.brewery.entity.Customer;
 import gmail.roadtojob2019.brewery.entity.Order;
+import gmail.roadtojob2019.brewery.exception.BrewerySuchCustomerNotFoundException;
 import gmail.roadtojob2019.brewery.mapper.OrderMapper;
 import gmail.roadtojob2019.brewery.repository.CustomerRepository;
 import gmail.roadtojob2019.brewery.repository.OrderRepository;
@@ -24,9 +25,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public Long createOrder(OrderDto orderDto) {
+    public Long createOrder(OrderDto orderDto) throws BrewerySuchCustomerNotFoundException {
         final Order newOrder = orderMapper.orderDtoToOrder(orderDto);
-        final Customer customer = customerRepository.findById(orderDto.getCustomerId()).get();
+        final Long customerId = orderDto.getCustomerId();
+        final Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(()->new BrewerySuchCustomerNotFoundException("Customer with id = "+ customerId +" was not found"));
         newOrder.setCustomer(customer);
         final Order savedOrder = orderRepository.save(newOrder);
         return savedOrder.getId();

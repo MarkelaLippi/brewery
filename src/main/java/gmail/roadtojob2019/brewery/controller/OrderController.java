@@ -1,6 +1,7 @@
 package gmail.roadtojob2019.brewery.controller;
 
 import gmail.roadtojob2019.brewery.dto.OrderDto;
+import gmail.roadtojob2019.brewery.exception.BrewerySuchCustomerNotFoundException;
 import gmail.roadtojob2019.brewery.service.OrderService;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
@@ -20,7 +21,7 @@ public class OrderController {
 
     @PostMapping(value = "customer/orders", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public Long createOrder(@RequestBody OrderDto orderDto) {
+    public Long createOrder(@RequestBody OrderDto orderDto) throws BrewerySuchCustomerNotFoundException {
         return orderService.createOrder(orderDto);
     }
 

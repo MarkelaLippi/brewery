@@ -3,6 +3,7 @@ package gmail.roadtojob2019.brewery.service;
 import gmail.roadtojob2019.brewery.dto.OrderDto;
 import gmail.roadtojob2019.brewery.entity.Customer;
 import gmail.roadtojob2019.brewery.entity.Order;
+import gmail.roadtojob2019.brewery.exception.BrewerySuchCustomerNotFoundException;
 import gmail.roadtojob2019.brewery.mapper.OrderMapper;
 import gmail.roadtojob2019.brewery.repository.CustomerRepository;
 import gmail.roadtojob2019.brewery.repository.OrderRepository;
@@ -38,7 +39,7 @@ class OrderServiceTest {
     private OrderMapper orderMapper;
 
     @Test
-    void testCreateOrder() {
+    void testCreateOrder() throws BrewerySuchCustomerNotFoundException {
         final OrderDto orderDto = OrderDto.builder().customerId(1L).build();
         final Order newOrder = Order.builder().id(1L).build();
         final Long customerId = orderDto.getCustomerId();

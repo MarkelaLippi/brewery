@@ -4,6 +4,7 @@ import gmail.roadtojob2019.brewery.entity.Customer;
 import gmail.roadtojob2019.brewery.entity.Order;
 import gmail.roadtojob2019.brewery.entity.OrderItem;
 import gmail.roadtojob2019.brewery.entity.Product;
+import gmail.roadtojob2019.brewery.exception.BrewerySuchCustomerNotFoundException;
 import gmail.roadtojob2019.brewery.repository.CustomerRepository;
 import gmail.roadtojob2019.brewery.repository.OrderRepository;
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
@@ -20,10 +22,10 @@ import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
@@ -62,6 +64,40 @@ class OrderControllerUnitTest {
                 // then
                 .andExpect(status().isCreated())
                 .andExpect(content().json("2"));
+
+        verify(customerRepository, times(1)).findById(1L);
+        verify(orderRepository, times(1)).save(any(Order.class));
+    }
+
+    @Test
+    public void testCustomerOrderThrowsBrewerySuchCustomerNotFoundException() throws Exception {
+        // given
+        // signInAsCustomer();
+        final Optional<Customer> customer = getCustomer();
+
+        final Order order = getOrder(customer);
+
+        willReturn(Optional.empty()).given(customerRepository).findById(1L);
+
+        willReturn(order).given(orderRepository).save(any(Order.class));
+
+        // when
+        mockMvc.perform(post("/brewery/customer/orders")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\n" +
+                        "  \"date\" : \"2020-02-05\",\n" +
+                        "  \"customerId\" : 1,\n" +
+                        "  \"orderItemDtos\" : [\n" +
+                        "                          {\"productId\" : 1,\n" +
+                        "                           \"amount\" : 10 }\n" +
+                        "                      ]\n" +
+                        "}"))
+                // then
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("errorMessage").value("Customer with id = 1 was not found"));
+
+        verify(customerRepository, times(1)).findById(1L);
+        verify(orderRepository, times(0)).save(any(Order.class));
     }
 
     private Optional<Customer> getCustomer() {
@@ -72,9 +108,9 @@ class OrderControllerUnitTest {
 
     private Order getOrder(Optional<Customer> customer) {
         return Order.builder()
-                    .id(2L)
-                    .customer(customer.get())
-                    .build();
+                .id(2L)
+                .customer(customer.get())
+                .build();
     }
 
     @Test
@@ -100,6 +136,7 @@ class OrderControllerUnitTest {
                         "                       ]\n" +
                         "  }\n" +
                         "]"));
+        verify(orderRepository, times(1)).findAll();
     }
 
     private List<Order> getOrders() {

@@ -3,7 +3,7 @@ package gmail.roadtojob2019.brewery.controller;
 import gmail.roadtojob2019.brewery.dto.SignInRequestDto;
 import gmail.roadtojob2019.brewery.dto.CustomerSignUpRequestDto;
 import gmail.roadtojob2019.brewery.dto.UserSignInResponseDto;
-import gmail.roadtojob2019.brewery.exception.SuchCustomerAlreadyExistException;
+import gmail.roadtojob2019.brewery.exception.BrewerySuchCustomerAlreadyExistException;
 import gmail.roadtojob2019.brewery.security.JwtUtil;
 import gmail.roadtojob2019.brewery.service.CustomerService;
 import io.swagger.annotations.Api;
@@ -35,7 +35,7 @@ public class AuthController {
     @PostMapping(value = "/sign-up", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public UserSignInResponseDto singUp(@RequestBody final CustomerSignUpRequestDto request)
-            throws SuchCustomerAlreadyExistException {
+            throws BrewerySuchCustomerAlreadyExistException {
         customerService.signUp(request);
         return singIn(new SignInRequestDto(request.getEmail(), request.getPassword()));
     }

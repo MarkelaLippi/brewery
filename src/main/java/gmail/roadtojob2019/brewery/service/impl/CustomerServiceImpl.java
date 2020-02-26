@@ -3,7 +3,7 @@ package gmail.roadtojob2019.brewery.service.impl;
 import gmail.roadtojob2019.brewery.dto.CustomerSignUpRequestDto;
 import gmail.roadtojob2019.brewery.entity.AuthInfoEntity;
 import gmail.roadtojob2019.brewery.entity.UserEntity;
-import gmail.roadtojob2019.brewery.exception.SuchCustomerAlreadyExistException;
+import gmail.roadtojob2019.brewery.exception.BrewerySuchCustomerAlreadyExistException;
 import gmail.roadtojob2019.brewery.mapper.CustomerSignUpRequestMapper;
 import gmail.roadtojob2019.brewery.repository.AuthInfoRepository;
 import gmail.roadtojob2019.brewery.repository.UserRepository;
@@ -28,9 +28,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     @Transactional
-    public void signUp(CustomerSignUpRequestDto request) throws SuchCustomerAlreadyExistException {
+    public void signUp(CustomerSignUpRequestDto request) throws BrewerySuchCustomerAlreadyExistException {
         if (authInfoRepository.findByLogin(request.getEmail()).isPresent()) {
-            throw new SuchCustomerAlreadyExistException("User with email=" + request.getEmail() + " already exists");
+            throw new BrewerySuchCustomerAlreadyExistException("User with email=" + request.getEmail() + " already exists");
         }
         saveUser(request);
     }
