@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.BDDMockito.willReturn;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -104,7 +105,31 @@ class ProductControllerUnitTest {
 
     @Test
     void testGetProductByIdIsOk() throws Exception {
+        // given
+        // signInAsCustomer();
+        final Product product = Product.builder()
+                .id(2L)
+                .name("Water")
+                .description("Artesian, ...")
+                .type(Type.INGREDIENT)
+                .unit(Unit.LITRE)
+                .build();
+
+        final Storage storage = Storage.builder()
+                .id(2L)
+                .productId(2L)
+                .amount(800.0)
+                .build();
+
+        product.setStorage(storage);
+
+        final Optional<Product> requiredProduct = Optional.of(product);
+
+        willReturn(requiredProduct).given(productRepository)
+                .findById(2L);
+        // when
         mockMvc.perform(get("/brewery/brewer/products/2"))
+                // then
                 .andExpect(status().isOk())
                 .andExpect(content().json(
                         "  {\n" +
@@ -118,7 +143,30 @@ class ProductControllerUnitTest {
 
     @Test
     public void testChangeProductAmountIsOk() throws Exception {
+        // given
+        // signInAsCustomer();
+        final Product product = Product.builder()
+                .id(1L)
+                .build();
+
+        final Storage storage = Storage.builder()
+                .id(1L)
+                .productId(1L)
+                .amount(500.0)
+                .build();
+
+        product.setStorage(storage);
+
+        final Optional<Product> requiredProduct = Optional.of(product);
+
+        willReturn(requiredProduct).given(productRepository)
+                .findById(1L);
+
+        willReturn(product).given(productRepository)
+                .save(product);
+        // when
         mockMvc.perform(patch("/brewery/brewer/products/1")
+                // then
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(" {\n" +
                         "    \"amount\" : 250\n" +

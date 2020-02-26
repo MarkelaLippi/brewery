@@ -54,6 +54,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
+    public ProductDto getProductById(Long id) {
+        final Product product = productRepository.findById(id).get();
+        final ProductDto productDto = productMapper.productToProductDto(product);
+        return productDto;
+    }
+
+    @Override
+    @Transactional
     public Long changeProductAmount(Long id, ProductDto productDto) {
         Product productBeforeChangingAmount = productRepository.findById(id).get();
         Storage storage = productBeforeChangingAmount.getStorage();
@@ -64,13 +72,5 @@ public class ProductServiceImpl implements ProductService {
         productBeforeChangingAmount.setStorage(storage);
         final Product productAfterChangingAmount = productRepository.save(productBeforeChangingAmount);
         return productAfterChangingAmount.getId();
-    }
-
-    @Override
-    @Transactional
-    public ProductDto getProductById(Long id) {
-        final Product product = productRepository.findById(id).get();
-        final ProductDto productDto = productMapper.productToProductDto(product);
-        return productDto;
     }
 }
