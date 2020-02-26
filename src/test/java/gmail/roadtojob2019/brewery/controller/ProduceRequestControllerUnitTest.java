@@ -46,32 +46,26 @@ class ProduceRequestControllerUnitTest {
                         "  \"status\" : \"NEW\",\n" +
                         "  \"produceRequestItemDtos\" : [\n" +
                         "                                 {\"productId\" : 1,\n" +
-                        "                                  \"amount\" : 150 }\n" +
+                        "                                  \"amount\" : 350 }\n" +
                         "                               ]\n" +
                         "}"))
                 .andExpect(status().isCreated())
                 .andExpect(content().json("1"));
     }
 
-    private ProduceRequest getProduceRequest() {
-        final ProduceRequestItem produceRequestItem = ProduceRequestItem.builder()
-                .id(1L)
-                .amount(150.0)
-                .product(Product.builder().id(1L).build())
-                .build();
-
-        return ProduceRequest.builder()
-                .id(1L)
-                .date(LocalDate.of(2020, 2, 5))
-                .status(Status.NEW)
-                .term(LocalDate.of(2020, 2, 10))
-                .produceRequestItems(List.of(produceRequestItem))
-                .build();
-    }
-
     @Test
     public void testGetProduceRequestsByStatusIsOk() throws Exception {
+        // given
+        //signInAsCustomer();
+        final ProduceRequest produceRequest = getProduceRequest();
+
+        final List<ProduceRequest> produceRequests = List.of(produceRequest);
+
+        willReturn(produceRequests).given(produceRequestRepository).findByStatus(Status.NEW);
+
+        //when
         mockMvc.perform(get("/brewery/brewer/requests/?status=new"))
+                //then
                 .andExpect(status().isOk())
                 .andExpect(content().json("[\n" +
                         "  {\n" +
@@ -84,6 +78,22 @@ class ProduceRequestControllerUnitTest {
                         "                               ]\n" +
                         "  }\n" +
                         "]"));
+    }
+
+    private ProduceRequest getProduceRequest() {
+        final ProduceRequestItem produceRequestItem = ProduceRequestItem.builder()
+                .id(1L)
+                .amount(350.0)
+                .product(Product.builder().id(1L).build())
+                .build();
+
+        return ProduceRequest.builder()
+                .id(1L)
+                .date(LocalDate.of(2020, 2, 5))
+                .status(Status.NEW)
+                .term(LocalDate.of(2020, 2, 10))
+                .produceRequestItems(List.of(produceRequestItem))
+                .build();
     }
 
     @Test
