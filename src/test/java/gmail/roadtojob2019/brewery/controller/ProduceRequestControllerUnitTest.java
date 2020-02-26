@@ -39,7 +39,6 @@ class ProduceRequestControllerUnitTest {
         willReturn(produceRequest).given(produceRequestRepository).save(any(ProduceRequest.class));
         // when
         mockMvc.perform(post("/brewery/sales/requests")
-                //then
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
                         "  \"date\" : \"2020-02-05\",\n" +
@@ -50,6 +49,7 @@ class ProduceRequestControllerUnitTest {
                         "                                  \"amount\" : 350 }\n" +
                         "                               ]\n" +
                         "}"))
+                //then
                 .andExpect(status().isCreated())
                 .andExpect(content().json("1"));
     }
@@ -81,22 +81,6 @@ class ProduceRequestControllerUnitTest {
                         "]"));
     }
 
-    private ProduceRequest getProduceRequest() {
-        final ProduceRequestItem produceRequestItem = ProduceRequestItem.builder()
-                .id(1L)
-                .amount(350.0)
-                .product(Product.builder().id(1L).build())
-                .build();
-
-        return ProduceRequest.builder()
-                .id(1L)
-                .date(LocalDate.of(2020, 2, 5))
-                .status(Status.NEW)
-                .term(LocalDate.of(2020, 2, 10))
-                .produceRequestItems(List.of(produceRequestItem))
-                .build();
-    }
-
     @Test
     public void testGetProduceRequestIsOk() throws Exception {
         // given
@@ -118,15 +102,40 @@ class ProduceRequestControllerUnitTest {
                         "  }\n"));
     }
 
+    private ProduceRequest getProduceRequest() {
+        final ProduceRequestItem produceRequestItem = ProduceRequestItem.builder()
+                .id(1L)
+                .amount(350.0)
+                .product(Product.builder().id(1L).build())
+                .build();
+
+        return ProduceRequest.builder()
+                .id(1L)
+                .date(LocalDate.of(2020, 2, 5))
+                .status(Status.NEW)
+                .term(LocalDate.of(2020, 2, 10))
+                .produceRequestItems(List.of(produceRequestItem))
+                .build();
+    }
+
     @Test
     public void testChangeProduceRequestStatusIsOk() throws Exception {
+        // given
+        //signInAsCustomer();
+        final Optional<ProduceRequest> produceRequest = Optional.of(getProduceRequest());
+
+        willReturn(produceRequest).given(produceRequestRepository).findById(1L);
+
+        willReturn(produceRequest.get()).given(produceRequestRepository).save(any(ProduceRequest.class));
+
+        //when
         mockMvc.perform(patch("/brewery/brewer/requests/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("  {\n" +
                         "  \"status\" : \"In_progress\"\n" +
                         "  }\n"))
+                //then
                 .andExpect(status().isOk())
                 .andExpect(content().json("1"));
     }
-
 }
