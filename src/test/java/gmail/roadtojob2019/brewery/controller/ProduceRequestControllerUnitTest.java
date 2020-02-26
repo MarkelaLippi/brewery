@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.willReturn;
@@ -98,7 +99,14 @@ class ProduceRequestControllerUnitTest {
 
     @Test
     public void testGetProduceRequestIsOk() throws Exception {
+        // given
+        //signInAsCustomer();
+        final Optional<ProduceRequest> produceRequest = Optional.of(getProduceRequest());
+
+        willReturn(produceRequest).given(produceRequestRepository).findById(1L);
+        //when
         mockMvc.perform(get("/brewery/brewer/requests/1"))
+                //then
                 .andExpect(status().isOk())
                 .andExpect(content().json("{\n" +
                         "  \"date\" : \"05.02.2020\",\n" +

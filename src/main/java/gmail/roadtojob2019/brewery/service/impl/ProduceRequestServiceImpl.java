@@ -32,9 +32,9 @@ public class ProduceRequestServiceImpl implements ProduceRequestService {
     @Override
     @Transactional
     public List<ProduceRequestDto> getProduceRequestsByStatus(String status) {
-        Status requiredStatus = Status.valueOf(status.toUpperCase());
-        List<ProduceRequest> produceRequests = produceRequestRepository.findByStatus(requiredStatus);
-        List<ProduceRequestDto> produceRequestDtos = produceRequests
+        final Status requiredStatus = Status.valueOf(status.toUpperCase());
+        final List<ProduceRequest> produceRequests = produceRequestRepository.findByStatus(requiredStatus);
+        final List<ProduceRequestDto> produceRequestDtos = produceRequests
                 .stream()
                 .map(produceRequestMapper::produceRequestToProduceRequestDto)
                 .collect(Collectors.toList());
@@ -44,8 +44,8 @@ public class ProduceRequestServiceImpl implements ProduceRequestService {
     @Override
     @Transactional
     public ProduceRequestDto getProduceRequest(Long id) {
-        ProduceRequest produceRequest = produceRequestRepository.findById(id).get();
-        ProduceRequestDto produceRequestDto = produceRequestMapper.produceRequestToProduceRequestDto(produceRequest);
+        final ProduceRequest produceRequest = produceRequestRepository.findById(id).get();
+        final ProduceRequestDto produceRequestDto = produceRequestMapper.produceRequestToProduceRequestDto(produceRequest);
         return produceRequestDto;
     }
 
