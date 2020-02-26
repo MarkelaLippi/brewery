@@ -15,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -38,33 +39,34 @@ class OrderServiceTest {
 
     @Test
     void testCreateOrder() {
-        OrderDto orderDto = OrderDto.builder().customerId(1L).build();
-        Order newOrder = Order.builder().id(1L).build();
-        Long customerId = orderDto.getCustomerId();
-        Customer customer = Customer.builder().id(1L).build();
+        final OrderDto orderDto = OrderDto.builder().customerId(1L).build();
+        final Order newOrder = Order.builder().id(1L).build();
+        final Long customerId = orderDto.getCustomerId();
+        final Optional<Customer> customer = Optional.of(Customer.builder().id(1L).build());
 
         willReturn(newOrder).given(orderMapper)
                 .orderDtoToOrder(orderDto);
 
         willReturn(customer).given(customerRepository)
-                .getOne(customerId);
+                .findById(customerId);
 
         willReturn(newOrder).given(orderRepository)
                 .save(any(Order.class));
 
-        Long id = orderService.createOrder(orderDto);
+        final Long id = orderService.createOrder(orderDto);
+
         assertEquals(newOrder.getId(), id);
     }
 
     @Test
     void testGetAllOrders() {
-        Order order = Order.builder().id(1L).build();
-        List<Order> orders = List.of(order);
+        final Order order = Order.builder().id(1L).build();
+        final List<Order> orders = List.of(order);
 
         willReturn(orders).given(orderRepository)
                 .findAll();
 
-        List<OrderDto> orderDtos = orderService.getAllOrders();
+        final List<OrderDto> orderDtos = orderService.getAllOrders();
 
         assertEquals(orders.size(), orderDtos.size());
     }

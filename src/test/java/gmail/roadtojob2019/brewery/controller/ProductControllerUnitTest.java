@@ -1,9 +1,6 @@
 package gmail.roadtojob2019.brewery.controller;
 
-import gmail.roadtojob2019.brewery.entity.Product;
-import gmail.roadtojob2019.brewery.entity.Storage;
-import gmail.roadtojob2019.brewery.entity.Type;
-import gmail.roadtojob2019.brewery.entity.Unit;
+import gmail.roadtojob2019.brewery.entity.*;
 import gmail.roadtojob2019.brewery.repository.ProductRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.List;
 import java.util.Optional;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.willReturn;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
@@ -162,7 +160,7 @@ class ProductControllerUnitTest {
                 .findById(1L);
 
         willReturn(product).given(productRepository)
-                .save(product);
+                .save(any(Product.class));
         // when
         mockMvc.perform(patch("/brewery/brewer/products/1")
                 // then

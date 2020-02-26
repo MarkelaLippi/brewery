@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.willReturn;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -40,16 +41,11 @@ class OrderControllerUnitTest {
     public void testCustomerOrderIsCreated() throws Exception {
         // given
         // signInAsCustomer();
-        final Optional<Customer> customer = Optional.of(Customer.builder()
-                .id(1L)
-                .build());
+        final Optional<Customer> customer = getCustomer();
 
-        final Order order = Order.builder()
-                .id(2L)
-                .customer(customer.get())
-                .build();
+        final Order order = getOrder(customer);
 
-        willReturn(order).given(orderRepository).save(order);
+        willReturn(order).given(orderRepository).save(any(Order.class));
 
         willReturn(customer).given(customerRepository).findById(1L);
 
@@ -67,6 +63,19 @@ class OrderControllerUnitTest {
                 // then
                 .andExpect(status().isCreated())
                 .andExpect(content().json("2"));
+    }
+
+    private Optional<Customer> getCustomer() {
+        return Optional.of(Customer.builder()
+                .id(1L)
+                .build());
+    }
+
+    private Order getOrder(Optional<Customer> customer) {
+        return Order.builder()
+                    .id(2L)
+                    .customer(customer.get())
+                    .build();
     }
 
     @Test
