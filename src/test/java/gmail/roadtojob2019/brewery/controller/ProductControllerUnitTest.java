@@ -35,16 +35,9 @@ class ProductControllerUnitTest {
     void testGetPriselistIsOk() throws Exception {
         // given
         // signInAsCustomer();
-        final Product product = Product.builder()
-                .id(1L)
-                .name("CoolBeer")
-                .description("Light, 4.8% alcohol...")
-                .price(2.5)
-                .type(Type.BEER)
-                .unit(Unit.LITRE)
-                .build();
+        final Product product = getProductBeer();
 
-        List<Product> products = List.of(product);
+        final List<Product> products = List.of(product);
 
         willReturn(products).given(productRepository)
                 .findByType(Type.BEER);
@@ -66,14 +59,7 @@ class ProductControllerUnitTest {
     void testGetAllProductsByTypeIsOk() throws Exception {
         // given
         // signInAsCustomer();
-        final Product product = Product.builder()
-                .id(1L)
-                .name("CoolBeer")
-                .description("Light, 4.8% alcohol...")
-                .price(2.5)
-                .type(Type.BEER)
-                .unit(Unit.LITRE)
-                .build();
+        final Product product = getProductBeer();
 
         final Storage storage = Storage.builder()
                 .id(1L)
@@ -83,7 +69,7 @@ class ProductControllerUnitTest {
 
         product.setStorage(storage);
 
-        List<Product> products = List.of(product);
+        final List<Product> products = List.of(product);
 
         willReturn(products).given(productRepository)
                 .findByType(Type.BEER);
@@ -103,27 +89,22 @@ class ProductControllerUnitTest {
                         "]"));
     }
 
+    private Product getProductBeer() {
+        return Product.builder()
+                .id(1L)
+                .name("CoolBeer")
+                .description("Light, 4.8% alcohol...")
+                .price(2.5)
+                .type(Type.BEER)
+                .unit(Unit.LITRE)
+                .build();
+    }
+
     @Test
     void testGetProductByIdIsOk() throws Exception {
         // given
         // signInAsCustomer();
-        final Product product = Product.builder()
-                .id(2L)
-                .name("Water")
-                .description("Artesian, ...")
-                .type(Type.INGREDIENT)
-                .unit(Unit.LITRE)
-                .build();
-
-        final Storage storage = Storage.builder()
-                .id(2L)
-                .productId(2L)
-                .amount(800.0)
-                .build();
-
-        product.setStorage(storage);
-
-        final Optional<Product> requiredProduct = Optional.of(product);
+        final Optional<Product> requiredProduct = getProductIngredient();
 
         willReturn(requiredProduct).given(productRepository)
                 .findById(2L);
@@ -141,13 +122,31 @@ class ProductControllerUnitTest {
                                 "  }\n"));
     }
 
+    private Optional<Product> getProductIngredient() {
+        final Product product = Product.builder()
+                .id(2L)
+                .name("Water")
+                .description("Artesian, ...")
+                .type(Type.INGREDIENT)
+                .unit(Unit.LITRE)
+                .build();
+
+        final Storage storage = Storage.builder()
+                .id(2L)
+                .productId(2L)
+                .amount(800.0)
+                .build();
+
+        product.setStorage(storage);
+
+        return Optional.of(product);
+    }
+
     @Test
     public void testChangeProductAmountIsOk() throws Exception {
         // given
         // signInAsCustomer();
-        final Product product = Product.builder()
-                .id(1L)
-                .build();
+        final Product product = getProductBeer();
 
         final Storage storage = Storage.builder()
                 .id(1L)

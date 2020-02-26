@@ -25,10 +25,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public Long createOrder(OrderDto orderDto) {
-        final Order newOrder = orderMapper.orderDtoToOrder(orderDto);
-        final Customer customer = customerRepository.getOne(orderDto.getCustomerId());
+        Order newOrder = orderMapper.orderDtoToOrder(orderDto);
+        Customer customer = customerRepository.findById(orderDto.getCustomerId()).get();
         newOrder.setCustomer(customer);
-        final Order savedOrder = orderRepository.save(newOrder);
+        Order savedOrder = orderRepository.save(newOrder);
         return savedOrder.getId();
     }
 
