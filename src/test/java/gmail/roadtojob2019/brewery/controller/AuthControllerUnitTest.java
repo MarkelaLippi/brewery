@@ -50,8 +50,8 @@ class AuthControllerUnitTest {
     @Test
     public void testCustomerSignUpIsCreated() throws Exception {
         // given
-        UserEntity userEntity = getUserEntity();
-        AuthInfoEntity authInfoEntity = getAuthInfoEntity(userEntity);
+        final UserEntity userEntity = getUserEntity();
+        final AuthInfoEntity authInfoEntity = getAuthInfoEntity(userEntity);
         willReturn(userEntity).given(userRepository).save(any(UserEntity.class));
         willReturn(authInfoEntity).given(authInfoRepository).save(any(AuthInfoEntity.class));
         //when
@@ -88,9 +88,9 @@ class AuthControllerUnitTest {
     @Test
     public void testCustomerSignUpWhenUserAlreadyExisted() throws Exception {
         //given
-        UserEntity userEntity = getUserEntity();
-        AuthInfoEntity authInfoEntity = getAuthInfoEntity(userEntity);
-        Optional<AuthInfoEntity> requiredAuthInfoEntity = Optional.of(authInfoEntity);
+        final UserEntity userEntity = getUserEntity();
+        final AuthInfoEntity authInfoEntity = getAuthInfoEntity(userEntity);
+        final Optional<AuthInfoEntity> requiredAuthInfoEntity = Optional.of(authInfoEntity);
         willReturn(requiredAuthInfoEntity).given(authInfoRepository).findByLogin("Ivanov@gmail.com");
         //when
         mockMvc.perform(post("/brewery/sign-up")
@@ -109,10 +109,16 @@ class AuthControllerUnitTest {
 
     @Test
     public void testUserSignInIsOk() throws Exception {
+        //given
+        final UserEntity userEntity = getUserEntity();
+        final AuthInfoEntity authInfoEntity = getAuthInfoEntity(userEntity);
+        Optional<AuthInfoEntity> requiredAuthInfoEntity = Optional.of(authInfoEntity);
+        willReturn(requiredAuthInfoEntity).given(authInfoRepository).findByLogin("Ivanov@gmail.com");
+        //when
         mockMvc.perform(post("/brewery/sign-in")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
-                        "  \"email\" : \"Petrov@gmail.com\",\n" +
+                        "  \"email\" : \"Ivanov@gmail.com\",\n" +
                         "  \"password\" : \"12345678\"\n" +
                         "}"))
                 .andExpect(status().isOk())

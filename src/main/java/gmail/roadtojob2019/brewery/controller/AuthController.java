@@ -15,6 +15,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -43,8 +45,16 @@ public class AuthController {
     @PostMapping(value = "/sign-in", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public UserSignInResponseDto singIn(@RequestBody final SignInRequestDto request) {
+
+
         final Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+
+/*
+        SecurityContext context = SecurityContextHolder.getContext();
+        context.setAuthentication(authentication);
+*/
+
 
         final UserDetails principal = (UserDetails)authentication.getPrincipal();
         final Collection<? extends GrantedAuthority> authorities = principal.getAuthorities();
