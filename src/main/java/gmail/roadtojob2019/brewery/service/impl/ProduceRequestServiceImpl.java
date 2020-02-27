@@ -45,7 +45,7 @@ public class ProduceRequestServiceImpl implements ProduceRequestService {
     @Transactional
     public ProduceRequestDto getProduceRequest(Long id) throws BrewerySuchProduceRequestNotFoundException {
         final ProduceRequest produceRequest = produceRequestRepository.findById(id)
-                .orElseThrow(()->new BrewerySuchProduceRequestNotFoundException("ProduceRequest with id = "+ id +" was not found"));
+                .orElseThrow(() -> new BrewerySuchProduceRequestNotFoundException("ProduceRequest with id = " + id + " was not found"));
         final ProduceRequestDto produceRequestDto = produceRequestMapper.produceRequestToProduceRequestDto(produceRequest);
         return produceRequestDto;
     }
@@ -55,11 +55,10 @@ public class ProduceRequestServiceImpl implements ProduceRequestService {
     public Long changeProduceRequestStatus(Long id, ProduceRequestDto produceRequestDto) throws BrewerySuchProduceRequestNotFoundException {
         final Status requiredStatus = Status.valueOf(produceRequestDto.getStatus().toUpperCase());
         final ProduceRequest produceRequestBeforeChangingStatus = produceRequestRepository.findById(id)
-                .orElseThrow(()->new BrewerySuchProduceRequestNotFoundException("ProduceRequest with id = "+ id +" was not found"));
+                .orElseThrow(() -> new BrewerySuchProduceRequestNotFoundException("ProduceRequest with id = " + id + " was not found"));
         produceRequestBeforeChangingStatus.setStatus(requiredStatus);
         final ProduceRequest produceRequestAfterChangingStatus = produceRequestRepository.save(produceRequestBeforeChangingStatus);
         return produceRequestAfterChangingStatus.getId();
     }
-
 }
 

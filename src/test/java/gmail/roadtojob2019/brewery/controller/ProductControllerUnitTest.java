@@ -1,6 +1,9 @@
 package gmail.roadtojob2019.brewery.controller;
 
-import gmail.roadtojob2019.brewery.entity.*;
+import gmail.roadtojob2019.brewery.entity.Product;
+import gmail.roadtojob2019.brewery.entity.Storage;
+import gmail.roadtojob2019.brewery.entity.Type;
+import gmail.roadtojob2019.brewery.entity.Unit;
 import gmail.roadtojob2019.brewery.repository.ProductRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +18,11 @@ import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
@@ -51,6 +55,8 @@ class ProductControllerUnitTest {
                         "    \"price\" : 2.5\n" +
                         "  }\n" +
                         "]"));
+
+        verify(productRepository, times(1)).findByType(any(Type.class));
     }
 
     @Test
@@ -85,6 +91,8 @@ class ProductControllerUnitTest {
                         "    \"unit\" : \"LITRE\" \n" +
                         "  }\n" +
                         "]"));
+
+        verify(productRepository, times(1)).findByType(any(Type.class));
     }
 
     private Product getProductBeer() {
@@ -118,6 +126,23 @@ class ProductControllerUnitTest {
                                 "    \"amount\" : 800.0,\n" +
                                 "    \"unit\" : \"LITRE\" \n" +
                                 "  }\n"));
+
+        verify(productRepository, times(1)).findById(any(Long.class));
+    }
+
+    @Test
+    void testGetProductByIdThrowsBrewerySuchProductNotFoundException() throws Exception {
+        // given
+        // signInAsCustomer();
+        willReturn(Optional.empty()).given(productRepository)
+                .findById(2L);
+        // when
+        mockMvc.perform(get("/brewery/brewer/products/2"))
+                // then
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("errorMessage").value("Product with id = 2 was not found"));
+
+        verify(productRepository, times(1)).findById(any(Long.class));
     }
 
     private Optional<Product> getProductIngredient() {

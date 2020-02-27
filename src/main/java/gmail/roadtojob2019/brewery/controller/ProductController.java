@@ -2,6 +2,7 @@ package gmail.roadtojob2019.brewery.controller;
 
 import gmail.roadtojob2019.brewery.dto.PricelistItemDto;
 import gmail.roadtojob2019.brewery.dto.ProductDto;
+import gmail.roadtojob2019.brewery.exception.BrewerySuchProductNotFoundException;
 import gmail.roadtojob2019.brewery.service.ProductService;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
@@ -33,7 +34,7 @@ public class ProductController {
 
     @GetMapping("brewer/products/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ProductDto getProductById(@PathVariable Long id) {
+    public ProductDto getProductById(@PathVariable Long id) throws BrewerySuchProductNotFoundException {
         return productService.getProductById(id);
     }
 
