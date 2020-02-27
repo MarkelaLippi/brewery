@@ -70,19 +70,19 @@ class AuthControllerUnitTest {
 
     private AuthInfoEntity getAuthInfoEntity(UserEntity userEntity) {
         return AuthInfoEntity.builder()
-                    .id(1L)
-                    .login("Ivanov@gmail.com")
-                    .password("$2a$08$awwha45hqJvFrBQkC1ZFvO7mmST85cbTcJRBJRlMcqsZupmKo57mS")
-                    .user(userEntity)
-                    .build();
+                .id(1L)
+                .login("Ivanov@gmail.com")
+                .password("$2a$08$awwha45hqJvFrBQkC1ZFvO7mmST85cbTcJRBJRlMcqsZupmKo57mS")
+                .user(userEntity)
+                .build();
     }
 
     private UserEntity getUserEntity() {
         return UserEntity.builder()
-                    .id(1L)
-                    .email("Ivanov@gmail.com")
-                    .userRole(UserRole.CUSTOMER)
-                    .build();
+                .id(1L)
+                .email("Ivanov@gmail.com")
+                .userRole(UserRole.CUSTOMER)
+                .build();
     }
 
     @Test
@@ -103,7 +103,7 @@ class AuthControllerUnitTest {
                         "}"))
                 //then
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("errorMessage").value("User with email="+userEntity.getEmail()+" already exists"));
+                .andExpect(jsonPath("errorMessage").value("User with email=" + userEntity.getEmail() + " already exists"));
         verify(authInfoRepository, times(1)).findByLogin(any(String.class));
     }
 
@@ -147,13 +147,18 @@ class AuthControllerUnitTest {
 
     @Test
     public void testUserSignInWithWrongEmail() throws Exception {
+        //given
+        willReturn(Optional.empty()).given(authInfoRepository).findByLogin("Wrong email");
+        //when
         mockMvc.perform(post("/brewery/sign-in")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
                         "  \"email\" : \"Wrong email\",\n" +
                         "  \"password\" : \"12345678\"\n" +
                         "}"))
+                //then
                 .andExpect(status().isForbidden());
+        verify(authInfoRepository, times(1)).findByLogin(any(String.class));
     }
 
     private String signInAsCustomer() throws Exception {

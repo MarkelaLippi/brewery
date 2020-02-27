@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.extern.java.Log;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -15,7 +16,8 @@ import java.util.logging.Level;
 public class ExceptionControllerAdvice {
 
     @ExceptionHandler(
-            {BrewerySuchCustomerAlreadyExistException.class,
+            {UsernameNotFoundException.class,
+                    BrewerySuchCustomerAlreadyExistException.class,
                     BrewerySuchCustomerNotFoundException.class,
                     BrewerySuchProduceRequestNotFoundException.class,
                     BrewerySuchProductNotFoundException.class,
