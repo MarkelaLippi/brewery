@@ -56,10 +56,10 @@ public class AuthController {
                 .getAuthority()
                 .substring(5);
 
-        return new UserSignInResponseDto(
-                jwtUtil.generateToken(
-                        new User(request.getEmail(), request.getPassword(),
-                                List.of(new SimpleGrantedAuthority(ROLE)))));
+        User user = new User(request.getEmail(), request.getPassword(), List.of(new SimpleGrantedAuthority(ROLE)));
+        String token = jwtUtil.generateToken(user);
+        UserSignInResponseDto userSignInResponseDto = new UserSignInResponseDto(token);
+        return userSignInResponseDto;
     }
 }
 

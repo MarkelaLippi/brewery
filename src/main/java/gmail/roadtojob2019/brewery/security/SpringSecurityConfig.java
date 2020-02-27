@@ -26,9 +26,12 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 //.httpBasic()
                 .csrf().disable()
                 .authorizeRequests()
+/*
                 .antMatchers("brewery/customer/**").hasRole(UserRole.CUSTOMER.name())
                 .antMatchers("brewery/sales/**").hasRole(UserRole.SALES.name())
                 .antMatchers("brewery/brewer/**").hasRole(UserRole.BREWER.name())
+*/
+                .anyRequest().permitAll()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
