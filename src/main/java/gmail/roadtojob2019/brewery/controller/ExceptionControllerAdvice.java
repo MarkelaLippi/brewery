@@ -19,7 +19,8 @@ public class ExceptionControllerAdvice {
                     BrewerySuchCustomerNotFoundException.class,
                     BrewerySuchProduceRequestNotFoundException.class,
                     BrewerySuchProductNotFoundException.class,
-                    BrewerySuchRecipeNotFoundException.class})
+                    BrewerySuchRecipeNotFoundException.class,
+                    BrewerySuchOrderNotFoundException.class})
     private ResponseEntity<ErrorMessage> handleBadRequest(final Exception e) {
         log.log(Level.SEVERE, e.getMessage(), e);
         return new ResponseEntity<>(new ErrorMessage(e.getMessage()), HttpStatus.BAD_REQUEST);
