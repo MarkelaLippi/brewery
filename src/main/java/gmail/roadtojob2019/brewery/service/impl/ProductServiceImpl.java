@@ -65,8 +65,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public Long changeProductAmount(Long id, ProductDto productDto) {
-        final Product productBeforeChangingAmount = productRepository.findById(id).get();
+    public Long changeProductAmount(Long id, ProductDto productDto) throws BrewerySuchProductNotFoundException {
+        final Product productBeforeChangingAmount = productRepository.findById(id)
+                .orElseThrow(() -> new BrewerySuchProductNotFoundException("Product with id = " + id + " was not found"));
         Storage storage = productBeforeChangingAmount.getStorage();
         final Double amountBeforeChanging = storage.getAmount();
         final Double createdProductAmount = productDto.getAmount();

@@ -38,11 +38,8 @@ class ProductControllerUnitTest {
         // given
         // signInAsCustomer();
         final Product product = getProductBeer();
-
         final List<Product> products = List.of(product);
-
-        willReturn(products).given(productRepository)
-                .findByType(Type.BEER);
+        willReturn(products).given(productRepository).findByType(Type.BEER);
         // when
         mockMvc.perform(get("/brewery/customer/pricelist"))
                 // then
@@ -55,7 +52,6 @@ class ProductControllerUnitTest {
                         "    \"price\" : 2.5\n" +
                         "  }\n" +
                         "]"));
-
         verify(productRepository, times(1)).findByType(any(Type.class));
     }
 
@@ -64,19 +60,14 @@ class ProductControllerUnitTest {
         // given
         // signInAsCustomer();
         final Product product = getProductBeer();
-
         final Storage storage = Storage.builder()
                 .id(1L)
                 .productId(1L)
                 .amount(500.0)
                 .build();
-
         product.setStorage(storage);
-
         final List<Product> products = List.of(product);
-
-        willReturn(products).given(productRepository)
-                .findByType(Type.BEER);
+        willReturn(products).given(productRepository).findByType(Type.BEER);
         // when
         mockMvc.perform(get("/brewery/sales/products?type=beer"))
                 // then
@@ -91,7 +82,6 @@ class ProductControllerUnitTest {
                         "    \"unit\" : \"LITRE\" \n" +
                         "  }\n" +
                         "]"));
-
         verify(productRepository, times(1)).findByType(any(Type.class));
     }
 
@@ -111,9 +101,7 @@ class ProductControllerUnitTest {
         // given
         // signInAsCustomer();
         final Optional<Product> requiredProduct = getProductIngredient();
-
-        willReturn(requiredProduct).given(productRepository)
-                .findById(2L);
+        willReturn(requiredProduct).given(productRepository).findById(2L);
         // when
         mockMvc.perform(get("/brewery/brewer/products/2"))
                 // then
@@ -126,7 +114,6 @@ class ProductControllerUnitTest {
                                 "    \"amount\" : 800.0,\n" +
                                 "    \"unit\" : \"LITRE\" \n" +
                                 "  }\n"));
-
         verify(productRepository, times(1)).findById(any(Long.class));
     }
 
@@ -134,14 +121,12 @@ class ProductControllerUnitTest {
     void testGetProductByIdThrowsBrewerySuchProductNotFoundException() throws Exception {
         // given
         // signInAsCustomer();
-        willReturn(Optional.empty()).given(productRepository)
-                .findById(2L);
+        willReturn(Optional.empty()).given(productRepository).findById(2L);
         // when
         mockMvc.perform(get("/brewery/brewer/products/2"))
                 // then
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("errorMessage").value("Product with id = 2 was not found"));
-
         verify(productRepository, times(1)).findById(any(Long.class));
     }
 
@@ -153,15 +138,12 @@ class ProductControllerUnitTest {
                 .type(Type.INGREDIENT)
                 .unit(Unit.LITRE)
                 .build();
-
         final Storage storage = Storage.builder()
                 .id(2L)
                 .productId(2L)
                 .amount(800.0)
                 .build();
-
         product.setStorage(storage);
-
         return Optional.of(product);
     }
 
@@ -170,22 +152,15 @@ class ProductControllerUnitTest {
         // given
         // signInAsCustomer();
         final Product product = getProductBeer();
-
         final Storage storage = Storage.builder()
                 .id(1L)
                 .productId(1L)
                 .amount(500.0)
                 .build();
-
         product.setStorage(storage);
-
         final Optional<Product> requiredProduct = Optional.of(product);
-
-        willReturn(requiredProduct).given(productRepository)
-                .findById(1L);
-
-        willReturn(product).given(productRepository)
-                .save(any(Product.class));
+        willReturn(requiredProduct).given(productRepository).findById(1L);
+        willReturn(product).given(productRepository).save(any(Product.class));
         // when
         mockMvc.perform(patch("/brewery/brewer/products/1")
                 // then
@@ -195,5 +170,31 @@ class ProductControllerUnitTest {
                         "  }\n"))
                 .andExpect(status().isOk())
                 .andExpect(content().json("1"));
+
+        verify(productRepository, times(1)).findById(any(Long.class));
+        verify(productRepository, times(1)).save(any(Product.class));
+    }
+
+    @Test
+    public void testChangeProductAmountThrowsBrewerySuchProductNotFoundException() throws Exception {
+        // given
+        // signInAsCustomer();
+        final Product product = getProductBeer();
+
+        willReturn(Optional.empty()).given(productRepository).findById(1L);
+
+        willReturn(product).given(productRepository).save(any(Product.class));
+        // when
+        mockMvc.perform(patch("/brewery/brewer/products/1")
+                // then
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(" {\n" +
+                        "    \"amount\" : 250\n" +
+                        "  }\n"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("errorMessage").value("Product with id = 1 was not found"));
+
+        verify(productRepository, times(1)).findById(any(Long.class));
+        verify(productRepository, times(0)).save(any(Product.class));
     }
 }

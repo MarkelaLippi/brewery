@@ -11,7 +11,7 @@ public interface ProductService {
 
     List<ProductDto> getAllProductsByType(String type);
 
-    Long changeProductAmount(Long id, ProductDto amount);
+    Long changeProductAmount(Long id, ProductDto amount) throws BrewerySuchProductNotFoundException;
 
     ProductDto getProductById(Long id) throws BrewerySuchProductNotFoundException;
 }

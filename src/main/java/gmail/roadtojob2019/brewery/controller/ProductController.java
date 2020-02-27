@@ -40,7 +40,7 @@ public class ProductController {
 
     @PatchMapping(value = "brewer/products/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public Long changeProductAmount(@PathVariable Long id, @RequestBody ProductDto amount) {
+    public Long changeProductAmount(@PathVariable Long id, @RequestBody ProductDto amount) throws BrewerySuchProductNotFoundException {
         return productService.changeProductAmount(id, amount);
     }
 }
