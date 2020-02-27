@@ -123,17 +123,26 @@ class AuthControllerUnitTest {
                         "}"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("token", hasLength(145)));
+        verify(authInfoRepository, times(1)).findByLogin(any(String.class));
     }
 
     @Test
     public void testUserSignInWithWrongPassword() throws Exception {
+        //given
+        final UserEntity userEntity = getUserEntity();
+        final AuthInfoEntity authInfoEntity = getAuthInfoEntity(userEntity);
+        Optional<AuthInfoEntity> requiredAuthInfoEntity = Optional.of(authInfoEntity);
+        willReturn(requiredAuthInfoEntity).given(authInfoRepository).findByLogin("Ivanov@gmail.com");
+        //when
         mockMvc.perform(post("/brewery/sign-in")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
-                        "  \"email\" : \"Sydorov@gmail.com\",\n" +
+                        "  \"email\" : \"Ivanov@gmail.com\",\n" +
                         "  \"password\" : \"Wrong password\"\n" +
                         "}"))
+                //then
                 .andExpect(status().isForbidden());
+        verify(authInfoRepository, times(1)).findByLogin(any(String.class));
     }
 
     @Test

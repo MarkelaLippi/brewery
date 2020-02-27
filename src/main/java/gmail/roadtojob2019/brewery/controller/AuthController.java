@@ -45,17 +45,8 @@ public class AuthController {
     @PostMapping(value = "/sign-in", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public UserSignInResponseDto singIn(@RequestBody final SignInRequestDto request) {
-
-
         final Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
-
-/*
-        SecurityContext context = SecurityContextHolder.getContext();
-        context.setAuthentication(authentication);
-*/
-
-
         final UserDetails principal = (UserDetails)authentication.getPrincipal();
         final Collection<? extends GrantedAuthority> authorities = principal.getAuthorities();
 
