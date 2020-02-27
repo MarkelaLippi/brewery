@@ -2,6 +2,7 @@ package gmail.roadtojob2019.brewery.controller;
 
 import gmail.roadtojob2019.brewery.entity.Customer;
 import gmail.roadtojob2019.brewery.entity.Order;
+import gmail.roadtojob2019.brewery.entity.ProduceRequest;
 import gmail.roadtojob2019.brewery.entity.Review;
 import gmail.roadtojob2019.brewery.repository.CustomerRepository;
 import gmail.roadtojob2019.brewery.repository.OrderRepository;
@@ -20,9 +21,10 @@ import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
@@ -42,17 +44,11 @@ class ReviewControllerUnitTest {
         // given
         //signInAsCustomer();
         final Optional<Customer> customer = getCustomer();
-
         final Optional<Order> order = getOrder(customer);
-
         final Review review = getReview(customer, order);
-
         willReturn(customer).given(customerRepository).findById(1L);
-
         willReturn(order).given(orderRepository).findById(1L);
-
         willReturn(review).given(reviewRepository).save(any(Review.class));
-
         // when
         mockMvc.perform(post("/brewery/customer/reviews")
                 //then
@@ -65,6 +61,36 @@ class ReviewControllerUnitTest {
                         "}"))
                 .andExpect(status().isCreated())
                 .andExpect(content().json("1"));
+        verify(customerRepository, times(1)).findById(any(Long.class));
+        verify(orderRepository, times(1)).findById(any(Long.class));
+        verify(reviewRepository, times(1)).save(any(Review.class));
+    }
+
+    @Test
+    public void testCustomerReviewThrowsBrewerySuchCustomerNotFoundException() throws Exception {
+        // given
+        //signInAsCustomer();
+        final Optional<Customer> customer = getCustomer();
+        final Optional<Order> order = getOrder(customer);
+        final Review review = getReview(customer, order);
+        willReturn(Optional.empty()).given(customerRepository).findById(1L);
+        willReturn(order).given(orderRepository).findById(1L);
+        willReturn(review).given(reviewRepository).save(any(Review.class));
+        // when
+        mockMvc.perform(post("/brewery/customer/reviews")
+                //then
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\n" +
+                        "  \"date\" : \"2020-02-06\",\n" +
+                        "  \"content\" : \"I want to thank...\",\n" +
+                        "  \"customerId\" : 1,\n" +
+                        "  \"orderId\" : 1\n" +
+                        "}"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("errorMessage").value("Customer with id = 1 was not found"));
+        verify(customerRepository, times(1)).findById(any(Long.class));
+        verify(orderRepository, times(0)).findById(any(Long.class));
+        verify(reviewRepository, times(0)).save(any(Review.class));
     }
 
     private Review getReview(Optional<Customer> customer, Optional<Order> order) {

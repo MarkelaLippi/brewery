@@ -4,6 +4,7 @@ import gmail.roadtojob2019.brewery.dto.ReviewDto;
 import gmail.roadtojob2019.brewery.entity.Customer;
 import gmail.roadtojob2019.brewery.entity.Order;
 import gmail.roadtojob2019.brewery.entity.Review;
+import gmail.roadtojob2019.brewery.exception.BrewerySuchCustomerNotFoundException;
 import gmail.roadtojob2019.brewery.mapper.ReviewMapper;
 import gmail.roadtojob2019.brewery.repository.CustomerRepository;
 import gmail.roadtojob2019.brewery.repository.OrderRepository;
@@ -26,9 +27,11 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     @Transactional
-    public Long createReview(ReviewDto reviewDto) {
+    public Long createReview(ReviewDto reviewDto) throws BrewerySuchCustomerNotFoundException {
         final Review newReview = reviewMapper.reviewDtoToReview(reviewDto);
-        final Customer customer = customerRepository.findById(reviewDto.getCustomerId()).get();
+        final Long customerId = reviewDto.getCustomerId();
+        final Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(()->new BrewerySuchCustomerNotFoundException("Customer with id = "+ customerId +" was not found"));
         final Order order = orderRepository.findById(reviewDto.getOrderId()).get();
         newReview.setCustomer(customer);
         newReview.setOrder(order);
