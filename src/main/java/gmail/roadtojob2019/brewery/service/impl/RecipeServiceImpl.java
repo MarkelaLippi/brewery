@@ -2,6 +2,7 @@ package gmail.roadtojob2019.brewery.service.impl;
 
 import gmail.roadtojob2019.brewery.dto.RecipeDto;
 import gmail.roadtojob2019.brewery.entity.Recipe;
+import gmail.roadtojob2019.brewery.exception.BrewerySuchRecipeNotFoundException;
 import gmail.roadtojob2019.brewery.mapper.RecipeMapper;
 import gmail.roadtojob2019.brewery.repository.RecipeRepository;
 import gmail.roadtojob2019.brewery.service.RecipeService;
@@ -20,9 +21,10 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     @Transactional
-    public RecipeDto getRecipe(Long id) {
-        Recipe recipe = recipeRepository.findById(id).get();
-        RecipeDto recipeDto = recipeMapper.recipeToRecipeDto(recipe);
+    public RecipeDto getRecipe(Long id) throws BrewerySuchRecipeNotFoundException {
+        final Recipe recipe = recipeRepository.findById(id)
+                .orElseThrow(() -> new BrewerySuchRecipeNotFoundException("Recipe with id = " + id + " was not found"));
+        final RecipeDto recipeDto = recipeMapper.recipeToRecipeDto(recipe);
         return recipeDto;
     }
 }

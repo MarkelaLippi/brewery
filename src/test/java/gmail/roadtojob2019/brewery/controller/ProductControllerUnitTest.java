@@ -180,9 +180,7 @@ class ProductControllerUnitTest {
         // given
         // signInAsCustomer();
         final Product product = getProductBeer();
-
         willReturn(Optional.empty()).given(productRepository).findById(1L);
-
         willReturn(product).given(productRepository).save(any(Product.class));
         // when
         mockMvc.perform(patch("/brewery/brewer/products/1")
@@ -193,7 +191,6 @@ class ProductControllerUnitTest {
                         "  }\n"))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("errorMessage").value("Product with id = 1 was not found"));
-
         verify(productRepository, times(1)).findById(any(Long.class));
         verify(productRepository, times(0)).save(any(Product.class));
     }

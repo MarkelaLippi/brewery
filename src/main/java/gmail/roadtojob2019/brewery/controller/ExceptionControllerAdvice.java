@@ -1,9 +1,6 @@
 package gmail.roadtojob2019.brewery.controller;
 
-import gmail.roadtojob2019.brewery.exception.BrewerySuchCustomerNotFoundException;
-import gmail.roadtojob2019.brewery.exception.BrewerySuchCustomerAlreadyExistException;
-import gmail.roadtojob2019.brewery.exception.BrewerySuchProduceRequestNotFoundException;
-import gmail.roadtojob2019.brewery.exception.BrewerySuchProductNotFoundException;
+import gmail.roadtojob2019.brewery.exception.*;
 import lombok.Data;
 import lombok.extern.java.Log;
 import org.springframework.http.HttpStatus;
@@ -21,7 +18,8 @@ public class ExceptionControllerAdvice {
             {BrewerySuchCustomerAlreadyExistException.class,
                     BrewerySuchCustomerNotFoundException.class,
                     BrewerySuchProduceRequestNotFoundException.class,
-                    BrewerySuchProductNotFoundException.class})
+                    BrewerySuchProductNotFoundException.class,
+                    BrewerySuchRecipeNotFoundException.class})
     private ResponseEntity<ErrorMessage> handleBadRequest(final Exception e) {
         log.log(Level.SEVERE, e.getMessage(), e);
         return new ResponseEntity<>(new ErrorMessage(e.getMessage()), HttpStatus.BAD_REQUEST);

@@ -2,6 +2,7 @@ package gmail.roadtojob2019.brewery.service;
 
 import gmail.roadtojob2019.brewery.dto.RecipeDto;
 import gmail.roadtojob2019.brewery.entity.Recipe;
+import gmail.roadtojob2019.brewery.exception.BrewerySuchRecipeNotFoundException;
 import gmail.roadtojob2019.brewery.mapper.RecipeMapper;
 import gmail.roadtojob2019.brewery.repository.RecipeRepository;
 import gmail.roadtojob2019.brewery.service.impl.RecipeServiceImpl;
@@ -32,7 +33,7 @@ class RecipeServiceImplTest {
     private RecipeMapper recipeMapper;
 
     @Test
-    void testGetRecipe() {
+    void testGetRecipe() throws BrewerySuchRecipeNotFoundException {
         final Long recipeId=1L;
         final Long productId=1L;
         final Optional<Recipe> recipe = Optional.of(Recipe.builder()

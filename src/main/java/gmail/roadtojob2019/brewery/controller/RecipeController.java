@@ -1,6 +1,7 @@
 package gmail.roadtojob2019.brewery.controller;
 
 import gmail.roadtojob2019.brewery.dto.RecipeDto;
+import gmail.roadtojob2019.brewery.exception.BrewerySuchRecipeNotFoundException;
 import gmail.roadtojob2019.brewery.service.RecipeService;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
@@ -17,7 +18,7 @@ public class RecipeController {
 
     @GetMapping("brewer/recipes/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public RecipeDto getRecipe(@PathVariable Long id) {
+    public RecipeDto getRecipe(@PathVariable Long id) throws BrewerySuchRecipeNotFoundException {
         return recipeService.getRecipe(id);
     }
 }
