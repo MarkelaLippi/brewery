@@ -43,33 +43,36 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     @Transactional
-    public void signUp(CustomerSignUpRequestDto request) throws BrewerySuchCustomerAlreadyExistException {
-        if (authInfoRepository.findByLogin(request.getEmail()).isPresent()) {
-            throw new BrewerySuchCustomerAlreadyExistException("User with email=" + request.getEmail() + " already exists");
+    public UserSignInResponseDto signUp(CustomerSignUpRequestDto signUpRequest) throws BrewerySuchCustomerAlreadyExistException {
+        if (authInfoRepository.findByLogin(signUpRequest.getEmail()).isPresent()) {
+            throw new BrewerySuchCustomerAlreadyExistException("User with email=" + signUpRequest.getEmail() + " already exists");
         }
-        saveUser(request);
+        saveUser(signUpRequest);
+        final UserSignInResponseDto userSignInResponseDto = singIn(new SignInRequestDto(signUpRequest.getEmail(), signUpRequest.getPassword()));
+        return userSignInResponseDto;
+
     }
 
-    private void saveUser(final CustomerSignUpRequestDto request) {
-        final UserEntity userEntity = customerSignUpRequestMapper.sourceToDestination(request);
+    private void saveUser(final CustomerSignUpRequestDto signUpRequest) {
+        final UserEntity userEntity = customerSignUpRequestMapper.sourceToDestination(signUpRequest);
         userEntity.setUserRole(UserRole.CUSTOMER);
         final UserEntity savedUser = userRepository.save(userEntity);
-        saveAuthInfo(request, savedUser);
+        saveAuthInfo(signUpRequest, savedUser);
     }
 
-    private void saveAuthInfo(final CustomerSignUpRequestDto request, final UserEntity savedUser) {
+    private void saveAuthInfo(final CustomerSignUpRequestDto signUpRequest, final UserEntity savedUser) {
         final AuthInfoEntity authInfoEntity = new AuthInfoEntity();
-        authInfoEntity.setLogin(request.getEmail());
-        authInfoEntity.setPassword(passwordEncoder.encode(request.getPassword()));
+        authInfoEntity.setLogin(signUpRequest.getEmail());
+        authInfoEntity.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
         authInfoEntity.setUser(savedUser);
         authInfoRepository.save(authInfoEntity);
     }
 
     @Override
     @Transactional
-    public UserSignInResponseDto singIn(SignInRequestDto request) {
+    public UserSignInResponseDto singIn(SignInRequestDto signInRequest) {
         final Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+                .authenticate(new UsernamePasswordAuthenticationToken(signInRequest.getEmail(), signInRequest.getPassword()));
         final UserDetails principal = (UserDetails) authentication.getPrincipal();
         final Collection<? extends GrantedAuthority> authorities = principal.getAuthorities();
 
@@ -80,7 +83,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .getAuthority()
                 .substring(5);
 
-        User user = new User(request.getEmail(), request.getPassword(), List.of(new SimpleGrantedAuthority(ROLE)));
+        User user = new User(signInRequest.getEmail(), signInRequest.getPassword(), List.of(new SimpleGrantedAuthority(ROLE)));
         String token = jwtUtil.generateToken(user);
         UserSignInResponseDto userSignInResponseDto = new UserSignInResponseDto(token);
         return userSignInResponseDto;

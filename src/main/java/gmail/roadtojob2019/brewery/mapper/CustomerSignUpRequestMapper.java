@@ -7,7 +7,7 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface CustomerSignUpRequestMapper {
 
-    UserEntity sourceToDestination(CustomerSignUpRequestDto source);
+    UserEntity sourceToDestination(CustomerSignUpRequestDto dto);
 
-    CustomerSignUpRequestDto destinationToSource(UserEntity destination);
+    CustomerSignUpRequestDto destinationToSource(UserEntity userEntity);
 }

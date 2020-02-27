@@ -7,7 +7,7 @@ import gmail.roadtojob2019.brewery.exception.BrewerySuchCustomerAlreadyExistExce
 
 public interface AuthenticationService {
 
-    void signUp(CustomerSignUpRequestDto request) throws BrewerySuchCustomerAlreadyExistException;
+    UserSignInResponseDto signUp(CustomerSignUpRequestDto request) throws BrewerySuchCustomerAlreadyExistException;
 
     UserSignInResponseDto singIn(SignInRequestDto request);
 }

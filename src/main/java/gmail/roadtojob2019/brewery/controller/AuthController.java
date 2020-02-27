@@ -18,10 +18,9 @@ public class AuthController {
 
     @PostMapping(value = "/sign-up", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public UserSignInResponseDto singUp(@RequestBody final CustomerSignUpRequestDto request)
+    public UserSignInResponseDto singUp(@RequestBody final CustomerSignUpRequestDto signUpRequest)
             throws BrewerySuchCustomerAlreadyExistException {
-        authenticationService.signUp(request);
-        final UserSignInResponseDto userSignInResponseDto = singIn(new SignInRequestDto(request.getEmail(), request.getPassword()));
+        UserSignInResponseDto userSignInResponseDto = authenticationService.signUp(signUpRequest);
         return userSignInResponseDto;
     }
 

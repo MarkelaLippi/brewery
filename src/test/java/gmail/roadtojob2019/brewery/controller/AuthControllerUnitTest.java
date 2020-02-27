@@ -45,11 +45,12 @@ class AuthControllerUnitTest {
     @MockBean
     private AuthInfoRepository authInfoRepository;
 
-   // @Test
+    @Test
     public void testCustomerSignUpIsCreated() throws Exception {
         // given
         final UserEntity userEntity = getUserEntity();
         final AuthInfoEntity authInfoEntity = getAuthInfoEntity(userEntity);
+        willReturn(Optional.empty()).given(authInfoRepository).findByLogin("Ivanov@gmail.com");
         willReturn(userEntity).given(userRepository).save(any(UserEntity.class));
         willReturn(authInfoEntity).given(authInfoRepository).save(any(AuthInfoEntity.class));
         //when
