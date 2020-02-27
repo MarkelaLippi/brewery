@@ -1,6 +1,8 @@
 package gmail.roadtojob2019.brewery.controller;
 
 import gmail.roadtojob2019.brewery.dto.ProduceRequestDto;
+import gmail.roadtojob2019.brewery.exception.BrewerySuchCustomerNotFoundException;
+import gmail.roadtojob2019.brewery.exception.BrewerySuchProduceRequestNotFoundException;
 import gmail.roadtojob2019.brewery.service.ProduceRequestService;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
@@ -32,7 +34,7 @@ public class ProduceRequestController {
 
     @GetMapping(value = "brewer/requests/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ProduceRequestDto getProduceRequest(@PathVariable Long id) {
+    public ProduceRequestDto getProduceRequest(@PathVariable Long id) throws BrewerySuchProduceRequestNotFoundException, BrewerySuchCustomerNotFoundException {
         return produceRequestService.getProduceRequest(id);
     }
 

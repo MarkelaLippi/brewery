@@ -3,7 +3,8 @@ package gmail.roadtojob2019.brewery.service.impl;
 import gmail.roadtojob2019.brewery.dto.ProduceRequestDto;
 import gmail.roadtojob2019.brewery.entity.ProduceRequest;
 import gmail.roadtojob2019.brewery.entity.Status;
-import gmail.roadtojob2019.brewery.mapper.ProduceRequestItemMapper;
+import gmail.roadtojob2019.brewery.exception.BrewerySuchCustomerNotFoundException;
+import gmail.roadtojob2019.brewery.exception.BrewerySuchProduceRequestNotFoundException;
 import gmail.roadtojob2019.brewery.mapper.ProduceRequestMapper;
 import gmail.roadtojob2019.brewery.repository.ProduceRequestRepository;
 import gmail.roadtojob2019.brewery.service.ProduceRequestService;
@@ -43,8 +44,9 @@ public class ProduceRequestServiceImpl implements ProduceRequestService {
 
     @Override
     @Transactional
-    public ProduceRequestDto getProduceRequest(Long id) {
-        final ProduceRequest produceRequest = produceRequestRepository.findById(id).get();
+    public ProduceRequestDto getProduceRequest(Long id) throws BrewerySuchProduceRequestNotFoundException {
+        final ProduceRequest produceRequest = produceRequestRepository.findById(id)
+                .orElseThrow(()->new BrewerySuchProduceRequestNotFoundException("ProduceRequest with id = "+ id +" was not found"));
         final ProduceRequestDto produceRequestDto = produceRequestMapper.produceRequestToProduceRequestDto(produceRequest);
         return produceRequestDto;
     }

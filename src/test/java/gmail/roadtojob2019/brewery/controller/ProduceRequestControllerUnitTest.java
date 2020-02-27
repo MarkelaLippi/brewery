@@ -8,7 +8,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
@@ -17,9 +16,10 @@ import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
@@ -102,20 +102,18 @@ class ProduceRequestControllerUnitTest {
                         "  }\n"));
     }
 
-    private ProduceRequest getProduceRequest() {
-        final ProduceRequestItem produceRequestItem = ProduceRequestItem.builder()
-                .id(1L)
-                .amount(350.0)
-                .product(Product.builder().id(1L).build())
-                .build();
+    @Test
+    public void testGetProduceRequestThrowsBrewerySuchProduceRequestNotFoundException() throws Exception {
+        // given
+        //signInAsCustomer();
+        willReturn(Optional.empty()).given(produceRequestRepository).findById(1L);
+        //when
+        mockMvc.perform(get("/brewery/brewer/requests/1"))
+                //then
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("errorMessage").value("ProduceRequest with id = 1 was not found"));
 
-        return ProduceRequest.builder()
-                .id(1L)
-                .date(LocalDate.of(2020, 2, 5))
-                .status(Status.NEW)
-                .term(LocalDate.of(2020, 2, 10))
-                .produceRequestItems(List.of(produceRequestItem))
-                .build();
+        verify(produceRequestRepository, times(1)).findById(1L);
     }
 
     @Test
@@ -137,5 +135,21 @@ class ProduceRequestControllerUnitTest {
                 //then
                 .andExpect(status().isOk())
                 .andExpect(content().json("1"));
+    }
+
+    private ProduceRequest getProduceRequest() {
+        final ProduceRequestItem produceRequestItem = ProduceRequestItem.builder()
+                .id(1L)
+                .amount(350.0)
+                .product(Product.builder().id(1L).build())
+                .build();
+
+        return ProduceRequest.builder()
+                .id(1L)
+                .date(LocalDate.of(2020, 2, 5))
+                .status(Status.NEW)
+                .term(LocalDate.of(2020, 2, 10))
+                .produceRequestItems(List.of(produceRequestItem))
+                .build();
     }
 }
