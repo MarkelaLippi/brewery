@@ -34,13 +34,13 @@ public class ProduceRequestController {
 
     @GetMapping(value = "brewer/requests/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ProduceRequestDto getProduceRequest(@PathVariable Long id) throws BrewerySuchProduceRequestNotFoundException, BrewerySuchCustomerNotFoundException {
+    public ProduceRequestDto getProduceRequest(@PathVariable Long id) throws BrewerySuchProduceRequestNotFoundException {
         return produceRequestService.getProduceRequest(id);
     }
 
     @PatchMapping(value = "brewer/requests/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public Long changeProduceRequestStatus(@PathVariable Long id, @RequestBody ProduceRequestDto request) {
+    public Long changeProduceRequestStatus(@PathVariable Long id, @RequestBody ProduceRequestDto request) throws BrewerySuchProduceRequestNotFoundException {
         return produceRequestService.changeProduceRequestStatus(id, request);
     }
 

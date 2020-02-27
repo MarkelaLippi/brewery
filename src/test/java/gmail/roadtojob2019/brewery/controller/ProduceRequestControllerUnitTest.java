@@ -52,6 +52,8 @@ class ProduceRequestControllerUnitTest {
                 //then
                 .andExpect(status().isCreated())
                 .andExpect(content().json("1"));
+
+        verify(produceRequestRepository, times(1)).save(any(ProduceRequest.class));
     }
 
     @Test
@@ -79,6 +81,8 @@ class ProduceRequestControllerUnitTest {
                         "                               ]\n" +
                         "  }\n" +
                         "]"));
+
+        verify(produceRequestRepository, times(1)).findByStatus(any(Status.class));
     }
 
     @Test
@@ -100,6 +104,8 @@ class ProduceRequestControllerUnitTest {
                         "                                  \"amount\" : 350.0 }\n" +
                         "                               ]\n" +
                         "  }\n"));
+
+        verify(produceRequestRepository, times(1)).findById(1L);
     }
 
     @Test
@@ -135,6 +141,28 @@ class ProduceRequestControllerUnitTest {
                 //then
                 .andExpect(status().isOk())
                 .andExpect(content().json("1"));
+
+        verify(produceRequestRepository, times(1)).findById(1L);
+        verify(produceRequestRepository, times(1)).save(any(ProduceRequest.class));
+    }
+
+    @Test
+    public void testChangeProduceRequestStatusThrowsBrewerySuchProduceRequestNotFoundException() throws Exception {
+        // given
+        //signInAsCustomer();
+        willReturn(Optional.empty()).given(produceRequestRepository).findById(1L);
+        //when
+        mockMvc.perform(patch("/brewery/brewer/requests/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("  {\n" +
+                        "  \"status\" : \"In_progress\"\n" +
+                        "  }\n"))
+                //then
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("errorMessage").value("ProduceRequest with id = 1 was not found"));
+
+        verify(produceRequestRepository, times(1)).findById(1L);
+        verify(produceRequestRepository, times(0)).save(any(ProduceRequest.class));
     }
 
     private ProduceRequest getProduceRequest() {

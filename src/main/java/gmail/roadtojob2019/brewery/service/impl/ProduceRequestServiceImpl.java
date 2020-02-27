@@ -3,7 +3,6 @@ package gmail.roadtojob2019.brewery.service.impl;
 import gmail.roadtojob2019.brewery.dto.ProduceRequestDto;
 import gmail.roadtojob2019.brewery.entity.ProduceRequest;
 import gmail.roadtojob2019.brewery.entity.Status;
-import gmail.roadtojob2019.brewery.exception.BrewerySuchCustomerNotFoundException;
 import gmail.roadtojob2019.brewery.exception.BrewerySuchProduceRequestNotFoundException;
 import gmail.roadtojob2019.brewery.mapper.ProduceRequestMapper;
 import gmail.roadtojob2019.brewery.repository.ProduceRequestRepository;
@@ -53,11 +52,12 @@ public class ProduceRequestServiceImpl implements ProduceRequestService {
 
     @Override
     @Transactional
-    public Long changeProduceRequestStatus(Long id, ProduceRequestDto produceRequestDto) {
-        Status requiredStatus = Status.valueOf(produceRequestDto.getStatus().toUpperCase());
-        ProduceRequest produceRequestBeforeChangingStatus = produceRequestRepository.findById(id).get();
+    public Long changeProduceRequestStatus(Long id, ProduceRequestDto produceRequestDto) throws BrewerySuchProduceRequestNotFoundException {
+        final Status requiredStatus = Status.valueOf(produceRequestDto.getStatus().toUpperCase());
+        final ProduceRequest produceRequestBeforeChangingStatus = produceRequestRepository.findById(id)
+                .orElseThrow(()->new BrewerySuchProduceRequestNotFoundException("ProduceRequest with id = "+ id +" was not found"));
         produceRequestBeforeChangingStatus.setStatus(requiredStatus);
-        ProduceRequest produceRequestAfterChangingStatus = produceRequestRepository.save(produceRequestBeforeChangingStatus);
+        final ProduceRequest produceRequestAfterChangingStatus = produceRequestRepository.save(produceRequestBeforeChangingStatus);
         return produceRequestAfterChangingStatus.getId();
     }
 

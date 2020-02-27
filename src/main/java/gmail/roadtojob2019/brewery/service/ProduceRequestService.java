@@ -11,7 +11,7 @@ public interface ProduceRequestService {
 
     List<ProduceRequestDto>getProduceRequestsByStatus(String status);
 
-    ProduceRequestDto getProduceRequest(Long id) throws BrewerySuchCustomerNotFoundException, BrewerySuchProduceRequestNotFoundException;
+    ProduceRequestDto getProduceRequest(Long id) throws BrewerySuchProduceRequestNotFoundException;
 
-    Long changeProduceRequestStatus(Long id, ProduceRequestDto request);
+    Long changeProduceRequestStatus(Long id, ProduceRequestDto request) throws BrewerySuchProduceRequestNotFoundException;
 }
