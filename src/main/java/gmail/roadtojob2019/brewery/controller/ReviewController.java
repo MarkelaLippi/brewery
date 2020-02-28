@@ -3,6 +3,7 @@ package gmail.roadtojob2019.brewery.controller;
 import gmail.roadtojob2019.brewery.dto.ReviewDto;
 import gmail.roadtojob2019.brewery.exception.BrewerySuchCustomerNotFoundException;
 import gmail.roadtojob2019.brewery.exception.BrewerySuchOrderNotFoundException;
+import gmail.roadtojob2019.brewery.exception.BrewerySuchProductNotFoundException;
 import gmail.roadtojob2019.brewery.exception.BrewerySuchReviewNotFoundException;
 import gmail.roadtojob2019.brewery.service.ReviewService;
 import io.swagger.annotations.Api;
@@ -22,6 +23,12 @@ public class ReviewController {
     @ResponseStatus(HttpStatus.CREATED)
     public Long createReview(@RequestBody ReviewDto reviewDto) throws BrewerySuchCustomerNotFoundException, BrewerySuchOrderNotFoundException {
         return reviewService.createReview(reviewDto);
+    }
+
+    @PatchMapping(value = "customer/reviews/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public Long changeReview(@PathVariable final Long id, @RequestBody ReviewDto reviewDto) throws BrewerySuchReviewNotFoundException {
+        return reviewService.changeReview(id, reviewDto);
     }
 
     @DeleteMapping(value = "customer/reviews/{reviewId}")

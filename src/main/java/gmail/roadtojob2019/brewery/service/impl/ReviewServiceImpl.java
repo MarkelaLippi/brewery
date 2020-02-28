@@ -6,6 +6,7 @@ import gmail.roadtojob2019.brewery.entity.Order;
 import gmail.roadtojob2019.brewery.entity.Review;
 import gmail.roadtojob2019.brewery.exception.BrewerySuchCustomerNotFoundException;
 import gmail.roadtojob2019.brewery.exception.BrewerySuchOrderNotFoundException;
+import gmail.roadtojob2019.brewery.exception.BrewerySuchProductNotFoundException;
 import gmail.roadtojob2019.brewery.exception.BrewerySuchReviewNotFoundException;
 import gmail.roadtojob2019.brewery.mapper.ReviewMapper;
 import gmail.roadtojob2019.brewery.repository.CustomerRepository;
@@ -16,6 +17,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -46,6 +48,18 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    @Transactional
+    public Long changeReview(Long id, ReviewDto reviewDto) throws BrewerySuchReviewNotFoundException {
+        final Review reviewBeforeChangingContent = reviewRepository.findById(id)
+                .orElseThrow(() -> new BrewerySuchReviewNotFoundException("Review with id = " + id + " was not found"));;
+        final String newContent = reviewDto.getContent();
+        reviewBeforeChangingContent.setContent(newContent);
+        final Review reviewAfterChangingContent = reviewRepository.save(reviewBeforeChangingContent);
+        return reviewAfterChangingContent.getId();
+    }
+
+    @Override
+    @Transactional
     public void deleteReview(final Long id) throws BrewerySuchReviewNotFoundException {
         final boolean isFound = reviewRepository.existsById(id);
         if (!isFound) {

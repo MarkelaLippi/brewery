@@ -127,7 +127,7 @@
 
 Поля:
 * Наименование/ID пива
-* Компоненты
+* Ингредиенты 
 
 Связи:
 * Пивовар ("Brewer"). 
@@ -138,7 +138,7 @@
 
 ## Так как основной целью предполагаемого к разработке приложения является удовлетворение потребностей клиентов, начнем с функционала покупателя (“Customer”).
 
-## CUST-STEP-1 Как покупатель я хочу зарегистрироваться в системе. Для этого я ввожу логин и пароль. Если такого пользователя не найдено, меня регистрируют в системе
+## CUST-STEP-1 Как покупатель я хочу зарегистрироваться в системе. Для этого я ввожу логин и пароль. Если такой покупатель не был ранее зарегистрирован, меня регистрируют в системе
 
 Request:
 
@@ -157,7 +157,7 @@ Response: ```201 Created```
 
 ```
 {
-        "id" : 1
+        "token" : eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJJdmFub3ZAZ21haWwuY29tIiwiZXhwIjoxNTgyOTUyMzEwLCJpYXQiOjE1ODI5MTYzMTB9.4L-u5G5Iwwr8SJkH7y8iPO83gJ7o_KtGd3hAa-4jvp4
 }
 ```
 
@@ -178,7 +178,7 @@ Response: ```200 OK```
 
 ```
 {
-        "id" : 1
+        "token" : eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJJdmFub3ZAZ21haWwuY29tIiwiZXhwIjoxNTgyOTUyNzE4LCJpYXQiOjE1ODI5MTY3MTh9.lJUbTDzyA_MbqvZacT5ajT1W3u82O4nMrNBv-M-B1pA
 }
 ```
 

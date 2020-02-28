@@ -1,4 +1,4 @@
-package gmail.roadtojob2019.brewery.controller;
+package gmail.roadtojob2019.brewery.controller.unit;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gmail.roadtojob2019.brewery.entity.AuthInfoEntity;
@@ -64,6 +64,9 @@ class AuthControllerUnitTest {
                 //then
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("token", hasLength(145)));
+        verify(authInfoRepository, times(2)).findByLogin(any(String.class));
+        verify(userRepository, times(1)).save(any(UserEntity.class));
+        verify(authInfoRepository, times(1)).save(any(AuthInfoEntity.class));
     }
 
     @Test

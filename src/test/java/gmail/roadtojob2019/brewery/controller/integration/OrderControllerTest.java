@@ -1,4 +1,4 @@
-package gmail.roadtojob2019.brewery.controller;
+package gmail.roadtojob2019.brewery.controller.integration;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package gmail.roadtojob2019.brewery.controller;
+package gmail.roadtojob2019.brewery.controller.unit;
 
 import gmail.roadtojob2019.brewery.entity.Customer;
 import gmail.roadtojob2019.brewery.entity.Order;
@@ -22,8 +22,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -96,7 +95,6 @@ class ReviewControllerUnitTest extends AbstractControllerTest {
     @Test
     public void testCustomerReviewThrowsBrewerySuchOrderNotFoundException() throws Exception {
         // given
-        //signInAsCustomer();
         final Optional<Customer> customer = getCustomer();
         final Optional<Order> order = getOrder(customer);
         final Review review = getReview(customer, order);
@@ -119,6 +117,29 @@ class ReviewControllerUnitTest extends AbstractControllerTest {
         verify(customerRepository, times(1)).findById(any(Long.class));
         verify(orderRepository, times(1)).findById(any(Long.class));
         verify(reviewRepository, times(0)).save(any(Review.class));
+    }
+
+    @Test
+    public void testCustomerChangeReviewIsOk() throws Exception {
+        // given
+        final Optional<Customer> customer = getCustomer();
+        final Optional<Order> order = getOrder(customer);
+        final Review review = getReview(customer, order);
+        final Optional<Review> requiredReview = Optional.of(review);
+        willReturn(requiredReview).given(reviewRepository).findById(any(Long.class));
+        willReturn(review).given(reviewRepository).save(any(Review.class));
+        String token = signInAsUser(UserRole.CUSTOMER);
+        // when
+        mockMvc.perform(patch("/brewery/customer/reviews/1").header("Authorization", token)
+                //then
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\n" +
+                        "  \"content\" : \"I would like to notice...\"\n" +
+                        " }"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("1"));
+        verify(reviewRepository, times(1)).findById(any(Long.class));
+        verify(reviewRepository, times(1)).save(any(Review.class));
     }
 
     private Review getReview(Optional<Customer> customer, Optional<Order> order) {

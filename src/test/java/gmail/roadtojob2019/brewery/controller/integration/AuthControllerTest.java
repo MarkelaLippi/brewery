@@ -1,4 +1,4 @@
-package gmail.roadtojob2019.brewery.controller;
+package gmail.roadtojob2019.brewery.controller.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gmail.roadtojob2019.brewery.service.AuthInfoService;

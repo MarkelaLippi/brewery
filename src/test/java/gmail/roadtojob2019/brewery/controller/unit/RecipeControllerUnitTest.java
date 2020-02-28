@@ -1,4 +1,4 @@
-package gmail.roadtojob2019.brewery.controller;
+package gmail.roadtojob2019.brewery.controller.unit;
 
 import gmail.roadtojob2019.brewery.entity.Product;
 import gmail.roadtojob2019.brewery.entity.Recipe;
