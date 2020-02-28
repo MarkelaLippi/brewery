@@ -1,7 +1,6 @@
 package gmail.roadtojob2019.brewery.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import gmail.roadtojob2019.brewery.dto.UserSignInResponseDto;
 import gmail.roadtojob2019.brewery.entity.AuthInfoEntity;
 import gmail.roadtojob2019.brewery.entity.UserEntity;
 import gmail.roadtojob2019.brewery.repository.AuthInfoRepository;
@@ -147,7 +146,7 @@ class AuthControllerUnitTest {
         return AuthInfoEntity.builder()
                 .id(1L)
                 .login("Ivanov@gmail.com")
-                .password("$2a$08$awwha45hqJvFrBQkC1ZFvO7mmST85cbTcJRBJRlMcqsZupmKo57mS")
+                .password("$2a$08$Glcfbit5s.gZwyxU1M6/e.l2Z76DbbFRtFuqGuW2KEQvE5IWQYUOG")
                 .user(userEntity)
                 .build();
     }
@@ -158,35 +157,6 @@ class AuthControllerUnitTest {
                 .email("Ivanov@gmail.com")
                 .userRole(UserRole.CUSTOMER)
                 .build();
-    }
-
-    private String signInAsCustomer() throws Exception {
-        final AuthInfoEntity authInfo = createAuthInfo();
-        willReturn(Optional.of(authInfo)).given(authInfoService).findByLogin("Ivanov@gmail.com");
-
-        final String response = mockMvc.perform(post("/brewery/sign-in")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\n" +
-                        "  \"email\" : \"Ivanov@gmail.com\",\n" +
-                        "  \"password\" : \"12345678\"\n" +
-                        "}"))
-                // then
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("token", hasLength(145)))
-                .andReturn().getResponse().getContentAsString();
-        return "Bearer " + objectMapper.readValue(response, UserSignInResponseDto.class).getToken();
-    }
-
-    private AuthInfoEntity createAuthInfo() {
-        final UserEntity user = new UserEntity();
-        user.setUserRole(UserRole.CUSTOMER);
-        user.setEmail("Ivanov@gmail.com");
-
-        final AuthInfoEntity authInfo = new AuthInfoEntity();
-        authInfo.setLogin(user.getEmail());
-        authInfo.setPassword(passwordEncoder.encode("12345678"));
-        authInfo.setUser(user);
-        return authInfo;
     }
 }
 
