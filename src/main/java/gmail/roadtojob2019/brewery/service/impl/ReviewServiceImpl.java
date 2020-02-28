@@ -64,7 +64,7 @@ public class ReviewServiceImpl implements ReviewService {
     public void deleteReview(final Long id) throws BrewerySuchReviewNotFoundException {
         final boolean reviewIsExists = reviewRepository.existsById(id);
         if (!reviewIsExists) {
-            throw new BrewerySuchReviewNotFoundException("No review with id = " + id + " was found.");
+            throw new BrewerySuchReviewNotFoundException("Review with id = " + id + " was not found");
         }
         reviewRepository.deleteById(id);
     }

@@ -15,13 +15,13 @@ import java.util.logging.Level;
 public class ExceptionControllerAdvice {
 
     @ExceptionHandler({
-        BrewerySuchCustomerAlreadyExistException.class,
-        BrewerySuchCustomerNotFoundException.class,
-        BrewerySuchProduceRequestNotFoundException.class,
-        BrewerySuchProductNotFoundException.class,
-        BrewerySuchRecipeNotFoundException.class,
-        BrewerySuchOrderNotFoundException.class,
-        BrewerySuchReviewNotFoundException.class
+            BrewerySuchCustomerAlreadyExistException.class,
+            BrewerySuchCustomerNotFoundException.class,
+            BrewerySuchProduceRequestNotFoundException.class,
+            BrewerySuchProductNotFoundException.class,
+            BrewerySuchRecipeNotFoundException.class,
+            BrewerySuchOrderNotFoundException.class,
+            BrewerySuchReviewNotFoundException.class
     })
     private ResponseEntity<ErrorMessage> handleBadRequest(final Exception e) {
         log.log(Level.SEVERE, e.getMessage(), e);

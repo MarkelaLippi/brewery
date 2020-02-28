@@ -20,7 +20,7 @@ public class AuthController {
     @ResponseStatus(HttpStatus.CREATED)
     public UserSignInResponseDto singUp(@RequestBody final CustomerSignUpRequestDto signUpRequest)
             throws BrewerySuchCustomerAlreadyExistException {
-        UserSignInResponseDto userSignInResponseDto = authenticationService.signUp(signUpRequest);
+        final UserSignInResponseDto userSignInResponseDto = authenticationService.signUp(signUpRequest);
         return userSignInResponseDto;
     }
 

@@ -185,7 +185,8 @@ class ReviewControllerUnitTest extends AbstractControllerTest {
         // when
         mockMvc.perform(delete("/brewery/customer/reviews/1").header("Authorization", token)
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("errorMessage").value("Review with id = 1 was not found"));
         verify(reviewRepository, times(1)).existsById(any(Long.class));
         verify(reviewRepository, times(0)).deleteById(any(Long.class));
     }

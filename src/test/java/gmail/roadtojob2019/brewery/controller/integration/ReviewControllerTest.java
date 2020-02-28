@@ -32,7 +32,7 @@ class ReviewControllerTest {
                         "  \"orderId\" : 1\n" +
                         "}"))
                 .andExpect(status().isCreated())
-                .andExpect(content().json("2"));
+                .andExpect(content().json("3"));
     }
 
     @Test
@@ -53,7 +53,7 @@ class ReviewControllerTest {
     public void testCustomerDeleteReview() throws Exception {
         // given
         // when
-        mockMvc.perform(delete("/brewery/customer/reviews/1")
+        mockMvc.perform(delete("/brewery/customer/reviews/3")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }

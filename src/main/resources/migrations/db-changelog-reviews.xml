@@ -24,4 +24,13 @@
             <column name="order_id" value="1"/>
         </insert>
     </changeSet>
+
+    <changeSet author="RoadToJob2019@gmail.com" id="ADD_REVIEWS_TABLE_2">
+        <insert tableName="reviews">
+            <column name="date" value="2020-02-15"/>
+            <column name="content" value="Also I would like..."/>
+            <column name="customer_id" value="1"/>
+            <column name="order_id" value="1"/>
+        </insert>
+    </changeSet>
 </databaseChangeLog>
