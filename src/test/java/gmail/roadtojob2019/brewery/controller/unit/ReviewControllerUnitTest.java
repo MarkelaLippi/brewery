@@ -177,6 +177,19 @@ class ReviewControllerUnitTest extends AbstractControllerTest {
         verify(reviewRepository, times(1)).deleteById(any(Long.class));
     }
 
+    @Test
+    public void testCustomerDeleteReviewThrowsBrewerySuchReviewNotFoundException() throws Exception {
+        // given
+        willReturn(false).given(reviewRepository).existsById(any(Long.class));
+        String token = signInAsUser(UserRole.CUSTOMER);
+        // when
+        mockMvc.perform(delete("/brewery/customer/reviews/1").header("Authorization", token)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+        verify(reviewRepository, times(1)).existsById(any(Long.class));
+        verify(reviewRepository, times(0)).deleteById(any(Long.class));
+    }
+
     private Review getReview(Optional<Customer> customer, Optional<Order> order) {
         return Review.builder()
                 .id(1L)
@@ -198,17 +211,5 @@ class ReviewControllerUnitTest extends AbstractControllerTest {
         return Optional.of(Customer.builder()
                 .id(1L)
                 .build());
-    }
-
-    @Test
-    public void testCustomerReviewDeleteById_ReviewNotFound() throws Exception {
-        // given
-        Long id = 1L;
-        //signInAsCustomer();
-        // when
-        mockMvc.perform(delete("/brewery/customer/reviews/" + id)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest());
-        verify(reviewRepository, times(1)).existsById(id);
     }
 }
