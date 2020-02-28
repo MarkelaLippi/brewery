@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-class AbstractControllerTest {
+public abstract class AbstractControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @Autowired
@@ -42,9 +42,10 @@ class AbstractControllerTest {
     private AuthInfoRepository authInfoRepository;
 
     protected String signInAsUser(UserRole userRole) throws Exception {
-        final AuthInfoEntity authInfo = createAuthInfo(userRole);
-        willReturn(Optional.of(authInfo)).given(authInfoService).findByLogin("CorrectEmail@gmail.com");
-
+        //given
+        final Optional<AuthInfoEntity> authInfo = createAuthInfo(userRole);
+        willReturn(authInfo).given(authInfoRepository).findByLogin("CorrectEmail@gmail.com");
+        //when
         final String response = mockMvc.perform(post("/brewery/sign-in")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
@@ -53,12 +54,12 @@ class AbstractControllerTest {
                         "}"))
                 // then
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("token", hasLength(145)))
+                .andExpect(jsonPath("token", hasLength(153)))
                 .andReturn().getResponse().getContentAsString();
         return "Bearer " + objectMapper.readValue(response, UserSignInResponseDto.class).getToken();
     }
 
-    protected AuthInfoEntity createAuthInfo(UserRole userRole) {
+    protected Optional<AuthInfoEntity> createAuthInfo(UserRole userRole) {
         final UserEntity user = new UserEntity();
         user.setUserRole(userRole);
         user.setEmail("CorrectEmail@gmail.com");
@@ -67,7 +68,7 @@ class AbstractControllerTest {
         authInfo.setLogin(user.getEmail());
         authInfo.setPassword(passwordEncoder.encode("CorrectPassword"));
         authInfo.setUser(user);
-        return authInfo;
+        return Optional.of(authInfo);
     }
 }
 

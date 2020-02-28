@@ -6,6 +6,7 @@ import gmail.roadtojob2019.brewery.entity.Review;
 import gmail.roadtojob2019.brewery.repository.CustomerRepository;
 import gmail.roadtojob2019.brewery.repository.OrderRepository;
 import gmail.roadtojob2019.brewery.repository.ReviewRepository;
+import gmail.roadtojob2019.brewery.security.UserRole;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -26,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-class ReviewControllerUnitTest {
+class ReviewControllerUnitTest extends AbstractControllerTest{
     @Autowired
     private MockMvc mockMvc;
 
@@ -40,15 +41,15 @@ class ReviewControllerUnitTest {
     @Test
     public void testCustomerReviewIsCreated() throws Exception {
         // given
-        //signInAsCustomer();
         final Optional<Customer> customer = getCustomer();
         final Optional<Order> order = getOrder(customer);
         final Review review = getReview(customer, order);
         willReturn(customer).given(customerRepository).findById(1L);
         willReturn(order).given(orderRepository).findById(1L);
         willReturn(review).given(reviewRepository).save(any(Review.class));
+        String token = signInAsUser(UserRole.CUSTOMER);
         // when
-        mockMvc.perform(post("/brewery/customer/reviews")
+        mockMvc.perform(post("/brewery/customer/reviews").header("Authorization", token)
                 //then
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
@@ -67,15 +68,15 @@ class ReviewControllerUnitTest {
     @Test
     public void testCustomerReviewThrowsBrewerySuchCustomerNotFoundException() throws Exception {
         // given
-        //signInAsCustomer();
         final Optional<Customer> customer = getCustomer();
         final Optional<Order> order = getOrder(customer);
         final Review review = getReview(customer, order);
         willReturn(Optional.empty()).given(customerRepository).findById(1L);
         willReturn(order).given(orderRepository).findById(1L);
         willReturn(review).given(reviewRepository).save(any(Review.class));
+        String token = signInAsUser(UserRole.CUSTOMER);
         // when
-        mockMvc.perform(post("/brewery/customer/reviews")
+        mockMvc.perform(post("/brewery/customer/reviews").header("Authorization", token)
                 //then
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
@@ -101,8 +102,9 @@ class ReviewControllerUnitTest {
         willReturn(customer).given(customerRepository).findById(1L);
         willReturn(Optional.empty()).given(orderRepository).findById(1L);
         willReturn(review).given(reviewRepository).save(any(Review.class));
+        String token = signInAsUser(UserRole.CUSTOMER);
         // when
-        mockMvc.perform(post("/brewery/customer/reviews")
+        mockMvc.perform(post("/brewery/customer/reviews").header("Authorization", token)
                 //then
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +

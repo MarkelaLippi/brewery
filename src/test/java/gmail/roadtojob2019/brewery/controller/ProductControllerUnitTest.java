@@ -5,6 +5,7 @@ import gmail.roadtojob2019.brewery.entity.Storage;
 import gmail.roadtojob2019.brewery.entity.Type;
 import gmail.roadtojob2019.brewery.entity.Unit;
 import gmail.roadtojob2019.brewery.repository.ProductRepository;
+import gmail.roadtojob2019.brewery.security.UserRole;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -26,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-class ProductControllerUnitTest {
+class ProductControllerUnitTest extends AbstractControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
@@ -36,12 +37,12 @@ class ProductControllerUnitTest {
     @Test
     void testGetPriselistIsOk() throws Exception {
         // given
-        // signInAsCustomer();
         final Product product = getProductBeer();
         final List<Product> products = List.of(product);
         willReturn(products).given(productRepository).findByType(Type.BEER);
+        String token = signInAsUser(UserRole.CUSTOMER);
         // when
-        mockMvc.perform(get("/brewery/customer/pricelist"))
+        mockMvc.perform(get("/brewery/customer/pricelist").header("Authorization", token))
                 // then
                 .andExpect(status().isOk())
                 .andExpect(content().json("[\n" +
@@ -58,7 +59,6 @@ class ProductControllerUnitTest {
     @Test
     void testGetAllProductsByTypeIsOk() throws Exception {
         // given
-        // signInAsCustomer();
         final Product product = getProductBeer();
         final Storage storage = Storage.builder()
                 .id(1L)
@@ -68,8 +68,9 @@ class ProductControllerUnitTest {
         product.setStorage(storage);
         final List<Product> products = List.of(product);
         willReturn(products).given(productRepository).findByType(Type.BEER);
+        String token = signInAsUser(UserRole.SALES);
         // when
-        mockMvc.perform(get("/brewery/sales/products?type=beer"))
+        mockMvc.perform(get("/brewery/sales/products?type=beer").header("Authorization", token))
                 // then
                 .andExpect(status().isOk())
                 .andExpect(content().json("[\n" +
@@ -99,11 +100,11 @@ class ProductControllerUnitTest {
     @Test
     void testGetProductByIdIsOk() throws Exception {
         // given
-        // signInAsCustomer();
         final Optional<Product> requiredProduct = getProductIngredient();
         willReturn(requiredProduct).given(productRepository).findById(2L);
+        String token = signInAsUser(UserRole.BREWER);
         // when
-        mockMvc.perform(get("/brewery/brewer/products/2"))
+        mockMvc.perform(get("/brewery/brewer/products/2").header("Authorization", token))
                 // then
                 .andExpect(status().isOk())
                 .andExpect(content().json(
@@ -120,10 +121,10 @@ class ProductControllerUnitTest {
     @Test
     void testGetProductByIdThrowsBrewerySuchProductNotFoundException() throws Exception {
         // given
-        // signInAsCustomer();
         willReturn(Optional.empty()).given(productRepository).findById(2L);
+        String token = signInAsUser(UserRole.BREWER);
         // when
-        mockMvc.perform(get("/brewery/brewer/products/2"))
+        mockMvc.perform(get("/brewery/brewer/products/2").header("Authorization", token))
                 // then
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("errorMessage").value("Product with id = 2 was not found"));
@@ -150,7 +151,6 @@ class ProductControllerUnitTest {
     @Test
     public void testChangeProductAmountIsOk() throws Exception {
         // given
-        // signInAsCustomer();
         final Product product = getProductBeer();
         final Storage storage = Storage.builder()
                 .id(1L)
@@ -161,8 +161,9 @@ class ProductControllerUnitTest {
         final Optional<Product> requiredProduct = Optional.of(product);
         willReturn(requiredProduct).given(productRepository).findById(1L);
         willReturn(product).given(productRepository).save(any(Product.class));
+        String token = signInAsUser(UserRole.BREWER);
         // when
-        mockMvc.perform(patch("/brewery/brewer/products/1")
+        mockMvc.perform(patch("/brewery/brewer/products/1").header("Authorization", token)
                 // then
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(" {\n" +
@@ -170,7 +171,6 @@ class ProductControllerUnitTest {
                         "  }\n"))
                 .andExpect(status().isOk())
                 .andExpect(content().json("1"));
-
         verify(productRepository, times(1)).findById(any(Long.class));
         verify(productRepository, times(1)).save(any(Product.class));
     }
@@ -178,12 +178,12 @@ class ProductControllerUnitTest {
     @Test
     public void testChangeProductAmountThrowsBrewerySuchProductNotFoundException() throws Exception {
         // given
-        // signInAsCustomer();
         final Product product = getProductBeer();
         willReturn(Optional.empty()).given(productRepository).findById(1L);
         willReturn(product).given(productRepository).save(any(Product.class));
+        String token = signInAsUser(UserRole.BREWER);
         // when
-        mockMvc.perform(patch("/brewery/brewer/products/1")
+        mockMvc.perform(patch("/brewery/brewer/products/1").header("Authorization", token)
                 // then
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(" {\n" +

@@ -4,6 +4,7 @@ import gmail.roadtojob2019.brewery.entity.Product;
 import gmail.roadtojob2019.brewery.entity.Recipe;
 import gmail.roadtojob2019.brewery.entity.RecipeItem;
 import gmail.roadtojob2019.brewery.repository.RecipeRepository;
+import gmail.roadtojob2019.brewery.security.UserRole;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -23,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-class RecipeControllerUnitTest {
+class RecipeControllerUnitTest extends AbstractControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
@@ -33,11 +34,11 @@ class RecipeControllerUnitTest {
     @Test
     void testGetRecipeIsOk() throws Exception {
         // given
-        // signInAsCustomer();
         final Optional<Recipe> requiredRecipe = getRecipe();
         willReturn(requiredRecipe).given(recipeRepository).findById(1L);
+        String token = signInAsUser(UserRole.BREWER);
         // when
-        mockMvc.perform(get("/brewery/brewer/recipes/1"))
+        mockMvc.perform(get("/brewery/brewer/recipes/1").header("Authorization", token))
                 // then
                 .andExpect(status().isOk())
                 .andExpect(content().json(" {\n" +
@@ -68,10 +69,10 @@ class RecipeControllerUnitTest {
     @Test
     void testGetRecipeThrowsBrewerySuchRecipeNotFoundException() throws Exception {
         // given
-        // signInAsCustomer();
         willReturn(Optional.empty()).given(recipeRepository).findById(1L);
+        String token = signInAsUser(UserRole.BREWER);
         // when
-        mockMvc.perform(get("/brewery/brewer/recipes/1"))
+        mockMvc.perform(get("/brewery/brewer/recipes/1").header("Authorization", token))
                 // then
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("errorMessage").value("Recipe with id = 1 was not found"));

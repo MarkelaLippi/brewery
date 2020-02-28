@@ -80,8 +80,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .stream()
                 .findFirst()
                 .get()
-                .getAuthority()
-                .substring(5);
+                .getAuthority();
+                //.substring(5);
 
         User user = new User(signInRequest.getEmail(), signInRequest.getPassword(), List.of(new SimpleGrantedAuthority(ROLE)));
         String token = jwtUtil.generateToken(user);

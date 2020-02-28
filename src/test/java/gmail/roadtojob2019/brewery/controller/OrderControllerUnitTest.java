@@ -6,6 +6,7 @@ import gmail.roadtojob2019.brewery.entity.OrderItem;
 import gmail.roadtojob2019.brewery.entity.Product;
 import gmail.roadtojob2019.brewery.repository.CustomerRepository;
 import gmail.roadtojob2019.brewery.repository.OrderRepository;
+import gmail.roadtojob2019.brewery.security.UserRole;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -28,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-class OrderControllerUnitTest {
+class OrderControllerUnitTest extends AbstractControllerTest{
     @Autowired
     private MockMvc mockMvc;
 
@@ -40,17 +41,13 @@ class OrderControllerUnitTest {
     @Test
     public void testCustomerOrderIsCreated() throws Exception {
         // given
-        // signInAsCustomer();
         final Optional<Customer> customer = getCustomer();
-
         final Order order = getOrder(customer);
-
         willReturn(customer).given(customerRepository).findById(1L);
-
         willReturn(order).given(orderRepository).save(any(Order.class));
-
+        String token = signInAsUser(UserRole.CUSTOMER);
         // when
-        mockMvc.perform(post("/brewery/customer/orders")
+        mockMvc.perform(post("/brewery/customer/orders").header("Authorization", token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
                         "  \"date\" : \"2020-02-05\",\n" +
@@ -63,7 +60,6 @@ class OrderControllerUnitTest {
                 // then
                 .andExpect(status().isCreated())
                 .andExpect(content().json("2"));
-
         verify(customerRepository, times(1)).findById(1L);
         verify(orderRepository, times(1)).save(any(Order.class));
     }
@@ -71,17 +67,13 @@ class OrderControllerUnitTest {
     @Test
     public void testCustomerOrderThrowsBrewerySuchCustomerNotFoundException() throws Exception {
         // given
-        // signInAsCustomer();
         final Optional<Customer> customer = getCustomer();
-
         final Order order = getOrder(customer);
-
         willReturn(Optional.empty()).given(customerRepository).findById(1L);
-
         willReturn(order).given(orderRepository).save(any(Order.class));
-
+        String token = signInAsUser(UserRole.CUSTOMER);
         // when
-        mockMvc.perform(post("/brewery/customer/orders")
+        mockMvc.perform(post("/brewery/customer/orders").header("Authorization", token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
                         "  \"date\" : \"2020-02-05\",\n" +
@@ -94,7 +86,6 @@ class OrderControllerUnitTest {
                 // then
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("errorMessage").value("Customer with id = 1 was not found"));
-
         verify(customerRepository, times(1)).findById(1L);
         verify(orderRepository, times(0)).save(any(Order.class));
     }
@@ -115,13 +106,11 @@ class OrderControllerUnitTest {
     @Test
     void testGetAllOrdersIsOk() throws Exception {
         // given
-        // signInAsCustomer();
         final List<Order> orders = getOrders();
-
-        willReturn(orders).given(orderRepository)
-                .findAll();
+        willReturn(orders).given(orderRepository).findAll();
+        String token = signInAsUser(UserRole.SALES);
         // when
-        mockMvc.perform(get("/brewery/sales/orders"))
+        mockMvc.perform(get("/brewery/sales/orders").header("Authorization", token))
                 // then
                 .andExpect(status().isOk())
                 .andExpect(content().json("[\n" +

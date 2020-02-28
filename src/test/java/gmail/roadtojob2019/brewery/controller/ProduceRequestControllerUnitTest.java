@@ -2,6 +2,7 @@ package gmail.roadtojob2019.brewery.controller;
 
 import gmail.roadtojob2019.brewery.entity.*;
 import gmail.roadtojob2019.brewery.repository.ProduceRequestRepository;
+import gmail.roadtojob2019.brewery.security.UserRole;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -23,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-class ProduceRequestControllerUnitTest {
+class ProduceRequestControllerUnitTest extends AbstractControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
@@ -33,12 +34,11 @@ class ProduceRequestControllerUnitTest {
     @Test
     public void testSalesProduceRequestIsCreated() throws Exception {
         // given
-        //signInAsCustomer();
         final ProduceRequest produceRequest = getProduceRequest();
-
         willReturn(produceRequest).given(produceRequestRepository).save(any(ProduceRequest.class));
+        String token = signInAsUser(UserRole.SALES);
         // when
-        mockMvc.perform(post("/brewery/sales/requests")
+        mockMvc.perform(post("/brewery/sales/requests").header("Authorization", token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
                         "  \"date\" : \"2020-02-05\",\n" +
@@ -52,22 +52,18 @@ class ProduceRequestControllerUnitTest {
                 //then
                 .andExpect(status().isCreated())
                 .andExpect(content().json("1"));
-
         verify(produceRequestRepository, times(1)).save(any(ProduceRequest.class));
     }
 
     @Test
     public void testGetProduceRequestsByStatusIsOk() throws Exception {
         // given
-        //signInAsCustomer();
         final ProduceRequest produceRequest = getProduceRequest();
-
         final List<ProduceRequest> produceRequests = List.of(produceRequest);
-
         willReturn(produceRequests).given(produceRequestRepository).findByStatus(Status.NEW);
-
+        String token = signInAsUser(UserRole.BREWER);
         //when
-        mockMvc.perform(get("/brewery/brewer/requests/?status=new"))
+        mockMvc.perform(get("/brewery/brewer/requests/?status=new").header("Authorization", token))
                 //then
                 .andExpect(status().isOk())
                 .andExpect(content().json("[\n" +
@@ -81,19 +77,17 @@ class ProduceRequestControllerUnitTest {
                         "                               ]\n" +
                         "  }\n" +
                         "]"));
-
         verify(produceRequestRepository, times(1)).findByStatus(any(Status.class));
     }
 
     @Test
     public void testGetProduceRequestIsOk() throws Exception {
         // given
-        //signInAsCustomer();
         final Optional<ProduceRequest> produceRequest = Optional.of(getProduceRequest());
-
         willReturn(produceRequest).given(produceRequestRepository).findById(1L);
+        String token = signInAsUser(UserRole.BREWER);
         //when
-        mockMvc.perform(get("/brewery/brewer/requests/1"))
+        mockMvc.perform(get("/brewery/brewer/requests/1").header("Authorization", token))
                 //then
                 .andExpect(status().isOk())
                 .andExpect(content().json("{\n" +
@@ -104,36 +98,31 @@ class ProduceRequestControllerUnitTest {
                         "                                  \"amount\" : 350.0 }\n" +
                         "                               ]\n" +
                         "  }\n"));
-
         verify(produceRequestRepository, times(1)).findById(1L);
     }
 
     @Test
     public void testGetProduceRequestThrowsBrewerySuchProduceRequestNotFoundException() throws Exception {
         // given
-        //signInAsCustomer();
         willReturn(Optional.empty()).given(produceRequestRepository).findById(1L);
+        String token = signInAsUser(UserRole.BREWER);
         //when
-        mockMvc.perform(get("/brewery/brewer/requests/1"))
+        mockMvc.perform(get("/brewery/brewer/requests/1").header("Authorization", token))
                 //then
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("errorMessage").value("ProduceRequest with id = 1 was not found"));
-
         verify(produceRequestRepository, times(1)).findById(1L);
     }
 
     @Test
     public void testChangeProduceRequestStatusIsOk() throws Exception {
         // given
-        //signInAsCustomer();
         final Optional<ProduceRequest> produceRequest = Optional.of(getProduceRequest());
-
         willReturn(produceRequest).given(produceRequestRepository).findById(1L);
-
         willReturn(produceRequest.get()).given(produceRequestRepository).save(any(ProduceRequest.class));
-
+        String token = signInAsUser(UserRole.BREWER);
         //when
-        mockMvc.perform(patch("/brewery/brewer/requests/1")
+        mockMvc.perform(patch("/brewery/brewer/requests/1").header("Authorization", token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("  {\n" +
                         "  \"status\" : \"In_progress\"\n" +
@@ -141,7 +130,6 @@ class ProduceRequestControllerUnitTest {
                 //then
                 .andExpect(status().isOk())
                 .andExpect(content().json("1"));
-
         verify(produceRequestRepository, times(1)).findById(1L);
         verify(produceRequestRepository, times(1)).save(any(ProduceRequest.class));
     }
@@ -149,10 +137,10 @@ class ProduceRequestControllerUnitTest {
     @Test
     public void testChangeProduceRequestStatusThrowsBrewerySuchProduceRequestNotFoundException() throws Exception {
         // given
-        //signInAsCustomer();
         willReturn(Optional.empty()).given(produceRequestRepository).findById(1L);
+        String token = signInAsUser(UserRole.BREWER);
         //when
-        mockMvc.perform(patch("/brewery/brewer/requests/1")
+        mockMvc.perform(patch("/brewery/brewer/requests/1").header("Authorization", token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("  {\n" +
                         "  \"status\" : \"In_progress\"\n" +
@@ -160,7 +148,6 @@ class ProduceRequestControllerUnitTest {
                 //then
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("errorMessage").value("ProduceRequest with id = 1 was not found"));
-
         verify(produceRequestRepository, times(1)).findById(1L);
         verify(produceRequestRepository, times(0)).save(any(ProduceRequest.class));
     }
