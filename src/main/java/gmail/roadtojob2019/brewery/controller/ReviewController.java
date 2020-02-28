@@ -3,6 +3,7 @@ package gmail.roadtojob2019.brewery.controller;
 import gmail.roadtojob2019.brewery.dto.ReviewDto;
 import gmail.roadtojob2019.brewery.exception.BrewerySuchCustomerNotFoundException;
 import gmail.roadtojob2019.brewery.exception.BrewerySuchOrderNotFoundException;
+import gmail.roadtojob2019.brewery.exception.BrewerySuchReviewNotFoundException;
 import gmail.roadtojob2019.brewery.service.ReviewService;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
@@ -21,5 +22,11 @@ public class ReviewController {
     @ResponseStatus(HttpStatus.CREATED)
     public Long createReview(@RequestBody ReviewDto reviewDto) throws BrewerySuchCustomerNotFoundException, BrewerySuchOrderNotFoundException {
         return reviewService.createReview(reviewDto);
+    }
+
+    @DeleteMapping(value = "customer/reviews/{reviewId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteReview(@PathVariable final Long reviewId) throws BrewerySuchReviewNotFoundException {
+        reviewService.deleteReview(reviewId);
     }
 }
