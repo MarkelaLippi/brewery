@@ -7,7 +7,7 @@ import gmail.roadtojob2019.brewery.exception.BrewerySuchReviewNotFoundException;
 
 public interface ReviewService {
     Long createReview(ReviewDto reviewDto)
-        throws BrewerySuchCustomerNotFoundException, BrewerySuchOrderNotFoundException;
+            throws BrewerySuchCustomerNotFoundException, BrewerySuchOrderNotFoundException;
 
     void deleteReview(Long id) throws BrewerySuchReviewNotFoundException;
 }

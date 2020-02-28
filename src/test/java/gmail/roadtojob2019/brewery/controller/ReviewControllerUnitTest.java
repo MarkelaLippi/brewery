@@ -22,12 +22,13 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-class ReviewControllerUnitTest extends AbstractControllerTest{
+class ReviewControllerUnitTest extends AbstractControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
@@ -122,24 +123,50 @@ class ReviewControllerUnitTest extends AbstractControllerTest{
 
     private Review getReview(Optional<Customer> customer, Optional<Order> order) {
         return Review.builder()
-                    .id(1L)
-                    .content("I want to thank...")
-                    .date(LocalDate.of(2020, 2, 6))
-                    .customer(customer.get())
-                    .order(order.get())
-                    .build();
+                .id(1L)
+                .content("I want to thank...")
+                .date(LocalDate.of(2020, 2, 6))
+                .customer(customer.get())
+                .order(order.get())
+                .build();
     }
 
     private Optional<Order> getOrder(Optional<Customer> customer) {
         return Optional.of(Order.builder()
-                    .id(1L)
-                    .customer(customer.get())
-                    .build());
+                .id(1L)
+                .customer(customer.get())
+                .build());
     }
 
     private Optional<Customer> getCustomer() {
         return Optional.of(Customer.builder()
-                    .id(1L)
-                    .build());
+                .id(1L)
+                .build());
+    }
+
+    @Test
+    public void testCustomerReviewDeleteById() throws Exception {
+        // given
+        Long id = 1L;
+        willReturn(true).given(reviewRepository).existsById(id);
+        //signInAsCustomer();
+        // when
+        mockMvc.perform(delete("/brewery/customer/reviews/" + id)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+        verify(reviewRepository, times(1)).existsById(id);
+        verify(reviewRepository, times(1)).deleteById(id);
+    }
+
+    @Test
+    public void testCustomerReviewDeleteById_ReviewNotFound() throws Exception {
+        // given
+        Long id = 1L;
+        //signInAsCustomer();
+        // when
+        mockMvc.perform(delete("/brewery/customer/reviews/" + id)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+        verify(reviewRepository, times(1)).existsById(id);
     }
 }

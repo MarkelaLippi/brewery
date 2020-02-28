@@ -24,8 +24,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class ReviewControllerTest {
     @Autowired
     private MockMvc mockMvc;
+/*
     @MockBean
     private ReviewRepository reviewRepository;
+*/
 
     @Test
     public void testCustomerReviewIsCreated() throws Exception {
@@ -42,31 +44,5 @@ class ReviewControllerTest {
                                      "}"))
             .andExpect(status().isCreated())
             .andExpect(content().json("2"));
-    }
-
-    @Test
-    public void testCustomerReviewDeleteById() throws Exception {
-        // given
-        Long id = 1L;
-        willReturn(true).given(reviewRepository).existsById(id);
-        //signInAsCustomer();
-        // when
-        mockMvc.perform(delete("/brewery/customer/reviews/" + id)
-                            .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk());
-        verify(reviewRepository, times(1)).existsById(id);
-        verify(reviewRepository, times(1)).deleteById(id);
-    }
-
-    @Test
-    public void testCustomerReviewDeleteById_ReviewNotFound() throws Exception {
-        // given
-        Long id = 1L;
-        //signInAsCustomer();
-        // when
-        mockMvc.perform(delete("/brewery/customer/reviews/" + id)
-                            .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isBadRequest());
-        verify(reviewRepository, times(1)).existsById(id);
     }
 }
