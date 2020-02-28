@@ -31,16 +31,16 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     @Transactional
-    public Long createReview(ReviewDto reviewDto)
-        throws BrewerySuchCustomerNotFoundException, BrewerySuchOrderNotFoundException {
+    public Long createReview(final ReviewDto reviewDto)
+            throws BrewerySuchCustomerNotFoundException, BrewerySuchOrderNotFoundException {
         final Review newReview = reviewMapper.reviewDtoToReview(reviewDto);
         final Long customerId = reviewDto.getCustomerId();
         final Customer customer = customerRepository.findById(customerId)
-            .orElseThrow(
-                () -> new BrewerySuchCustomerNotFoundException("Customer with id = " + customerId + " was not found"));
+                .orElseThrow(
+                        () -> new BrewerySuchCustomerNotFoundException("Customer with id = " + customerId + " was not found"));
         final Long orderId = reviewDto.getOrderId();
         final Order order = orderRepository.findById(orderId)
-            .orElseThrow(() -> new BrewerySuchOrderNotFoundException("Order with id = " + orderId + " was not found"));
+                .orElseThrow(() -> new BrewerySuchOrderNotFoundException("Order with id = " + orderId + " was not found"));
         newReview.setCustomer(customer);
         newReview.setOrder(order);
         final Review savedReview = reviewRepository.save(newReview);
@@ -49,9 +49,10 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     @Transactional
-    public Long changeReview(Long id, ReviewDto reviewDto) throws BrewerySuchReviewNotFoundException {
+    public Long changeReview(final Long id, final ReviewDto reviewDto) throws BrewerySuchReviewNotFoundException {
         final Review reviewBeforeChangingContent = reviewRepository.findById(id)
-                .orElseThrow(() -> new BrewerySuchReviewNotFoundException("Review with id = " + id + " was not found"));;
+                .orElseThrow(() -> new BrewerySuchReviewNotFoundException("Review with id = " + id + " was not found"));
+        ;
         final String newContent = reviewDto.getContent();
         reviewBeforeChangingContent.setContent(newContent);
         final Review reviewAfterChangingContent = reviewRepository.save(reviewBeforeChangingContent);
@@ -61,8 +62,8 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     @Transactional
     public void deleteReview(final Long id) throws BrewerySuchReviewNotFoundException {
-        final boolean isFound = reviewRepository.existsById(id);
-        if (!isFound) {
+        final boolean reviewIsExists = reviewRepository.existsById(id);
+        if (!reviewIsExists) {
             throw new BrewerySuchReviewNotFoundException("No review with id = " + id + " was found.");
         }
         reviewRepository.deleteById(id);

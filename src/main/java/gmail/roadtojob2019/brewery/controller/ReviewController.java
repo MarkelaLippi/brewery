@@ -21,7 +21,7 @@ public class ReviewController {
 
     @PostMapping(value = "customer/reviews", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public Long createReview(@RequestBody ReviewDto reviewDto) throws BrewerySuchCustomerNotFoundException, BrewerySuchOrderNotFoundException {
+    public Long createReview(@RequestBody final ReviewDto reviewDto) throws BrewerySuchCustomerNotFoundException, BrewerySuchOrderNotFoundException {
         return reviewService.createReview(reviewDto);
     }
 
@@ -31,9 +31,9 @@ public class ReviewController {
         return reviewService.changeReview(id, reviewDto);
     }
 
-    @DeleteMapping(value = "customer/reviews/{reviewId}")
+    @DeleteMapping(value = "customer/reviews/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteReview(@PathVariable final Long reviewId) throws BrewerySuchReviewNotFoundException {
-        reviewService.deleteReview(reviewId);
+    public void deleteReview(@PathVariable final Long id) throws BrewerySuchReviewNotFoundException {
+        reviewService.deleteReview(id);
     }
 }
