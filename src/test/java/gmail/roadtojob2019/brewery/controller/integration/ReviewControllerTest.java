@@ -1,9 +1,5 @@
 package gmail.roadtojob2019.brewery.controller.integration;
 
-import gmail.roadtojob2019.brewery.entity.Customer;
-import gmail.roadtojob2019.brewery.entity.Order;
-import gmail.roadtojob2019.brewery.entity.Review;
-import gmail.roadtojob2019.brewery.security.UserRole;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -12,16 +8,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Optional;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
@@ -31,9 +20,8 @@ class ReviewControllerTest {
     private MockMvc mockMvc;
 
     @Test
-    public void testCustomerReviewIsCreated() throws Exception {
+    public void testCustomerCreateReviewIsCreated() throws Exception {
         // given
-        //signInAsCustomer();
         // when
         mockMvc.perform(post("/brewery/customer/reviews")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -50,7 +38,6 @@ class ReviewControllerTest {
     @Test
     public void testCustomerChangeReviewIsOk() throws Exception {
         // given
-        //signInAsCustomer();
         // when
         mockMvc.perform(patch("/brewery/customer/reviews/1")
                 //then

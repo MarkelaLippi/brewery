@@ -39,7 +39,7 @@ class ReviewControllerUnitTest extends AbstractControllerTest {
     private ReviewRepository reviewRepository;
 
     @Test
-    public void testCustomerReviewIsCreated() throws Exception {
+    public void testCustomerCreateReviewIsCreated() throws Exception {
         // given
         final Optional<Customer> customer = getCustomer();
         final Optional<Order> order = getOrder(customer);
@@ -66,7 +66,7 @@ class ReviewControllerUnitTest extends AbstractControllerTest {
     }
 
     @Test
-    public void testCustomerReviewThrowsBrewerySuchCustomerNotFoundException() throws Exception {
+    public void testCustomerCreateReviewThrowsBrewerySuchCustomerNotFoundException() throws Exception {
         // given
         final Optional<Customer> customer = getCustomer();
         final Optional<Order> order = getOrder(customer);
@@ -93,7 +93,7 @@ class ReviewControllerUnitTest extends AbstractControllerTest {
     }
 
     @Test
-    public void testCustomerReviewThrowsBrewerySuchOrderNotFoundException() throws Exception {
+    public void testCustomerCreateReviewThrowsBrewerySuchOrderNotFoundException() throws Exception {
         // given
         final Optional<Customer> customer = getCustomer();
         final Optional<Order> order = getOrder(customer);
@@ -140,6 +140,28 @@ class ReviewControllerUnitTest extends AbstractControllerTest {
                 .andExpect(content().json("1"));
         verify(reviewRepository, times(1)).findById(any(Long.class));
         verify(reviewRepository, times(1)).save(any(Review.class));
+    }
+
+    @Test
+    public void testCustomerChangeReviewThrowsBrewerySuchReviewNotFoundException() throws Exception {
+        // given
+        final Optional<Customer> customer = getCustomer();
+        final Optional<Order> order = getOrder(customer);
+        final Review review = getReview(customer, order);
+        willReturn(Optional.empty()).given(reviewRepository).findById(any(Long.class));
+        willReturn(review).given(reviewRepository).save(any(Review.class));
+        String token = signInAsUser(UserRole.CUSTOMER);
+        // when
+        mockMvc.perform(patch("/brewery/customer/reviews/1").header("Authorization", token)
+                //then
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\n" +
+                        "  \"content\" : \"I would like to notice...\"\n" +
+                        " }"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("errorMessage").value("Review with id = 1 was not found"));
+        verify(reviewRepository, times(1)).findById(any(Long.class));
+        verify(reviewRepository, times(0)).save(any(Review.class));
     }
 
     private Review getReview(Optional<Customer> customer, Optional<Order> order) {
