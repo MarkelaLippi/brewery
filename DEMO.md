@@ -177,6 +177,15 @@ Response: ```200 OK```
                            {"productId" : 1,
                             "amount" : 250.0 }
                          ]
+  },
+  {
+       "id" : 1, 
+       "date" : "05.02.2020",
+       "customerId" : 1,
+       "orderItemDtos" : [
+                           {"productId" : 1,
+                            "amount" : 10.0 }
+                         ]
   }
 ]
 ```

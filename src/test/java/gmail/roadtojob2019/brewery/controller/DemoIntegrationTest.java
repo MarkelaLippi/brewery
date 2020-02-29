@@ -35,6 +35,13 @@ class DemoIntegrationTest {
         changeReview(customerToken);
         deleteReview(customerToken);
 
+        //Sales flow
+        final String salesToken = userSignIn("Petrov@gmail.com");
+        getOrders(salesToken);
+        getBeers(salesToken);
+        createProduceRequest(salesToken);
+
+
     }
 
     private void customerSignUp() throws Exception {
@@ -119,6 +126,62 @@ class DemoIntegrationTest {
         mockMvc.perform(delete("/brewery/customer/reviews/3").header("Authorization", customerToken)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
+    }
+
+    private void getOrders(String salesToken) throws Exception {
+        mockMvc.perform(get("/brewery/sales/orders").header("Authorization", salesToken))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[\n" +
+                        "  {\n" +
+                        "   \"id\" : 1, \n" +
+                        "   \"date\" : \"05.02.2020\",\n" +
+                        "   \"customerId\" : 1,\n" +
+                        "   \"orderItemDtos\" : [\n" +
+                        "                          {\"productId\" : 1,\n" +
+                        "                           \"amount\" : 250.0 }\n" +
+                        "                       ]\n" +
+                        "  },\n" +
+                        "  {\n" +
+                        "   \"id\" : 2, \n" +
+                        "   \"date\" : \"05.02.2020\",\n" +
+                        "   \"customerId\" : 1,\n" +
+                        "   \"orderItemDtos\" : [\n" +
+                        "                          {\"productId\" : 1,\n" +
+                        "                           \"amount\" : 10.0 }\n" +
+                        "                       ]\n" +
+                        "  }\n" +
+                        "]"));
+    }
+
+    private void getBeers(String salesToken) throws Exception {
+        mockMvc.perform(get("/brewery/sales/products?type=beer").header("Authorization", salesToken))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[\n" +
+                        "  {\n" +
+                        "    \"id\" : 1, \n" +
+                        "    \"name\" : \"CoolBeer\",\n" +
+                        "    \"description\" : \"Light, 4.8% alcohol...\",\n" +
+                        "    \"price\" : 2.5,\n" +
+                        "    \"amount\" : 500.0,\n" +
+                        "    \"unit\" : \"LITRE\" \n" +
+                        "  }\n" +
+                        "]"));
+    }
+
+    private void createProduceRequest(String salesToken) throws Exception {
+        mockMvc.perform(post("/brewery/sales/requests").header("Authorization", salesToken)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\n" +
+                        "  \"date\" : \"2020-02-05\",\n" +
+                        "  \"term\" : \"2020-02-10\",\n" +
+                        "  \"status\" : \"NEW\",\n" +
+                        "  \"produceRequestItemDtos\" : [\n" +
+                        "                                 {\"productId\" : 1,\n" +
+                        "                                  \"amount\" : 150 }\n" +
+                        "                               ]\n" +
+                        "}"))
+                .andExpect(status().isCreated())
+                .andExpect(content().json("2"));
     }
 }
 
