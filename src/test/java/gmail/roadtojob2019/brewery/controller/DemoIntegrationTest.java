@@ -2,7 +2,6 @@ package gmail.roadtojob2019.brewery.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gmail.roadtojob2019.brewery.dto.UserSignInResponseDto;
-import gmail.roadtojob2019.brewery.entity.AuthInfoEntity;
 import gmail.roadtojob2019.brewery.repository.AuthInfoRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.Optional;
 
 import static org.hamcrest.Matchers.hasLength;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -26,15 +23,9 @@ class DemoIntegrationTest {
     private MockMvc mockMvc;
     @Autowired
     private ObjectMapper objectMapper;
-    @Autowired
-    private AuthInfoRepository authInfoRepository;
 
     @Test
     public void testDemo() throws Exception {
-
-        final Optional<AuthInfoEntity> authInfoEntity = authInfoRepository.findByLogin("Ivanov@gmail.com");
-        authInfoEntity.ifPresent(infoEntity -> authInfoRepository.delete(infoEntity));
-
         //CustomerFlow
         customerSignUp();
         final String customerToken = userSignIn("Ivanov@gmail.com");
