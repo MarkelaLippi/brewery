@@ -8,7 +8,7 @@ import gmail.roadtojob2019.brewery.mapper.OrderMapper;
 import gmail.roadtojob2019.brewery.repository.CustomerRepository;
 import gmail.roadtojob2019.brewery.repository.OrderRepository;
 import gmail.roadtojob2019.brewery.service.OrderService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final CustomerRepository customerRepository;
@@ -25,7 +25,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public Long createOrder(OrderDto orderDto) throws BrewerySuchCustomerNotFoundException {
+    public Long createOrder(final OrderDto orderDto) throws BrewerySuchCustomerNotFoundException {
         final Order newOrder = orderMapper.orderDtoToOrder(orderDto);
         final Long customerId = orderDto.getCustomerId();
         final Customer customer = customerRepository.findById(customerId)

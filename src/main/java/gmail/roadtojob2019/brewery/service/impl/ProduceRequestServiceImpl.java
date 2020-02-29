@@ -7,7 +7,7 @@ import gmail.roadtojob2019.brewery.exception.BrewerySuchProduceRequestNotFoundEx
 import gmail.roadtojob2019.brewery.mapper.ProduceRequestMapper;
 import gmail.roadtojob2019.brewery.repository.ProduceRequestRepository;
 import gmail.roadtojob2019.brewery.service.ProduceRequestService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ProduceRequestServiceImpl implements ProduceRequestService {
 
     private final ProduceRequestRepository produceRequestRepository;
@@ -23,7 +23,7 @@ public class ProduceRequestServiceImpl implements ProduceRequestService {
 
     @Override
     @Transactional
-    public Long createProduceRequest(ProduceRequestDto request) {
+    public Long createProduceRequest(final ProduceRequestDto request) {
         final ProduceRequest createdProduceRequest = produceRequestMapper.produceRequestDtoToProduceRequest(request);
         final ProduceRequest savedProduceRequest = produceRequestRepository.save(createdProduceRequest);
         return savedProduceRequest.getId();
@@ -31,7 +31,7 @@ public class ProduceRequestServiceImpl implements ProduceRequestService {
 
     @Override
     @Transactional
-    public List<ProduceRequestDto> getProduceRequestsByStatus(String status) {
+    public List<ProduceRequestDto> getProduceRequestsByStatus(final String status) {
         final Status requiredStatus = Status.valueOf(status.toUpperCase());
         final List<ProduceRequest> produceRequests = produceRequestRepository.findByStatus(requiredStatus);
         final List<ProduceRequestDto> produceRequestDtos = produceRequests
@@ -43,7 +43,7 @@ public class ProduceRequestServiceImpl implements ProduceRequestService {
 
     @Override
     @Transactional
-    public ProduceRequestDto getProduceRequest(Long id) throws BrewerySuchProduceRequestNotFoundException {
+    public ProduceRequestDto getProduceRequest(final Long id) throws BrewerySuchProduceRequestNotFoundException {
         final ProduceRequest produceRequest = produceRequestRepository.findById(id)
                 .orElseThrow(() -> new BrewerySuchProduceRequestNotFoundException("ProduceRequest with id = " + id + " was not found"));
         final ProduceRequestDto produceRequestDto = produceRequestMapper.produceRequestToProduceRequestDto(produceRequest);
@@ -52,7 +52,7 @@ public class ProduceRequestServiceImpl implements ProduceRequestService {
 
     @Override
     @Transactional
-    public Long changeProduceRequestStatus(Long id, ProduceRequestDto produceRequestDto) throws BrewerySuchProduceRequestNotFoundException {
+    public Long changeProduceRequestStatus(final Long id, final ProduceRequestDto produceRequestDto) throws BrewerySuchProduceRequestNotFoundException {
         final Status requiredStatus = Status.valueOf(produceRequestDto.getStatus().toUpperCase());
         final ProduceRequest produceRequestBeforeChangingStatus = produceRequestRepository.findById(id)
                 .orElseThrow(() -> new BrewerySuchProduceRequestNotFoundException("ProduceRequest with id = " + id + " was not found"));

@@ -6,21 +6,19 @@ import gmail.roadtojob2019.brewery.entity.Order;
 import gmail.roadtojob2019.brewery.entity.Review;
 import gmail.roadtojob2019.brewery.exception.BrewerySuchCustomerNotFoundException;
 import gmail.roadtojob2019.brewery.exception.BrewerySuchOrderNotFoundException;
-import gmail.roadtojob2019.brewery.exception.BrewerySuchProductNotFoundException;
 import gmail.roadtojob2019.brewery.exception.BrewerySuchReviewNotFoundException;
 import gmail.roadtojob2019.brewery.mapper.ReviewMapper;
 import gmail.roadtojob2019.brewery.repository.CustomerRepository;
 import gmail.roadtojob2019.brewery.repository.OrderRepository;
 import gmail.roadtojob2019.brewery.repository.ReviewRepository;
 import gmail.roadtojob2019.brewery.service.ReviewService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Optional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ReviewServiceImpl implements ReviewService {
 
     private final ReviewRepository reviewRepository;

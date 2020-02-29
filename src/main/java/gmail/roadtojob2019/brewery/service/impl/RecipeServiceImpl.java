@@ -6,13 +6,13 @@ import gmail.roadtojob2019.brewery.exception.BrewerySuchRecipeNotFoundException;
 import gmail.roadtojob2019.brewery.mapper.RecipeMapper;
 import gmail.roadtojob2019.brewery.repository.RecipeRepository;
 import gmail.roadtojob2019.brewery.service.RecipeService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class RecipeServiceImpl implements RecipeService {
 
     private final RecipeRepository recipeRepository;
@@ -21,7 +21,7 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     @Transactional
-    public RecipeDto getRecipe(Long id) throws BrewerySuchRecipeNotFoundException {
+    public RecipeDto getRecipe(final Long id) throws BrewerySuchRecipeNotFoundException {
         final Recipe recipe = recipeRepository.findById(id)
                 .orElseThrow(() -> new BrewerySuchRecipeNotFoundException("Recipe with id = " + id + " was not found"));
         final RecipeDto recipeDto = recipeMapper.recipeToRecipeDto(recipe);

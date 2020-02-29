@@ -10,7 +10,7 @@ import gmail.roadtojob2019.brewery.mapper.PricelistMapper;
 import gmail.roadtojob2019.brewery.mapper.ProductMapper;
 import gmail.roadtojob2019.brewery.repository.ProductRepository;
 import gmail.roadtojob2019.brewery.service.ProductService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 import static gmail.roadtojob2019.brewery.entity.Type.BEER;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
@@ -42,7 +42,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public List<ProductDto> getAllProductsByType(String type) {
+    public List<ProductDto> getAllProductsByType(final String type) {
         final Type requiredType = Type.valueOf(type.toUpperCase());
         final List<Product> products = productRepository
                 .findByType(requiredType);
@@ -55,7 +55,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public ProductDto getProductById(Long id) throws BrewerySuchProductNotFoundException {
+    public ProductDto getProductById(final Long id) throws BrewerySuchProductNotFoundException {
         final Product product = productRepository.findById(id)
                 .orElseThrow(() -> new BrewerySuchProductNotFoundException("Product with id = " + id + " was not found"));
         final ProductDto productDto = productMapper.productToProductDto(product);
@@ -64,7 +64,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public Long changeProductAmount(Long id, ProductDto productDto) throws BrewerySuchProductNotFoundException {
+    public Long changeProductAmount(final Long id, final ProductDto productDto) throws BrewerySuchProductNotFoundException {
         final Product productBeforeChangingAmount = productRepository.findById(id)
                 .orElseThrow(() -> new BrewerySuchProductNotFoundException("Product with id = " + id + " was not found"));
         Storage storage = productBeforeChangingAmount.getStorage();

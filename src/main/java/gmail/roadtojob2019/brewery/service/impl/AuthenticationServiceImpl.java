@@ -43,7 +43,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     @Transactional
-    public UserSignInResponseDto signUp(CustomerSignUpRequestDto signUpRequest) throws BrewerySuchCustomerAlreadyExistException {
+    public UserSignInResponseDto signUp(final CustomerSignUpRequestDto signUpRequest) throws BrewerySuchCustomerAlreadyExistException {
         if (authInfoRepository.findByLogin(signUpRequest.getEmail()).isPresent()) {
             throw new BrewerySuchCustomerAlreadyExistException("User with email=" + signUpRequest.getEmail() + " already exists");
         }
