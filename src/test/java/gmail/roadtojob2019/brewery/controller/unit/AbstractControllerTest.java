@@ -5,9 +5,7 @@ import gmail.roadtojob2019.brewery.dto.UserSignInResponseDto;
 import gmail.roadtojob2019.brewery.entity.AuthInfoEntity;
 import gmail.roadtojob2019.brewery.entity.UserEntity;
 import gmail.roadtojob2019.brewery.repository.AuthInfoRepository;
-import gmail.roadtojob2019.brewery.repository.UserRepository;
 import gmail.roadtojob2019.brewery.security.UserRole;
-import gmail.roadtojob2019.brewery.service.AuthInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -34,10 +32,6 @@ public abstract class AbstractControllerTest {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @MockBean
-    private AuthInfoService authInfoService;
-    @MockBean
-    private UserRepository userRepository;
     @MockBean
     private AuthInfoRepository authInfoRepository;
 

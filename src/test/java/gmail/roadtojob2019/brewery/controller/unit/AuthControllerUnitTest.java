@@ -1,19 +1,16 @@
 package gmail.roadtojob2019.brewery.controller.unit;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import gmail.roadtojob2019.brewery.entity.AuthInfoEntity;
 import gmail.roadtojob2019.brewery.entity.UserEntity;
 import gmail.roadtojob2019.brewery.repository.AuthInfoRepository;
 import gmail.roadtojob2019.brewery.repository.UserRepository;
 import gmail.roadtojob2019.brewery.security.UserRole;
-import gmail.roadtojob2019.brewery.service.AuthInfoService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Optional;
@@ -32,13 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class AuthControllerUnitTest {
     @Autowired
     private MockMvc mockMvc;
-    @Autowired
-    private ObjectMapper objectMapper;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
-    @MockBean
-    private AuthInfoService authInfoService;
     @MockBean
     private UserRepository userRepository;
     @MockBean
