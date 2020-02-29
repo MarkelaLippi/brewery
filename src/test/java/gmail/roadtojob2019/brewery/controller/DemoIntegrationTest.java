@@ -2,7 +2,6 @@ package gmail.roadtojob2019.brewery.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gmail.roadtojob2019.brewery.dto.UserSignInResponseDto;
-import gmail.roadtojob2019.brewery.repository.AuthInfoRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
