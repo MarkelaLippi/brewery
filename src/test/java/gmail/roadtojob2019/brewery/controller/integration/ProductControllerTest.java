@@ -23,7 +23,6 @@ class ProductControllerTest {
     @Test
     void testGetPriselistIsOk() throws Exception {
         // given
-        //signInAsCustomer();
         // when
         mockMvc.perform(get("/brewery/customer/pricelist"))
                 .andExpect(status().isOk())
