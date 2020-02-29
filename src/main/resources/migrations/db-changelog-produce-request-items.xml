@@ -22,4 +22,12 @@
             <column name="amount" value="350"/>
         </insert>
     </changeSet>
+
+    <changeSet author="RoadToJob2019@gmail.com" id="ADD_PRODUCE-REQUEST-ITEMS_TABLE_2">
+        <insert tableName="produce_request_items">
+            <column name="produce_request_id" value="2"/>
+            <column name="product_id" value="1"/>
+            <column name="amount" value="150"/>
+        </insert>
+    </changeSet>
 </databaseChangeLog>

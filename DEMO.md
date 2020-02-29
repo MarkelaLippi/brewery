@@ -148,7 +148,7 @@ POST /brewery/sign-in
 ```json
 {
        "email" : "Petrov@gmail.com ",
-       "password" : "87654321"
+       "password" : "12345678"
 }
 ```
 Response: ```200 OK```
@@ -246,8 +246,8 @@ POST /brewery/sign-in
 ```
 ```json
 {
-       "email" : "Sidorov@gmail.com",
-       "password" : "11223344"
+       "email" : "Korzun@gmail.com",
+       "password" : "12345678"
 }
 ```
 Response: ```200 OK```
@@ -269,12 +269,21 @@ Response: ```200 OK```
 ```json
 [
   {
-       "date" : "2020-02-05",
-       "term" : "2020-02-10",
+       "date" : "02.02.2020",
+       "term" : "04.02.2020",
        "status" : "NEW",
        "produceRequestItemDtos" : [
                                     {"productId" : 1,
-                                      "amount" : 150 }
+                                     "amount" : 350.0 }
+                                  ]
+  },
+  {
+       "date" : "05.02.2020",
+       "term" : "10.02.2020",
+       "status" : "NEW",
+       "produceRequestItemDtos" : [
+                                    {"productId" : 1,
+                                     "amount" : 150.0 }
                                   ]
   }
 ]
@@ -290,8 +299,8 @@ GET /brewery/brewer/requests/1"
 Response: ```200 OK```
 ```json
 {
-       "date" : "2020-02-05",
-       "term" : "2020-02-10",
+       "date" : "2020-02-02",
+       "term" : "2020-02-04",
        "status" : "NEW",
        "produceRequestItemDtos" : [
                                     {"productId" : 1,

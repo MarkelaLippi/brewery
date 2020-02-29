@@ -42,8 +42,8 @@ class ProduceRequestControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json("[\n" +
                         "  {\n" +
-                        "  \"date\" : \"05.02.2020\",\n" +
-                        "  \"term\" : \"10.02.2020\",\n" +
+                        "  \"date\" : \"02.02.2020\",\n" +
+                        "  \"term\" : \"04.02.2020\",\n" +
                         "  \"status\" : \"NEW\",\n" +
                         "  \"produceRequestItemDtos\" : [\n" +
                         "                                 {\"productId\" : 1,\n" +
@@ -58,8 +58,8 @@ class ProduceRequestControllerTest {
         mockMvc.perform(get("/brewery/brewer/requests/1"))
                 .andExpect(status().isOk())
                 .andExpect(content().json("{\n" +
-                        "  \"date\" : \"05.02.2020\",\n" +
-                        "  \"term\" : \"10.02.2020\",\n" +
+                        "  \"date\" : \"02.02.2020\",\n" +
+                        "  \"term\" : \"04.02.2020\",\n" +
                         "  \"produceRequestItemDtos\" : [\n" +
                         "                                 {\"productId\" : 1,\n" +
                         "                                  \"amount\" : 350.0 }\n" +

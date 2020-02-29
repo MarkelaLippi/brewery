@@ -64,7 +64,7 @@ class AuthControllerTest {
         mockMvc.perform(post("/brewery/sign-in")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
-                        "  \"email\" : \"Sydorov@gmail.com\",\n" +
+                        "  \"email\" : \"Petrov@gmail.com\",\n" +
                         "  \"password\" : \"Wrong password\"\n" +
                         "}"))
                 .andExpect(status().isForbidden());

@@ -23,7 +23,7 @@
 
     <changeSet author="RoadToJob2019@gmail.com" id="ADD_USER-ENTITIES_TABLE_2">
         <insert tableName="user_entities">
-            <column name="email" value="Sydorov@gmail.com"/>
+            <column name="email" value="Korzun@gmail.com"/>
             <column name="role" value="BREWER"/>
         </insert>
     </changeSet>

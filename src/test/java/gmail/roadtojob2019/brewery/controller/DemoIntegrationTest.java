@@ -2,6 +2,8 @@ package gmail.roadtojob2019.brewery.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gmail.roadtojob2019.brewery.dto.UserSignInResponseDto;
+import gmail.roadtojob2019.brewery.entity.AuthInfoEntity;
+import gmail.roadtojob2019.brewery.repository.AuthInfoRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -9,6 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.Optional;
 
 import static org.hamcrest.Matchers.hasLength;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -22,9 +26,14 @@ class DemoIntegrationTest {
     private MockMvc mockMvc;
     @Autowired
     private ObjectMapper objectMapper;
+    @Autowired
+    private AuthInfoRepository authInfoRepository;
 
     @Test
     public void testDemo() throws Exception {
+
+        final Optional<AuthInfoEntity> authInfoEntity = authInfoRepository.findByLogin("Ivanov@gmail.com");
+        authInfoEntity.ifPresent(infoEntity -> authInfoRepository.delete(infoEntity));
 
         //CustomerFlow
         customerSignUp();
@@ -41,7 +50,15 @@ class DemoIntegrationTest {
         getBeers(salesToken);
         createProduceRequest(salesToken);
 
-
+        //Brewer flow
+        final String brewerToken = userSignIn("Korzun@gmail.com");
+        getNewProduceRequests(brewerToken);
+        getProduceRequest(brewerToken);
+        changeProduceRequestStatusInProgress(brewerToken);
+        getRecipe(brewerToken);
+        getIngredient(brewerToken);
+        changeBeerAmount(brewerToken);
+        changeProduceRequestStatusCompleted(brewerToken);
     }
 
     private void customerSignUp() throws Exception {
@@ -58,7 +75,7 @@ class DemoIntegrationTest {
     }
 
     private String userSignIn(final String email) throws Exception {
-        final String response=mockMvc.perform(post("/brewery/sign-in")
+        final String response = mockMvc.perform(post("/brewery/sign-in")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\n" +
                         "  \"email\" : \"" + email + "\",\n" +
@@ -182,6 +199,100 @@ class DemoIntegrationTest {
                         "}"))
                 .andExpect(status().isCreated())
                 .andExpect(content().json("2"));
+    }
+
+    private void getNewProduceRequests(String brewerToken) throws Exception {
+        mockMvc.perform(get("/brewery/brewer/requests/?status=new").header("Authorization", brewerToken))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[\n" +
+                        "  {\n" +
+                        "  \"date\" : \"02.02.2020\",\n" +
+                        "  \"term\" : \"04.02.2020\",\n" +
+                        "  \"status\" : \"NEW\",\n" +
+                        "  \"produceRequestItemDtos\" : [\n" +
+                        "                                 {\"productId\" : 1,\n" +
+                        "                                  \"amount\" : 350.0 }\n" +
+                        "                               ]\n" +
+                        "  },\n" +
+                        "  {\n" +
+                        "  \"date\" : \"05.02.2020\",\n" +
+                        "  \"term\" : \"10.02.2020\",\n" +
+                        "  \"status\" : \"NEW\",\n" +
+                        "  \"produceRequestItemDtos\" : [\n" +
+                        "                                 {\"productId\" : 1,\n" +
+                        "                                  \"amount\" : 150.0 }\n" +
+                        "                               ]\n" +
+                        "  }\n" +
+                        "]"));
+    }
+
+    private void getProduceRequest(String brewerToken) throws Exception {
+        mockMvc.perform(get("/brewery/brewer/requests/1").header("Authorization", brewerToken))
+                .andExpect(status().isOk())
+                .andExpect(content().json("{\n" +
+                        "  \"date\" : \"02.02.2020\",\n" +
+                        "  \"term\" : \"04.02.2020\",\n" +
+                        "  \"produceRequestItemDtos\" : [\n" +
+                        "                                 {\"productId\" : 1,\n" +
+                        "                                  \"amount\" : 350.0 }\n" +
+                        "                               ]\n" +
+                        "  }\n"));
+    }
+
+    private void changeProduceRequestStatusInProgress(String brewerToken) throws Exception {
+        mockMvc.perform(patch("/brewery/brewer/requests/1").header("Authorization", brewerToken)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("  {\n" +
+                        "  \"status\" : \"In_progress\"\n" +
+                        "  }\n"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("1"));
+    }
+
+    private void getRecipe(String brewerToken) throws Exception {
+        mockMvc.perform(get("/brewery/brewer/recipes/1").header("Authorization", brewerToken))
+                .andExpect(status().isOk())
+                .andExpect(content().json(" {\n" +
+                        "\"id\" : 1," +
+                        "\"productId\" : 1," +
+                        "\"recipeItemDtos\" : [\n" +
+                        "                       {\"productId\" : 2,\n" +
+                        "                        \"amount\" : 3.0 }\n" +
+                        "                               ]\n" +
+                        "  }\n"));
+    }
+
+    private void getIngredient(String brewerToken) throws Exception {
+        mockMvc.perform(get("/brewery/brewer/products/2").header("Authorization", brewerToken))
+                .andExpect(status().isOk())
+                .andExpect(content().json(
+                        "  {\n" +
+                                "    \"id\" : 2, \n" +
+                                "    \"name\" : \"Water\",\n" +
+                                "    \"description\" : \"Artesian, ...\",\n" +
+                                "    \"amount\" : 800.0,\n" +
+                                "    \"unit\" : \"LITRE\" \n" +
+                                "  }\n"));
+    }
+
+    private void changeBeerAmount(String brewerToken) throws Exception {
+        mockMvc.perform(patch("/brewery/brewer/products/1").header("Authorization", brewerToken)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(" {\n" +
+                        "    \"amount\" : 250\n" +
+                        "  }\n"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("1"));
+    }
+
+    private void changeProduceRequestStatusCompleted(String brewerToken) throws Exception {
+        mockMvc.perform(patch("/brewery/brewer/requests/1").header("Authorization", brewerToken)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("  {\n" +
+                        "  \"status\" : \"Completed\"\n" +
+                        "  }\n"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("1"));
     }
 }
 

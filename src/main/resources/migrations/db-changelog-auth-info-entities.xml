@@ -25,7 +25,7 @@
 
     <changeSet author="RoadToJob2019@gmail.com" id="ADD_AUTH-INFO-ENTITIES_TABLE_2">
         <insert tableName="auth_info_entities">
-            <column name="login" value="Sydorov@gmail.com"/>
+            <column name="login" value="Korzun@gmail.com"/>
             <column name="password" value="$2a$08$tsw97jAPTV4DJ1L5poXFK.qwXlSGrvWHcQWW2sszV8tlihZRLJRwW"/>
             <column name="user_id" value="2"/>
         </insert>
