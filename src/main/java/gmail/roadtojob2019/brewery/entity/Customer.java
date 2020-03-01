@@ -27,9 +27,9 @@ public class Customer {
     @Column(name = "phone")
     private String phone;
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private Set<Order>orders=new HashSet<>();
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private Set<Review>reviews=new HashSet<>();
 }

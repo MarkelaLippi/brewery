@@ -38,7 +38,7 @@ public class Product {
     @JoinColumn(name = "recipe_id", referencedColumnName = "id")
     private Recipe recipe;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "storage_id", referencedColumnName = "id")
     private Storage storage;
 }
