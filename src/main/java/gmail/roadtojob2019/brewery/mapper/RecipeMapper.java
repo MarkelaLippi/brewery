@@ -14,28 +14,15 @@ import java.util.List;
 public interface RecipeMapper {
 
     @Mappings({
-            @Mapping(target = "recipeItems", source = "recipeItemDtos")
-    })
-    Recipe recipeDtoToRecipe(RecipeDto recipeDto);
-
-    @Mappings({
             @Mapping(target = "recipeItemDtos", source = "recipeItems")
     })
     RecipeDto recipeToRecipeDto(Recipe recipe);
-
-    @Mappings({
-            @Mapping(target = "product.id", source = "productId"),
-            @Mapping(target = "recipe.id", source = "recipeId")
-    })
-    RecipeItem recipeItemDtoToRecipeItem(RecipeItemDto dto);
 
     @Mappings({
             @Mapping(target = "productId", source = "product.id"),
             @Mapping(target = "recipeId", source = "recipe.id")
     })
     RecipeItemDto recipeItemToRecipeItemDto(RecipeItem recipeItem);
-
-    List<RecipeItem> convertRecipeItemDtoListToRecipeItemList(List<RecipeItemDto> recipeItemDtos);
 
     List<RecipeItemDto> convertRecipeItemListToRecipeItemDtoList(List<RecipeItem> recipeItems);
 

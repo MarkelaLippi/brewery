@@ -9,5 +9,4 @@ public interface CustomerSignUpRequestMapper {
 
     UserEntity sourceToDestination(CustomerSignUpRequestDto dto);
 
-    CustomerSignUpRequestDto destinationToSource(UserEntity userEntity);
 }

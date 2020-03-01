@@ -4,10 +4,12 @@ import gmail.roadtojob2019.brewery.dto.CustomerSignUpRequestDto;
 import gmail.roadtojob2019.brewery.dto.SignInRequestDto;
 import gmail.roadtojob2019.brewery.dto.UserSignInResponseDto;
 import gmail.roadtojob2019.brewery.entity.AuthInfoEntity;
+import gmail.roadtojob2019.brewery.entity.Customer;
 import gmail.roadtojob2019.brewery.entity.UserEntity;
 import gmail.roadtojob2019.brewery.exception.BrewerySuchCustomerAlreadyExistException;
 import gmail.roadtojob2019.brewery.mapper.CustomerSignUpRequestMapper;
 import gmail.roadtojob2019.brewery.repository.AuthInfoRepository;
+import gmail.roadtojob2019.brewery.repository.CustomerRepository;
 import gmail.roadtojob2019.brewery.repository.UserRepository;
 import gmail.roadtojob2019.brewery.security.JwtUtil;
 import gmail.roadtojob2019.brewery.security.UserRole;
@@ -36,6 +38,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final AuthInfoRepository authInfoRepository;
     private final UserRepository userRepository;
+    private final CustomerRepository customerRepository;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -48,6 +51,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             throw new BrewerySuchCustomerAlreadyExistException("User with email=" + signUpRequest.getEmail() + " already exists");
         }
         saveUser(signUpRequest);
+        createNewCustomer(signUpRequest);
         final UserSignInResponseDto userSignInResponseDto = singIn(new SignInRequestDto(signUpRequest.getEmail(), signUpRequest.getPassword()));
         return userSignInResponseDto;
 
@@ -66,6 +70,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         authInfoEntity.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
         authInfoEntity.setUser(savedUser);
         authInfoRepository.save(authInfoEntity);
+    }
+
+    private void createNewCustomer(final CustomerSignUpRequestDto signUpRequest) {
+        final Customer newCustomer = Customer.builder()
+                .fullName(signUpRequest.getFullName())
+                .email(signUpRequest.getEmail())
+                .phone(signUpRequest.getPhone()).build();
+        customerRepository.save(newCustomer);
     }
 
     @Override

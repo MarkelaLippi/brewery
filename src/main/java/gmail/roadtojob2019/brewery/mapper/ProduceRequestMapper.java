@@ -8,8 +8,6 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
-import java.util.List;
-
 @Mapper(componentModel = "spring")
 public interface ProduceRequestMapper {
     @Mappings({
@@ -32,8 +30,4 @@ public interface ProduceRequestMapper {
             @Mapping(target = "produceRequestId", source = "produceRequest.id")
     })
     ProduceRequestItemDto produceRequestItemToProduceRequestItemDto(ProduceRequestItem produceRequestItem);
-
-    List<ProduceRequest> convertProduceRequestDtoListToProduceRequestList(List<ProduceRequestDto> produceRequestDtoList);
-
-    List<ProduceRequestDto> convertProduceRequestListToProduceRequestDtoList(List<ProduceRequest> produceRequestList);
 }

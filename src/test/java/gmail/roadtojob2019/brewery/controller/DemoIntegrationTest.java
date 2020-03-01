@@ -47,6 +47,7 @@ class DemoIntegrationTest {
         changeProduceRequestStatusInProgress(brewerToken);
         getRecipe(brewerToken);
         getIngredient(brewerToken);
+        getIngredients(brewerToken);
         changeBeerAmount(brewerToken);
         changeProduceRequestStatusCompleted(brewerToken);
     }
@@ -263,6 +264,28 @@ class DemoIntegrationTest {
                                 "    \"amount\" : 800.0,\n" +
                                 "    \"unit\" : \"LITRE\" \n" +
                                 "  }\n"));
+    }
+
+    private void getIngredients(String brewerToken) throws Exception {
+        mockMvc.perform(get("/brewery/brewer/products?ids=2,3").header("Authorization", brewerToken))
+                //then
+                .andExpect(status().isOk())
+                .andExpect(content().json("[\n" +
+                        "  {\n" +
+                        "    \"id\" : 2, \n" +
+                        "    \"name\" : \"Water\",\n" +
+                        "    \"description\" : \"Artesian, ...\",\n" +
+                        "    \"amount\" : 800.0,\n" +
+                        "    \"unit\" : \"LITRE\" \n" +
+                        "  },\n"+
+                        "  {\n" +
+                        "    \"id\" : 3, \n" +
+                        "    \"name\" : \"Alcohol\",\n" +
+                        "    \"description\" : \"Concentration 90%, ...\",\n" +
+                        "    \"amount\" : 100.0,\n" +
+                        "    \"unit\" : \"LITRE\" \n" +
+                        "  }\n"+
+                        "]"));
     }
 
     private void changeBeerAmount(String brewerToken) throws Exception {

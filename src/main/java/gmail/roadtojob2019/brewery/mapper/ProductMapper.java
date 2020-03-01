@@ -8,8 +8,6 @@ import org.mapstruct.Mappings;
 
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
-    Product productDtoToProduct(ProductDto dto);
-
     @Mappings({
             @Mapping(target = "amount", source = "storage.amount"),
     })

@@ -42,6 +42,13 @@ public class ProductController {
         return productService.getProductById(id);
     }
 
+    @GetMapping("brewer/products")
+    @ResponseStatus(HttpStatus.OK)
+    @ApiOperation(value = "Get products by ID")
+    public List<ProductDto> getProductsByIds(@RequestParam final List<Long> ids) {
+        return productService.getProductsByIds(ids);
+    }
+
     @PatchMapping(value = "brewer/products/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "Change product amount")

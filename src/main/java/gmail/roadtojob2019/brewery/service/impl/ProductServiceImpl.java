@@ -63,6 +63,16 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<ProductDto> getProductsByIds(final List<Long> id) {
+        final List<Product> products = productRepository.findAllById(id);
+        final List<ProductDto> productDtos = products
+                .stream()
+                .map(productMapper::productToProductDto)
+                .collect(Collectors.toList());
+        return productDtos;
+    }
+
+    @Override
     @Transactional
     public Long changeProductAmount(final Long id, final ProductDto productDto) throws BrewerySuchProductNotFoundException {
         final Product productBeforeChangingAmount = productRepository.findById(id)

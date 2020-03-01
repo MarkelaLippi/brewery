@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -132,6 +133,36 @@ class ProductControllerUnitTest extends AbstractControllerTest {
         verify(productRepository, times(1)).findById(any(Long.class));
     }
 
+    @Test
+    void testGetProductsByIdsIsOk() throws Exception {
+        // given
+        final List<Long>ids=List.of(2L,3L);
+        final List<Product> products = getProducts();
+        willReturn(products).given(productRepository).findAllById(ids);
+        String token = signInAsUser(UserRole.BREWER);
+        // when
+        mockMvc.perform(get("/brewery/brewer/products?ids=2,3").header("Authorization", token))
+                // then
+                .andExpect(status().isOk())
+                .andExpect(content().json("[\n" +
+                        "  {\n" +
+                        "    \"id\" : 2, \n" +
+                        "    \"name\" : \"Water\",\n" +
+                        "    \"description\" : \"Artesian, ...\",\n" +
+                        "    \"amount\" : 800.0,\n" +
+                        "    \"unit\" : \"LITRE\" \n" +
+                        "  },\n"+
+                        "  {\n" +
+                        "    \"id\" : 3, \n" +
+                        "    \"name\" : \"Alcohol\",\n" +
+                        "    \"description\" : \"Concentration 90%, ...\",\n" +
+                        "    \"amount\" : 100.0,\n" +
+                        "    \"unit\" : \"LITRE\" \n" +
+                        "  }\n"+
+                        "]"));
+        verify(productRepository, times(1)).findAllById(ids);
+    }
+
     private Optional<Product> getProductIngredient() {
         final Product product = Product.builder()
                 .id(2L)
@@ -147,6 +178,40 @@ class ProductControllerUnitTest extends AbstractControllerTest {
                 .build();
         product.setStorage(storage);
         return Optional.of(product);
+    }
+
+    private List<Product> getProducts() {
+        final Product product1 = Product.builder()
+                .id(2L)
+                .name("Water")
+                .description("Artesian, ...")
+                .type(Type.INGREDIENT)
+                .unit(Unit.LITRE)
+                .build();
+        final Storage storage1 = Storage.builder()
+                .id(2L)
+                .productId(2L)
+                .amount(800.0)
+                .build();
+        product1.setStorage(storage1);
+
+        final Product product2 = Product.builder()
+                .id(3L)
+                .name("Alcohol")
+                .description("Concentration 90%, ...")
+                .type(Type.INGREDIENT)
+                .unit(Unit.LITRE)
+                .build();
+        final Storage storage2 = Storage.builder()
+                .id(3L)
+                .productId(3L)
+                .amount(100.0)
+                .build();
+        product2.setStorage(storage2);
+        final ArrayList<Product> products = new ArrayList<>();
+        products.add(product1);
+        products.add(product2);
+        return products;
     }
 
     @Test

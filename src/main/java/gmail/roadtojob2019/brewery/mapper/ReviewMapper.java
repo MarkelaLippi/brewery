@@ -13,10 +13,4 @@ public interface ReviewMapper {
             @Mapping(target = "order.id", source = "orderId")
     })
     Review reviewDtoToReview(ReviewDto reviewDto);
-
-    @Mappings({
-            @Mapping(target = "customerId", source = "customer.id"),
-            @Mapping(target = "orderId", source = "order.id")
-    })
-    ReviewDto reviewToReviewDto(Review review);
 }
