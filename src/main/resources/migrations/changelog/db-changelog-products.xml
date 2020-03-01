@@ -11,7 +11,7 @@
             </column>
             <column name="name" type="VARCHAR(255)"/>
             <column name="description" type="VARCHAR(255)"/>
-            <column name="price" type="DOUBLE"/>
+            <column name="price" type="DECIMAL"/>
             <column name="type" type="VARCHAR(255)"/>
             <column name="unit" type="VARCHAR(255)"/>
             <column name="recipe_id" type="BIGINT"/>

@@ -14,6 +14,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -91,7 +92,7 @@ class ProductControllerUnitTest extends AbstractControllerTest {
                 .id(1L)
                 .name("CoolBeer")
                 .description("Light, 4.8% alcohol...")
-                .price(2.5)
+                .price(new BigDecimal(2.5))
                 .type(Type.BEER)
                 .unit(Unit.LITRE)
                 .build();

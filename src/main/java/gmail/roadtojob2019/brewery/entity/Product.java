@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Data
 @NoArgsConstructor
@@ -25,7 +26,7 @@ public class Product {
     @Column(name = "description")
     private String description;
     @Column(name = "price")
-    private Double price;
+    private BigDecimal price;
     @Column(name = "type")
     @Convert(converter = TypeConverter.class)
     private Type type;
