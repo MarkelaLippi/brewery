@@ -23,7 +23,7 @@ class DemoIntegrationTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    //@Test
+    @Test
     public void testDemo() throws Exception {
         //CustomerFlow
         customerSignUp();
