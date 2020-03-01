@@ -1,4 +1,4 @@
-package gmail.roadtojob2019.brewery.controller;
+package gmail.roadtojob2019.brewery.exception;
 
 import gmail.roadtojob2019.brewery.exception.*;
 import lombok.Data;
