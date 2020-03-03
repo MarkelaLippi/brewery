@@ -2,13 +2,12 @@ version: '3'
 services:
   docker-mysql:
     restart: always
-    container_name: docker-mysql
-    image: mysql
+    image: mysql:8
     environment:
       MYSQL_DATABASE: brewery
       MYSQL_ROOT_PASSWORD: root
     ports:
-      - "6033:3306"
+      - "3306:3306"
   brewery-app:
     restart: on-failure
     build: ./

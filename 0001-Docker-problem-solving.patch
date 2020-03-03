@@ -1,0 +1,103 @@
+From 6a5c443c259da50d7bbeff23635f7c931f716f6f Mon Sep 17 00:00:00 2001
+From: Wladimir Litvinov <w.litvinov@gpsolutions.com>
+Date: Tue, 3 Mar 2020 13:27:16 +0300
+Subject: [PATCH] Docker problem solving
+
+---
+ Dockerfile                                                          | 2 +-
+ docker-compose.yml                                                  | 5 ++---
+ src/main/resources/application.properties                           | 6 +++---
+ .../brewery/controller/unit/AbstractControllerTest.java             | 2 ++
+ .../brewery/controller/unit/AuthControllerUnitTest.java             | 2 ++
+ 5 files changed, 10 insertions(+), 7 deletions(-)
+
+diff --git a/Dockerfile b/Dockerfile
+index 6a16e65..0bd0e54 100644
+--- a/Dockerfile
++++ b/Dockerfile
+@@ -1,5 +1,5 @@
+ FROM openjdk:11
+-COPY ./brewery-0.0.1-SNAPSHOT.jar brewery-0.0.1-SNAPSHOT.jar
++COPY ./target/brewery-0.0.1-SNAPSHOT.jar brewery-0.0.1-SNAPSHOT.jar
+ ENTRYPOINT ["java","-jar","brewery-0.0.1-SNAPSHOT.jar"]
+ 
+ 
+diff --git a/docker-compose.yml b/docker-compose.yml
+index cff13d7..06d7ba5 100644
+--- a/docker-compose.yml
++++ b/docker-compose.yml
+@@ -2,13 +2,12 @@ version: '3'
+ services:
+   docker-mysql:
+     restart: always
+-    container_name: docker-mysql
+-    image: mysql
++    image: mysql:8
+     environment:
+       MYSQL_DATABASE: brewery
+       MYSQL_ROOT_PASSWORD: root
+     ports:
+-      - "6033:3306"
++      - "3306:3306"
+   brewery-app:
+     restart: on-failure
+     build: ./
+diff --git a/src/main/resources/application.properties b/src/main/resources/application.properties
+index 4726baa..d05944a 100644
+--- a/src/main/resources/application.properties
++++ b/src/main/resources/application.properties
+@@ -1,8 +1,8 @@
+ ## Spring DATASOURCE (DataSourceAutoConfiguration & DataSourceProperties)
+-spring.datasource.driverClassName = com.mysql.cj.jdbc.Driver
+-spring.datasource.url = jdbc:mysql://localhost:3306/brewery?createDatabaseIfNotExist=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
++
++spring.datasource.url = jdbc:mysql://docker-mysql:3306/brewery?createDatabaseIfNotExist=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+ spring.datasource.username = root
+-spring.datasource.password =
++spring.datasource.password = root
+ 
+ spring.jpa.generate-ddl=false
+ spring.jpa.show-sql=true
+diff --git a/src/test/java/gmail/roadtojob2019/brewery/controller/unit/AbstractControllerTest.java b/src/test/java/gmail/roadtojob2019/brewery/controller/unit/AbstractControllerTest.java
+index e7e77db..79333c7 100644
+--- a/src/test/java/gmail/roadtojob2019/brewery/controller/unit/AbstractControllerTest.java
++++ b/src/test/java/gmail/roadtojob2019/brewery/controller/unit/AbstractControllerTest.java
+@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
+ import org.springframework.boot.test.mock.mockito.MockBean;
+ import org.springframework.http.MediaType;
+ import org.springframework.security.crypto.password.PasswordEncoder;
++import org.springframework.test.context.TestPropertySource;
+ import org.springframework.test.web.servlet.MockMvc;
+ 
+ import java.util.Optional;
+@@ -24,6 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
+ 
+ @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+ @AutoConfigureMockMvc
++@TestPropertySource("classpath:application-test.properties")
+ public abstract class AbstractControllerTest {
+     @Autowired
+     private MockMvc mockMvc;
+diff --git a/src/test/java/gmail/roadtojob2019/brewery/controller/unit/AuthControllerUnitTest.java b/src/test/java/gmail/roadtojob2019/brewery/controller/unit/AuthControllerUnitTest.java
+index a839eab..003df04 100644
+--- a/src/test/java/gmail/roadtojob2019/brewery/controller/unit/AuthControllerUnitTest.java
++++ b/src/test/java/gmail/roadtojob2019/brewery/controller/unit/AuthControllerUnitTest.java
+@@ -11,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
+ import org.springframework.boot.test.context.SpringBootTest;
+ import org.springframework.boot.test.mock.mockito.MockBean;
+ import org.springframework.http.MediaType;
++import org.springframework.test.context.TestPropertySource;
+ import org.springframework.test.web.servlet.MockMvc;
+ 
+ import java.util.Optional;
+@@ -26,6 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
+ 
+ @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+ @AutoConfigureMockMvc
++@TestPropertySource("classpath:application-test.properties")
+ class AuthControllerUnitTest {
+     @Autowired
+     private MockMvc mockMvc;
+-- 
+2.12.2
+

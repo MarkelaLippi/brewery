@@ -1,0 +1,102 @@
+Index: src/test/java/gmail/roadtojob2019/brewery/controller/unit/AbstractControllerTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/test/java/gmail/roadtojob2019/brewery/controller/unit/AbstractControllerTest.java	(revision f7cc042fb78189c2214814f0bcebd2e7778029ae)
++++ src/test/java/gmail/roadtojob2019/brewery/controller/unit/AbstractControllerTest.java	(date 1583229416199)
+@@ -12,6 +12,7 @@
+ import org.springframework.boot.test.mock.mockito.MockBean;
+ import org.springframework.http.MediaType;
+ import org.springframework.security.crypto.password.PasswordEncoder;
++import org.springframework.test.context.TestPropertySource;
+ import org.springframework.test.web.servlet.MockMvc;
+ 
+ import java.util.Optional;
+@@ -24,6 +25,7 @@
+ 
+ @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+ @AutoConfigureMockMvc
++@TestPropertySource("classpath:application-test.properties")
+ public abstract class AbstractControllerTest {
+     @Autowired
+     private MockMvc mockMvc;
+Index: src/test/java/gmail/roadtojob2019/brewery/controller/unit/AuthControllerUnitTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/test/java/gmail/roadtojob2019/brewery/controller/unit/AuthControllerUnitTest.java	(revision f7cc042fb78189c2214814f0bcebd2e7778029ae)
++++ src/test/java/gmail/roadtojob2019/brewery/controller/unit/AuthControllerUnitTest.java	(date 1583229416193)
+@@ -11,6 +11,7 @@
+ import org.springframework.boot.test.context.SpringBootTest;
+ import org.springframework.boot.test.mock.mockito.MockBean;
+ import org.springframework.http.MediaType;
++import org.springframework.test.context.TestPropertySource;
+ import org.springframework.test.web.servlet.MockMvc;
+ 
+ import java.util.Optional;
+@@ -26,6 +27,7 @@
+ 
+ @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+ @AutoConfigureMockMvc
++@TestPropertySource("classpath:application-test.properties")
+ class AuthControllerUnitTest {
+     @Autowired
+     private MockMvc mockMvc;
+Index: Dockerfile
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- Dockerfile	(revision f7cc042fb78189c2214814f0bcebd2e7778029ae)
++++ Dockerfile	(date 1583229514569)
+@@ -1,5 +1,5 @@
+ FROM openjdk:11
+-COPY ./brewery-0.0.1-SNAPSHOT.jar brewery-0.0.1-SNAPSHOT.jar
++COPY ./target/brewery-0.0.1-SNAPSHOT.jar brewery-0.0.1-SNAPSHOT.jar
+ ENTRYPOINT ["java","-jar","brewery-0.0.1-SNAPSHOT.jar"]
+ 
+ 
+Index: src/main/resources/application.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/resources/application.properties	(revision f7cc042fb78189c2214814f0bcebd2e7778029ae)
++++ src/main/resources/application.properties	(date 1583230044269)
+@@ -1,8 +1,8 @@
+ ## Spring DATASOURCE (DataSourceAutoConfiguration & DataSourceProperties)
+-spring.datasource.driverClassName = com.mysql.cj.jdbc.Driver
+-spring.datasource.url = jdbc:mysql://localhost:3306/brewery?createDatabaseIfNotExist=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
++
++spring.datasource.url = jdbc:mysql://docker-mysql:3306/brewery?createDatabaseIfNotExist=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+ spring.datasource.username = root
+-spring.datasource.password =
++spring.datasource.password = root
+ 
+ spring.jpa.generate-ddl=false
+ spring.jpa.show-sql=true
+Index: docker-compose.yml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- docker-compose.yml	(revision f7cc042fb78189c2214814f0bcebd2e7778029ae)
++++ docker-compose.yml	(date 1583229758246)
+@@ -2,13 +2,12 @@
+ services:
+   docker-mysql:
+     restart: always
+-    container_name: docker-mysql
+-    image: mysql
++    image: mysql:8
+     environment:
+       MYSQL_DATABASE: brewery
+       MYSQL_ROOT_PASSWORD: root
+     ports:
+-      - "6033:3306"
++      - "3306:3306"
+   brewery-app:
+     restart: on-failure
+     build: ./
