@@ -47,7 +47,7 @@ Response: ```200 OK```
 Request:
 
 ```
-POST /brewery/customer/pricelist
+GET /brewery/customer/pricelist
 ```
 ```json
 [

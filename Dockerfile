@@ -1,7 +1,16 @@
-FROM openjdk:11-jre-alpine
-MAINTAINER Markelov Sergey <RoadToJob2019@gmail.com>
-COPY target/brewery-0.0.1-SNAPSHOT.jar /opt/brewery.jar
-CMD exec java -jar /opt/brewery.jar
+FROM openjdk:11
+COPY ./brewery-0.0.1-SNAPSHOT.jar brewery-0.0.1-SNAPSHOT.jar
+ENTRYPOINT ["java","-jar","brewery-0.0.1-SNAPSHOT.jar"]
+
+
+
+
+
+
+
+
+
+
 
 
 

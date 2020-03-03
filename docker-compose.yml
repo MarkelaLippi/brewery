@@ -1,18 +1,20 @@
-version: "3"
+version: '3'
 services:
-  brewery:
-    image: brewery
-    restart: on-failure
-    ports:
-    - "8080:8080"
-    depends_on:
-      - database
-
-  database:
-    image: mysql:latest
+  docker-mysql:
     restart: always
-    ports:
-    - "6033:3306"
+    container_name: docker-mysql
+    image: mysql
     environment:
-    - MYSQL_ROOT_PASSWORD=root
-    - MYSQL_DATABASE=brewery
+      MYSQL_DATABASE: brewery
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "6033:3306"
+  brewery-app:
+    restart: on-failure
+    build: ./
+    expose:
+      - "8080"
+    ports:
+      - 8080:8080
+    depends_on:
+      - docker-mysql
